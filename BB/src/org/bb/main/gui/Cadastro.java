@@ -21,11 +21,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import org.bb.database.DBConnect;
 import org.bb.main.Main;
 
 public class Cadastro extends JPanel{
@@ -39,9 +42,9 @@ public class Cadastro extends JPanel{
 	protected JLabel lblSenha = new JLabel("Senha do Usuario :");
 	protected JLabel lblConfirmSenha = new JLabel("Confirmacao da Senha :");
 	protected JLabel lblEmail = new JLabel("E-mail do Usuario :");
-	protected JTextField txtUsername = new JTextField("Oh Long Johnson!");
-	protected JTextField txtSenha = new JTextField("");
-	protected JTextField txtConfirmSenha = new JTextField("");
+	protected JTextField txtUsername = new JTextField("");
+	protected JPasswordField txtSenha = new JPasswordField("");
+	protected JPasswordField txtConfirmSenha = new JPasswordField("");
 	protected JTextField txtEmail = new JTextField("");
 	protected JButton btnEnviar = new JButton("Enviar");
 	protected JButton btnCancelar = new JButton("Cancelar");
@@ -64,13 +67,26 @@ public class Cadastro extends JPanel{
 			w = main.width;
 			h = main.height;
 		}
-		addMouseListener(new MouseAdapter() {
+		
+		btnCancelar.addActionListener(new ActionListener() {
+			
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
 				main.stopMusicMenu();
 				main.addMenu();
 			}
 		});
+		
+		btnEnviar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cadastrarUsr();
+			}
+		});
+		
 		setLayout(new GridBagLayout());
 		lblUsername.setForeground(Color.black);
 		lblUsername.setFont(main.getFonte(main.fonteBomberman, 30));
@@ -163,23 +179,28 @@ public class Cadastro extends JPanel{
 		gbc.insets = insets;
 		add(lblUsername, gbc);
 		gbc.gridx = 1;
+		txtUsername.setPreferredSize(new Dimension (300, txtUsername.getSize().height));
+		txtUsername.setSelectionEnd(txtUsername.getWidth());
 		add(txtUsername, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		add(lblSenha, gbc);
 		gbc.gridx = 1;
+		txtSenha.setPreferredSize(new Dimension (300, txtSenha.getSize().height));
 		add(txtSenha, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		add(lblConfirmSenha, gbc);
 		gbc.gridx = 1;
+		txtConfirmSenha.setPreferredSize(new Dimension (300, txtConfirmSenha.getSize().height));
 		add(txtConfirmSenha, gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		add(lblEmail, gbc);
 		gbc.gridx = 1;
+		txtEmail.setPreferredSize(new Dimension (300, txtEmail.getSize().height));
 		add(txtEmail, gbc);
 		
 		gbc.gridx = 0;
@@ -189,5 +210,50 @@ public class Cadastro extends JPanel{
 		add(btnEnviar, gbc);
 		
 		validate();
+	}
+	
+	public void cadastrarUsr(){
+		String nome = txtUsername.getText();
+		String senha = new String (txtSenha.getPassword());
+		String c_senha = new String (txtConfirmSenha.getPassword());
+		String email = txtEmail.getText();
+		if (!nome.equals("")){
+			if (!senha.equals("")){
+				if (!c_senha.equals("")){
+					if (!email.equals("")){
+						System.out.println(senha+" "+c_senha);
+						if (senha.equals(c_senha)){
+							if (email.contains("@")){
+								if (DBConnect.isNewEmail(email)){
+									System.out.println("email novo");
+									if (DBConnect.insertUser(nome, senha, email)){
+										JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Cadastro Realizado!",JOptionPane.INFORMATION_MESSAGE);
+										main.stopMusicMenu();
+										main.addMenu();
+									}else{
+										JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indispon�vel. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
+									}
+								}else{
+									JOptionPane.showMessageDialog(null, "Email já cadastrado!", "Erro",JOptionPane.ERROR_MESSAGE);
+									System.out.println("email já utilizado");
+								}
+							}else{
+								JOptionPane.showMessageDialog(null, "Email inválido!", "Erro",JOptionPane.ERROR_MESSAGE);
+							}
+						}else{
+							JOptionPane.showMessageDialog(this, "Confirmação de senha não confere!", "Confirmação de senha", JOptionPane.WARNING_MESSAGE);
+						}						
+					}else{
+						JOptionPane.showMessageDialog(this, "Por favor, digite seu email!", "Email", JOptionPane.WARNING_MESSAGE);
+					}
+				}else{
+					JOptionPane.showMessageDialog(this, "Por favor, digite a confirmação da senha!", "Confirmação de Senha", JOptionPane.WARNING_MESSAGE);
+				}
+			}else{
+				JOptionPane.showMessageDialog(this, "Por favor, digite sua senha!", "Senha", JOptionPane.WARNING_MESSAGE);
+			}
+		}else{
+			JOptionPane.showMessageDialog(this, "Por favor, digite seu nome de usuário!", "Username", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

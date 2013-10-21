@@ -22,6 +22,7 @@ public class VolumeControl{
 			throw new IllegalArgumentException(
 					"Volume can only be set to a value from 0 to 1. Given value is illegal: " + value);
 		Line line = getMasterOutputLine();
+		System.out.println(line);
 		if (line == null) throw new RuntimeException("Master output port not found");
 		boolean opened = open(line);
 		try {
@@ -75,10 +76,17 @@ public class VolumeControl{
 	}
 
 	public static Line getMasterOutputLine() {
+		String OS = (String)System.getProperties().get("os.name");
+		System.out.println(OS);
 		for (Mixer mixer : getMixers()) {
 			for (Line line : getAvailableOutputLines(mixer)) {
 //				System.out.println(line.getLineInfo().toString());
-				if (line.getLineInfo().toString().contains("Volume principal")) return line;
+				if (OS.equals("Linux")){
+					if (line.getLineInfo().toString().contains("Master")) return line;
+					System.out.println("linux");
+				}else{
+					if (line.getLineInfo().toString().contains("Volume principal")) return line;
+				}
 			}
 		}
 		return null;
