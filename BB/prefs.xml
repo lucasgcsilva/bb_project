@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="system">
+    <map/>
+    <node name="org">
+      <map/>
+      <node name="bb">
+        <map/>
+        <node name="util">
+          <map>
+            <entry key="full_screen" value="true"/>
+            <entry key="last_name_usr" value="Chuck Norris"/>
+            <entry key="screen_size" value="800x600"/>
+            <entry key="volume" value="0.15"/>
+            <entry key="Chuck Norris" value="Username"/>
+          </map>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>
