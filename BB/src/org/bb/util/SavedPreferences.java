@@ -1,6 +1,7 @@
 package org.bb.util;
 
 import java.awt.Frame;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,12 +40,14 @@ public class SavedPreferences {
 	public static String DEF_SCREEN = "1024x728";
 	public static String DEF_VOLUME = "0.5f";
 	public static String DEF_FULLSCREEN = "false";
-	public static String DEF_PAD = "pad";
+	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
+			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
 	public static String DEF_LASTNAMEUSR = "Username";
 	
 	
 	
 	public SavedPreferences(Main main){
+		System.out.println(DEF_PAD);
 		if (new File("prefs.xml").exists()){
 			try{
 				InputStream stream = new FileInputStream("prefs.xml");
@@ -76,6 +79,8 @@ public class SavedPreferences {
 		}
 		//Last Name User
 		LoginPanel.lastNameUser = lastNameUsr;
+		
+		System.out.println(usrname+" "+email+" "+fullScreen+" "+lastNameUsr+" "+id+" "+pad);
 		
 		
 	}

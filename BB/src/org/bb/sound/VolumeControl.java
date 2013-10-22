@@ -77,13 +77,11 @@ public class VolumeControl{
 
 	public static Line getMasterOutputLine() {
 		String OS = (String)System.getProperties().get("os.name");
-		System.out.println(OS);
 		for (Mixer mixer : getMixers()) {
 			for (Line line : getAvailableOutputLines(mixer)) {
 //				System.out.println(line.getLineInfo().toString());
 				if (OS.equals("Linux")){
 					if (line.getLineInfo().toString().contains("Master")) return line;
-					System.out.println("linux");
 				}else{
 					if (line.getLineInfo().toString().contains("Volume principal")) return line;
 				}

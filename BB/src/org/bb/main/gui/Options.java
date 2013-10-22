@@ -3,6 +3,7 @@ import java.awt.BasicStroke;
 import javax.swing.JComponent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -11,9 +12,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.List;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.EventObject;
 import java.util.LinkedList;
 
 import javax.sound.sampled.FloatControl;
@@ -23,12 +28,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIDefaults;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.text.Keymap;
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
@@ -40,17 +57,20 @@ public class Options extends JPanel {
 	Main main;
 	Image background = new ImageIcon("resources/images/bg3.jpg").getImage();
 	MusicPlayer player;
-	JButton btnVoltar = new JButton("VOLTAR");
-	JLabel lblOpt = new JLabel("OPCOES");
-	JPanel pnlConfig = new JPanel(new GridBagLayout());
-	JLabel lblRes = new JLabel ("Tamanho da tela:");
-	JLabel lblVol = new JLabel ("Volume:");
-	JLabel lblFS = new JLabel ("Full Screen:");
-	JButton b800x600;
-	JButton b1024x728;
-	JButton b1280x1024;
-	JSlider sliderVol = new JSlider(0, 100, (int)(VolumeControl.getMasterOutputVolume()*100));
-	JCheckBox cbxFull = new JCheckBox();
+	private JButton btnVoltar = new JButton("VOLTAR");
+	private JLabel lblOpt = new JLabel("OPCOES");
+	private JPanel pnlConfig = new JPanel(new GridBagLayout());
+	private JLabel lblRes = new JLabel ("Tamanho da tela:");
+	private JLabel lblVol = new JLabel ("Volume:");
+	private JLabel lblFS = new JLabel ("Full Screen:");
+	private JLabel lblPad = new JLabel("Controles:");
+	private JButton b800x600;
+	private JButton b1024x728;
+	private JButton b1280x1024;
+	private JSlider sliderVol = new JSlider(0, 100, (int)(VolumeControl.getMasterOutputVolume()*100));
+	private JCheckBox cbxFull = new JCheckBox();
+	private JTabbedPane tblPad = new JTabbedPane();
+	
 	
 	public static String SIZE_800x600 = "800x600";
 	public static String SIZE_1024x728 = "1024x728";
@@ -154,6 +174,8 @@ public class Options extends JPanel {
 		pnlConfig.add(sliderVol, gbc);
 		
 		//Full Screen
+		isFullSize = Boolean.parseBoolean(main.sp.fullScreen);
+		System.out.println(isFullSize);
 		cbxFull.setSelected(isFullSize);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -183,6 +205,32 @@ public class Options extends JPanel {
 		pnlConfig.add(cbxFull, gbc);
 		
 		
+		String pad = main.sp.pad;
+		String[] keyPad = new String[5];
+		for (int i=0, j=0; i<5;i++){
+			j+=2;
+			keyPad[i] = pad.substring(j-2, j);
+			j++;
+			System.out.println(keyPad[i]);
+		}
+		JTable tablePad = new JTable(5, 2);
+		
+		tblPad.addTab("PAD 1", tablePad);
+		
+	
+		
+		lblPad.setForeground(Color.black);
+		lblPad.setFont(main.getFonte(main.fonteBomberman, 30));
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.gridwidth = 4;
+		pnlConfig.add(lblPad, gbc);
+		gbc.gridy = 4;
+		gbc.gridheight = 8;
+		pnlConfig.add(tblPad, gbc);
+		
+		
+		
 		add(pnlConfig, BorderLayout.CENTER);
 		
 		btnVoltar.setForeground(Color.BLUE);
@@ -199,8 +247,7 @@ public class Options extends JPanel {
 			}
 		});
 		add(btnVoltar, BorderLayout.SOUTH);
-		
-		
+				
 		setVisible(true);
 		player = new MusicPlayer("resources/musics/options.wav", true);
 		player.start();

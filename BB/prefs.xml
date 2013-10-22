@@ -9,11 +9,9 @@
         <map/>
         <node name="util">
           <map>
-            <entry key="Chuck Norris" value="Username"/>
             <entry key="full_screen" value="true"/>
-            <entry key="last_name_usr" value="Chuck Norris"/>
-            <entry key="screen_size" value="800x600"/>
-            <entry key="volume" value="0.51"/>
+            <entry key="screen_size" value="1024x728"/>
+            <entry key="volume" value="0.68"/>
           </map>
         </node>
       </node>

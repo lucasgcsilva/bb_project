@@ -231,10 +231,10 @@ public class Cadastro extends JPanel{
 										main.stopMusicMenu();
 										main.addMenu();
 									}else{
-										JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indispon�vel. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indisponível. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
 									}
 								}else{
-									JOptionPane.showMessageDialog(null, "Email já cadastrado!", "Erro",JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Email já cadastrado ou servidor temporariamente indisponível!", "Erro",JOptionPane.ERROR_MESSAGE);
 									System.out.println("email já utilizado");
 								}
 							}else{
