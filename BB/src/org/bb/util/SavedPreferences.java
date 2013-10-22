@@ -23,6 +23,7 @@ public class SavedPreferences {
 	public String volume;
 	public String fullScreen;
 	public String pad;
+	public String pad2;
 	public String lastNameUsr;
 	
 	public int id;
@@ -34,6 +35,7 @@ public class SavedPreferences {
 	public static String PREF_VOLUME = "volume";
 	public static String PREF_FULLSCREEN = "full_screen";
 	public static String PREF_PAD = "pad";
+	public static String PREF_PAD2 = "pad2";
 	public static String PREF_LASTNAMEUSR = "last_name_usr";
 	public static String PREF_HIGHSCORE = "highscore";
 	
@@ -41,6 +43,8 @@ public class SavedPreferences {
 	public static String DEF_VOLUME = "0.5f";
 	public static String DEF_FULLSCREEN = "false";
 	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
+			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
+	public static String DEF_PAD2 = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
 			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
 	public static String DEF_LASTNAMEUSR = "Username";
 	
@@ -107,6 +111,7 @@ public class SavedPreferences {
 		volume = savedPref.get(PREF_VOLUME, DEF_VOLUME);
 		fullScreen = savedPref.get(PREF_FULLSCREEN, DEF_FULLSCREEN);
 		pad = savedPref.get(PREF_PAD, DEF_PAD);
+		pad2 = savedPref.get(PREF_PAD2, DEF_PAD2);
 		lastNameUsr = savedPref.get(PREF_LASTNAMEUSR, DEF_LASTNAMEUSR);
 	}
 	

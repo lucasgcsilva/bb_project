@@ -230,8 +230,6 @@ public class Cadastro extends JPanel{
 										JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Cadastro Realizado!",JOptionPane.INFORMATION_MESSAGE);
 										main.stopMusicMenu();
 										main.addMenu();
-									}else{
-										JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indisponível. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
 									}
 								}else{
 									JOptionPane.showMessageDialog(null, "Email já cadastrado ou servidor temporariamente indisponível!", "Erro",JOptionPane.ERROR_MESSAGE);

@@ -18,6 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.LinkedList;
 
@@ -30,6 +33,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -54,9 +58,9 @@ import org.bb.util.SavedPreferences;
 
 public class Options extends JPanel {
 	private static boolean isFullSize = false;
-	Main main;
-	Image background = new ImageIcon("resources/images/bg3.jpg").getImage();
-	MusicPlayer player;
+	private Main main;
+	private Image background = new ImageIcon("resources/images/bg3.jpg").getImage();
+	private MusicPlayer player;
 	private JButton btnVoltar = new JButton("VOLTAR");
 	private JLabel lblOpt = new JLabel("OPCOES");
 	private JPanel pnlConfig = new JPanel(new GridBagLayout());
@@ -70,6 +74,11 @@ public class Options extends JPanel {
 	private JSlider sliderVol = new JSlider(0, 100, (int)(VolumeControl.getMasterOutputVolume()*100));
 	private JCheckBox cbxFull = new JCheckBox();
 	private JTabbedPane tblPad = new JTabbedPane();
+	private boolean keyChangePad = false;
+	private String pad;
+	private String pad2;
+	private String[] keyPad2;
+	private String[] keyPad1;
 	
 	
 	public static String SIZE_800x600 = "800x600";
@@ -204,18 +213,102 @@ public class Options extends JPanel {
 		gbc.gridx = 1;
 		pnlConfig.add(cbxFull, gbc);
 		
+		//Pad
+		pad = main.sp.pad;
+		keyPad1 = pad.split("\\|");
+		String data[][]={{"CIMA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[0]))},
+				{"BAIXO", KeyEvent.getKeyText(Integer.valueOf(keyPad1[1]))},
+				{"DIREITA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[2]))},
+				{"ESQUERDA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[3]))},
+				{"BOMBA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[4]))}};
+		String fields[]={ "Descrição", "Atalho"};
+		JTable tablePad = new JTable(data, fields) {
+			@Override
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
+		tablePad.addMouseListener(new MouseAdapter() {
+			  public void mouseClicked(MouseEvent e) {
+				    if (e.getClickCount() == 2) {
+				      JTable target = (JTable)e.getSource();
+				      int row = target.getSelectedRow();
+				      int column = target.getSelectedColumn();
+				      if (column != 0){
+				    	  if (!keyChangePad){
+				    		  keyChangePad=true;
+				    		  target.getModel().setValueAt("Aperte a tecla", row, column);
+				    		  target.addKeyListener(new KeyAdapter() {
+				    			  @Override
+				    			  public void keyPressed(KeyEvent e){
+				    				  JTable target = (JTable)e.getSource();
+				    				  if (target.getSelectedColumn() != 0){
+				    					  target.getModel().setValueAt(KeyEvent.getKeyText(e.getKeyCode()),
+				    							  target.getSelectedRow(), target.getSelectedColumn());
+				    					  keyPad1[target.getSelectedRow()] = String.valueOf(e.getKeyCode());
+				    					  pad = keyPad1[0]+"|"+keyPad1[1]+"|"+keyPad1[2]+"|"+keyPad1[3]+"|"+keyPad1[4];
+				    					  keyChangePad = false;				    					  
+				    				  }
+				    			  }
+							});
+				    	  }
+				      }
+				    }
+				  }
+				});
+		JScrollPane sp = new JScrollPane(tablePad);
 		
-		String pad = main.sp.pad;
-		String[] keyPad = new String[5];
-		for (int i=0, j=0; i<5;i++){
-			j+=2;
-			keyPad[i] = pad.substring(j-2, j);
-			j++;
-			System.out.println(keyPad[i]);
-		}
-		JTable tablePad = new JTable(5, 2);
 		
-		tblPad.addTab("PAD 1", tablePad);
+		pad2 = main.sp.pad2;
+		keyPad2 = pad2.split("\\|");
+		String data2[][]={{"CIMA", KeyEvent.getKeyText(Integer.valueOf(keyPad2[0]))},
+				{"BAIXO", KeyEvent.getKeyText(Integer.valueOf(keyPad2[1]))},
+				{"DIREITA", KeyEvent.getKeyText(Integer.valueOf(keyPad2[2]))},
+				{"ESQUERDA", KeyEvent.getKeyText(Integer.valueOf(keyPad2[3]))},
+				{"BOMBA", KeyEvent.getKeyText(Integer.valueOf(keyPad2[4]))}};
+		String fields2[]={ "Descrição", "Atalho"};
+		JTable tablePad2 = new JTable(data2, fields2) {
+			@Override
+			public boolean isCellEditable(int row, int col){
+				return false;
+			}
+		};
+		tablePad2.addMouseListener(new MouseAdapter() {
+			  public void mouseClicked(MouseEvent e) {
+				    if (e.getClickCount() == 2) {
+				      JTable target = (JTable)e.getSource();
+				      int row = target.getSelectedRow();
+				      int column = target.getSelectedColumn();
+				      if (column != 0){
+				    	  if (!keyChangePad){
+				    		  keyChangePad=true;
+				    		  target.getModel().setValueAt("Aperte a tecla", row, column);
+				    		  target.addKeyListener(new KeyAdapter() {
+				    			  @Override
+				    			  public void keyPressed(KeyEvent e){
+				    				  JTable target = (JTable)e.getSource();
+				    				  if (target.getSelectedColumn() != 0){
+				    					  target.getModel().setValueAt(KeyEvent.getKeyText(e.getKeyCode()),
+				    							  target.getSelectedRow(), target.getSelectedColumn());
+				    					  keyPad2[target.getSelectedRow()] = String.valueOf(e.getKeyCode());
+				    					  pad2 = keyPad2[0]+"|"+keyPad2[1]+"|"+keyPad2[2]+"|"+keyPad2[3]+"|"+keyPad2[4];
+				    					  keyChangePad = false;	
+				    				  }
+				    			  }
+							});
+				    	  }
+				      }
+				    }
+				  }
+				});
+		JScrollPane sp2 = new JScrollPane(tablePad2);
+		
+		
+		
+		
+		
+		tblPad.addTab("PAD 1", sp);
+		tblPad.addTab("PAD 2", sp2);
 		
 	
 		
@@ -242,6 +335,8 @@ public class Options extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				main.sp.setSavedPreference(SavedPreferences.PREF_PAD, pad);
+				main.sp.setSavedPreference(SavedPreferences.PREF_PAD2, pad2);
 				player.stopMusic();
 				main.addMenu();
 			}

@@ -13,18 +13,42 @@ import org.bb.util.Info;
 public class DBConnect {
 	
 	public static boolean insertUser(String username, String senha, String email){
-		String sql = "INSERT INTO "+Info.tableUsr+" (username, password, email) VALUES (?, ?, ?)";
+		String sql1 = "INSERT INTO "+Info.tableUsr+" (username, password, email) VALUES (?, ?, ?)";
+		String sql2 = "INSERT INTO highscoreBattlestadium(s_vitorias, s_derrotas, s_qtde_trofeus, s_bombersaldo, t_vitorias, t_derrotas, "+
+				"t_qtde_trofeus, t_bombersaldo) VALUES (0, 0, 0, 0, 0, 0, 0, 0)";
+		String sql3 = "INSERT INTO highscoreArena(qtde_kills, qtde_death, bombersaldo) VALUES (0, 0, 0)";
+		String sql4 = "INSERT INTO highscore VALUES ((SELECT usr_id FROM users WHERE email=?), LAST_INSERT_ID(), LAST_INSERT_ID())";
 		PreparedStatement insertUsr = null;
-		Connection conn = connectDB();//TODO: validar conex�o
+		Connection conn = connectDB();;
 		try{
-			insertUsr = conn.prepareStatement(sql);
+			conn.setAutoCommit(false);
+			insertUsr = conn.prepareStatement(sql1);
 			insertUsr.setString(1, username);
 			insertUsr.setString(2, senha);
 			insertUsr.setString(3, email);
-			return insertUsr.execute();
+			if (insertUsr.execute()){
+				System.out.println(sql1+" OK!");
+			}
+			insertUsr = conn.prepareStatement(sql2);
+			if (insertUsr.execute()){
+				System.out.println(sql2+" OK!");
+			}
+			insertUsr = conn.prepareStatement(sql3);
+			if (insertUsr.execute()){
+				System.out.println(sql3+" OK!");
+			}
+			insertUsr = conn.prepareStatement(sql4);
+			insertUsr.setString(1, email);
+			if (insertUsr.execute()){
+				System.out.println(sql4+" OK!");
+			}
+			
+			conn.commit();
+			return true;
+			
 		}catch (Exception e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indispon�vel. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indisponível. Tente novamente mais tarde", "Erro ao inserir usuário",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}finally{
 			try{
@@ -48,9 +72,9 @@ public class DBConnect {
 			selectUsr.setString(1, email);
 			rs = selectUsr.executeQuery();
 			if(rs.next()){
-				return true;
-			} else {
 				return false;
+			} else {
+				return true;
 			}
 		}catch (Exception e){
 			e.printStackTrace();
