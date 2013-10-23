@@ -121,7 +121,7 @@ public class SavedPreferences {
 	
 	public void setUserLogged(){
 		this.lastNameUsr = usrname;
-		setSavedPreference(lastNameUsr, DEF_LASTNAMEUSR);
+		setSavedPreference(PREF_LASTNAMEUSR, usrname);
 		this.isLogged = true;
 	}
 }

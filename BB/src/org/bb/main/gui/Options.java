@@ -51,6 +51,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.Keymap;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
+
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.sound.VolumeControl;
@@ -258,6 +259,7 @@ public class Options extends JPanel {
 				});
 		JScrollPane sp = new JScrollPane(tablePad);
 		
+		//PAD CONTROLER
 		
 		pad2 = main.sp.pad2;
 		keyPad2 = pad2.split("\\|");
@@ -303,8 +305,7 @@ public class Options extends JPanel {
 				});
 		JScrollPane sp2 = new JScrollPane(tablePad2);
 		
-		
-		
+				
 		
 		
 		tblPad.addTab("PAD 1", sp);

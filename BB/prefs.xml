@@ -10,7 +10,7 @@
         <node name="util">
           <map>
             <entry key="full_screen" value="true"/>
-            <entry key="lucas" value="Username"/>
+            <entry key="last_name_usr" value="Bruninho"/>
             <entry key="pad" value="38|40|37|39|32"/>
             <entry key="pad2" value="87|83|65|68|17"/>
             <entry key="screen_size" value="1024x728"/>

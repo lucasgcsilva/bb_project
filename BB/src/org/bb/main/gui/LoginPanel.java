@@ -201,13 +201,6 @@ public class LoginPanel extends javax.swing.JPanel{
         	loadLogoutScreen();
         	buttons.activeButtons();
     	}
-//    	lblWelcome.setForeground(Color.white);
-//    	lblWelcome.setText("Bem vindo, "+nickname+"!");
-//    	btnSignout.setText("Desconectar");
-//    	main.sp.setSavedPreference(SavedPreferences.PREF_LASTNAMEUSR, nickname);
-//    	main.sp.updateSavedPreferences();
-//    	loadLogoutScreen();
-//    	buttons.activeButtons();
     }
   }
   
