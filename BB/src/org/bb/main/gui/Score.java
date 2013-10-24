@@ -54,7 +54,7 @@ public class Score extends JPanel {
 		lblScore.setFont(main.getFonte(main.fonteBomberman, 40));
 		add(lblScore, BorderLayout.NORTH);
 		
-		//BattleStadium Single-Match
+		//BattleStadium Single-Match Pontuação
 		ResultSet rs = DBConnect.getHighscoreBattlestadiumSM();
 		String[] tableNames = {"Posição", "Nome", "Vitórias", "Derrotas", "Qtde. Trofeus", "Bombersaldo"};
 		JTable tablePad = new JTable() {
