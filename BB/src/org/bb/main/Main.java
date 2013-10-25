@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
 
 import org.bb.main.gui.Archievments;
@@ -133,10 +134,6 @@ public class Main extends JFrame {
 		menu.stopMusic();
 	}
 	
-	public static void main (String args[]){
-		Main main = new Main();
-		main.setVisible(true);
-	}
 	
 	public void setUserConnected (int ID, String usrname, String email){
 		sp.id = ID;
@@ -144,4 +141,8 @@ public class Main extends JFrame {
 		sp.email = email;
 	}
 	
+	public static void main (String args[]){
+		Main main = new Main();
+		main.setVisible(true);
+	}
 }

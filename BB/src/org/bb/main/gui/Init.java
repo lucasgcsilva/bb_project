@@ -2,6 +2,9 @@ package org.bb.main.gui;
 
 import java.applet.AudioClip;
 import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -54,6 +57,18 @@ public class Init extends JPanel implements ActionListener {
 		if (contTimer <= 20){
 			ImageIcon img = new ImageIcon("resources/images/hudson_logo.png");
 			g.drawImage(img.getImage(), 0, 0, w, h, this );
+			g.setFont(new Font ("Arial", Font.PLAIN, 36));
+			g.setColor(Color.blue);
+			FontMetrics fm = new FontMetrics(g.getFont()){};
+			int strW = (int) fm.getStringBounds("Este é um jogo gratuito feito por fãs.", null).getWidth();
+			g.drawString("Este é um jogo gratuito feito por fãs", (w/2)-(strW/2), (h/3)*2);
+			strW = (int) fm.getStringBounds("Todos os Direitos da Marca Bomberman e Personagens", null).getWidth();
+			int strH = (int) fm.getStringBounds("Todos os Direitos da Marca Bomberman e Personagens", null).getHeight();
+			g.drawString("Todos os direitos da marca Bomberman e personagens", (w/2)-(strW/2), (h/3)*2+strH);
+			strW = (int) fm.getStringBounds("são reservados a Hudson Software.", null).getWidth();
+			strH = (int) fm.getStringBounds("são reservados a Hudson Software.", null).getHeight();
+			g.drawString("são reservados a Hudson Software.", (w/2)-(strW/2), (h/3)*2+(strH*2));
+			
 			if (contTimer == 8){
 				mp = new MusicPlayer("resources/musics/hudson_intro.wav", false);
 				mp.playSound("resources/musics/hudson_intro.wav");
