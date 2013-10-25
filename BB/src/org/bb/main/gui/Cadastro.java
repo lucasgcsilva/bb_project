@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-import org.bb.database.DBConnect;
+import org.bb.database.DBFunctions;
 import org.bb.main.Main;
 
 public class Cadastro extends JPanel{
@@ -224,16 +224,20 @@ public class Cadastro extends JPanel{
 						System.out.println(senha+" "+c_senha);
 						if (senha.equals(c_senha)){
 							if (email.contains("@")){
-								if (DBConnect.isNewEmail(email)){
-									System.out.println("email novo");
-									if (DBConnect.insertUser(nome, senha, email)){
-										JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Cadastro Realizado!",JOptionPane.INFORMATION_MESSAGE);
-										main.stopMusicMenu();
-										main.addMenu();
+								if (DBFunctions.isNewUser(nome)){
+									if (DBFunctions.isNewEmail(email)){
+										System.out.println("email novo");
+										if (DBFunctions.insertUser(nome, senha, email)){
+											JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Cadastro Realizado!",JOptionPane.INFORMATION_MESSAGE);
+											main.stopMusicMenu();
+											main.addMenu();
+										}
+									}else{
+										JOptionPane.showMessageDialog(null, "Email já cadastrado!", "Erro",JOptionPane.ERROR_MESSAGE);
+										System.out.println("email já utilizado");
 									}
 								}else{
-									JOptionPane.showMessageDialog(null, "Email já cadastrado ou servidor temporariamente indisponível!", "Erro",JOptionPane.ERROR_MESSAGE);
-									System.out.println("email já utilizado");
+									JOptionPane.showMessageDialog(null, "Usuário já cadastrado!", "Erro",JOptionPane.ERROR_MESSAGE);
 								}
 							}else{
 								JOptionPane.showMessageDialog(null, "Email inválido!", "Erro",JOptionPane.ERROR_MESSAGE);

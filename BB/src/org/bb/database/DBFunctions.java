@@ -13,7 +13,7 @@ import org.bb.util.Info;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-public class DBConnect {
+public class DBFunctions {
 	
 	public static ResultSet getArena(){
 		
@@ -167,6 +167,35 @@ public class DBConnect {
 		}
 	}
 	
+	public static boolean isNewUser(String user){
+		String sql = "SELECT * FROM "+Info.tableUsr+" WHERE username=?";
+		System.out.println(sql);
+		PreparedStatement selectUsr = null;
+		Connection conn = connectDB();//TODO: validar conex�o
+		ResultSet rs = null;
+		try{
+			selectUsr = conn.prepareStatement(sql);
+			selectUsr.setString(1, user);
+			rs = selectUsr.executeQuery();
+			if(rs.next()){
+				return false;
+			} else {
+				return true;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indisponível. Tente novamente mais tarde", "Erro",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}finally{
+			try{
+				if(conn != null){conn.close();}
+				if(selectUsr != null){selectUsr.close();}
+				if(rs != null){rs.close();}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public static boolean isNewEmail(String email){
 		String sql = "SELECT * FROM "+Info.tableUsr+" WHERE email=?";
@@ -231,13 +260,44 @@ public class DBConnect {
 		}
 	}
 	
-	public static Connection connectDB(){
+	private static Connection connectDB(){
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			return DriverManager.getConnection(Info.url, Info.DBusr, Info.DBsenha);
 		}catch (Exception e){
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public static ResultSet getUsrHigsBattleStadiumSM(int id){
+		String sql1 = "select hsb.s_vitorias, hsb.s_derrotas, hsb.s_qtde_trofeus,"+
+				" hsb.s_bombersaldo, hsb.t_vitorias, hsb.t_derrotas, hsb.t_qtde_trofeus, hsb.t_bombersaldo"+
+				" from highscore inner join highscoreBattlestadium as hsb on highscore.hBattlestadium_id=hsb.id inner join users on highscore.usr_id=?";
+		PreparedStatement insertUsr = null;
+		Connection conn = connectDB();
+		ResultSet rs = null;
+		try{
+			insertUsr = conn.prepareStatement(sql1);
+			insertUsr.setInt(1, id);
+			rs = insertUsr.executeQuery();
+			if (rs.next()){
+				System.out.println(rs.getString(1));
+				return rs;
+			}else { return null; }
+			
+		}catch (Exception e){
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao obter highscore do usuário!", "Erro ao inserir usuário",JOptionPane.ERROR_MESSAGE);
+			return null;
+		}finally{
+			try{
+				//if(conn != null){conn.close();}
+//				if(insertUsr != null){insertUsr.close();}
+//				if(rs != null){rs.close();}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 }

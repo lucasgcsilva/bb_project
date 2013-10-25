@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
 
-import org.bb.database.DBConnect;
+import org.bb.database.DBFunctions;
 import org.bb.main.Main;
 import org.bb.util.Event;
 import org.bb.util.CHAP;
@@ -192,7 +192,7 @@ public class LoginPanel extends javax.swing.JPanel{
     String nickname = this.txtNickname.getText();
     String pwd = new String ( this.txtPassword.getPassword());
     if (!nickname.equals("")){
-    	if(DBConnect.getUserDB(nickname, pwd, main)){
+    	if(DBFunctions.getUserDB(nickname, pwd, main)){
         	lblWelcome.setForeground(Color.white);
         	lblWelcome.setText("Bem vindo, "+nickname+"!");
         	btnSignout.setText("Desconectar");

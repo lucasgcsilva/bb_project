@@ -1,5 +1,6 @@
 package org.bb.main.gui;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,21 +19,24 @@ import java.util.EventObject;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import org.bb.database.DBConnect;
+import org.bb.database.DBFunctions;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
+import org.bb.util.JTransparentTable;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
@@ -55,9 +59,10 @@ public class Score extends JPanel {
 		add(lblScore, BorderLayout.NORTH);
 		
 		//BattleStadium Single-Match Pontuação
-		ResultSet rs = DBConnect.getHighscoreBattlestadiumSM();
+		ResultSet rs = DBFunctions.getHighscoreBattlestadiumSM();
 		String[] tableNames = {"Posição", "Nome", "Vitórias", "Derrotas", "Qtde. Trofeus", "Bombersaldo"};
-		JTable tablePad = new JTable() {
+		
+		JTransparentTable tablePad = new JTransparentTable() {
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;
@@ -66,15 +71,15 @@ public class Score extends JPanel {
 			@Override
 			public Component prepareRenderer (TableCellRenderer renderer, int rowIndex, int columnIndex){  
 			    Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);  
-
 			    if(rowIndex == posUsr) {  
-			       componenet.setBackground(Color.BLUE);  
+			       componenet.setBackground(new Color (0, 32, 231, 100));
 			    }else{
-			    	componenet.setBackground(Color.WHITE);
+			    	componenet.setBackground(new Color(255, 255, 255,100));
 			    }
 			    return componenet;
-			} 
-		};
+			}
+		};		
+		tablePad.setAlpha(0.99f);
 		DefaultTableModel tm = (DefaultTableModel)tablePad.getModel();
 		tm.setColumnIdentifiers(tableNames);
 		int j=0;
@@ -104,12 +109,13 @@ public class Score extends JPanel {
 		}
 		System.out.println(posUsr);
 		tablePad.setModel(tm);
+		tablePad.setOpaque(false);
 		JScrollPane sp = new JScrollPane(tablePad);
 		
 		//BattleStadium Tag-Match
-		ResultSet rs2 = DBConnect.getHighscoreBattlestadiumTM();
+		ResultSet rs2 = DBFunctions.getHighscoreBattlestadiumTM();
 		String[] tableNames2 = {"Posição", "Nome", "Vitórias", "Derrotas", "Qtde. Trofeus", "Bombersaldo"};
-		JTable tablePad2 = new JTable() {
+		JTransparentTable tablePad2 = new JTransparentTable() {
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;
@@ -120,13 +126,14 @@ public class Score extends JPanel {
 			    Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);  
 
 			    if(rowIndex == posUsr1) {  
-			       componenet.setBackground(Color.BLUE);  
+			    	componenet.setBackground(new Color (0, 32, 231, 100)); 
 			    }else{
-			    	componenet.setBackground(Color.WHITE);
+			    	componenet.setBackground(new Color(255, 255, 255,100));
 			    }
 			    return componenet;
 			} 
 		};
+		tablePad2.setAlpha(0.99f);
 		DefaultTableModel tm2 = (DefaultTableModel)tablePad2.getModel();
 		tm2.setColumnIdentifiers(tableNames2);
 		j=0;
@@ -156,12 +163,13 @@ public class Score extends JPanel {
 		}
 		System.out.println(posUsr1);
 		tablePad2.setModel(tm2);
+		tablePad2.setOpaque(false);
 		JScrollPane sp2 = new JScrollPane(tablePad2);
 	
 		//Arena
-		ResultSet rs3 = DBConnect.getArena();
+		ResultSet rs3 = DBFunctions.getArena();
 		String[] tableNames3 = {"Posição", "Nome", "Qtde. Kills", "Qtde. Mortes", "Bombersaldo"};
-		JTable tablePad3 = new JTable() {
+		JTransparentTable tablePad3 = new JTransparentTable() {
 			@Override
 			public boolean isCellEditable(int row, int col){
 				return false;
@@ -172,13 +180,14 @@ public class Score extends JPanel {
 			    Component componenet = super.prepareRenderer(renderer, rowIndex, columnIndex);  
 
 			    if(rowIndex == posUsr2) {  
-			       componenet.setBackground(Color.BLUE);  
+			    	componenet.setBackground(new Color (0, 32, 231, 100)); 
 			    }else{
-			    	componenet.setBackground(Color.WHITE);
+			    	componenet.setBackground(new Color(255, 255, 255,100));
 			    }
 			    return componenet;
 			} 
 		};
+		tablePad3.setAlpha(0.99f);
 		DefaultTableModel tm3 = (DefaultTableModel)tablePad3.getModel();
 		tm3.setColumnIdentifiers(tableNames3);
 		j=0;
@@ -208,13 +217,24 @@ public class Score extends JPanel {
 		}
 		System.out.println(posUsr2);
 		tablePad3.setModel(tm3);
+		tablePad3.setOpaque(false);
 		JScrollPane sp3 = new JScrollPane(tablePad3);
 		
-		tpTables.addTab("BattleStadium Single-Match", sp);
-		tpTables.addTab("Battlestadium Tag-Match", sp2);
-		tpTables.addTab("Arena", sp3);
-		add(tpTables, BorderLayout.CENTER);
+		sp.setOpaque(false);
+		sp.getViewport().setOpaque(false);
+		sp2.setOpaque(false);
+		sp2.getViewport().setOpaque(false);
+		sp3.setOpaque(false);
+		sp3.getViewport().setOpaque(false);
+		UIManager.put("TabbedPane.contentOpaque", false);
+		JTabbedPane jtb = new JTabbedPane();
+		jtb.addTab("BattleStadium Single-Match", sp);
+		jtb.addTab("Battlestadium Tag-Match", sp2);
+		jtb.addTab("Arena", sp3);
 		
+		jtb.setOpaque(false);
+		add(jtb, BorderLayout.CENTER);
+		tpTables = jtb;
 		btnVoltar.setForeground(Color.red);
 		btnVoltar.setFont(main.getFonte(main.fonteBomberman, 40));
 		btnVoltar.setHorizontalAlignment(SwingConstants.CENTER);

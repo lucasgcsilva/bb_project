@@ -137,7 +137,11 @@ public class BBOptions extends JPanel{
 		btnOffline.setRolloverIcon(new ImageIcon("resources/images/buttons/btn_of_e.png"));
 		btnOffline.setPressedIcon(new ImageIcon("resources/images/buttons/btn_of_s.png"));
 		
-		
+		if (main.sp.isLogged){
+			btnOnline.setEnabled(true);
+		}else{
+			btnOnline.setEnabled(false);
+		}
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.VERTICAL;
 		gbc.anchor = GridBagConstraints.CENTER;

@@ -58,7 +58,7 @@ public class Init extends JPanel implements ActionListener {
 			ImageIcon img = new ImageIcon("resources/images/hudson_logo.png");
 			g.drawImage(img.getImage(), 0, 0, w, h, this );
 			g.setFont(new Font ("Arial", Font.PLAIN, 36));
-			g.setColor(Color.blue);
+			g.setColor(new Color(0, 32, 231));
 			FontMetrics fm = new FontMetrics(g.getFont()){};
 			int strW = (int) fm.getStringBounds("Este é um jogo gratuito feito por fãs.", null).getWidth();
 			g.drawString("Este é um jogo gratuito feito por fãs", (w/2)-(strW/2), (h/3)*2);

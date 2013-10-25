@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,40 +21,51 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.bb.database.DBFunctions;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 
+import com.mysql.jdbc.ResultSetMetaData;
+
 public class Archievments extends JPanel{
-	Main main;
-	Image background = new ImageIcon("resources/images/bg2.jpg").getImage();
-	MusicPlayer player;
-	JLabel lblArch = new JLabel("CONQUISTAS");
-	JButton btnVoltar = new JButton("«VOLTAR");
-	JButton btnArch1 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch2 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch3 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch4 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch5 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch6 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch7 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch8 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch9 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch10 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch11 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch12 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch13 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch14 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch15 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch16 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch17 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch18 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch19 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch20 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch21 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch22 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch23 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch24 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
-	JButton btnArch25 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private Main main;
+	private Image background = new ImageIcon("resources/images/bg2.jpg").getImage();
+	private MusicPlayer player;
+	private JLabel lblArch = new JLabel("CONQUISTAS");
+	private JButton btnVoltar = new JButton("«VOLTAR");
+	private JButton btnArch1 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch2 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch3 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch4 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch5 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch6 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch7 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch8 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch9 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch10 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch11 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch12 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch13 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch14 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch15 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch16 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch17 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch18 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch19 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch20 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch21 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch22 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch23 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch24 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private JButton btnArch25 = new JButton(new ImageIcon("resources/images/arch_bomb.png"));
+	private int s_vitorias = 0,
+			s_derrotas = 0,
+		    s_qtde_trofeus = 0,
+		    s_bombersaldo = 0,
+		    t_vitorias = 0,
+			t_derrotas = 0,
+			t_qtde_trofeus = 0,
+			t_bombersaldo = 0;
 	
 	public Archievments(Main m){
 		main = m;
@@ -128,7 +140,7 @@ public class Archievments extends JPanel{
 		btnArch24.setContentAreaFilled(false);
 		btnArch25.setOpaque(false);
 		btnArch25.setContentAreaFilled(false);
-		
+		setActionListener();
 		pnl.add(btnArch1);
 		pnl.add(btnArch2);
 		pnl.add(btnArch3);
@@ -155,7 +167,7 @@ public class Archievments extends JPanel{
 		pnl.add(btnArch24);
 		pnl.add(btnArch25);
 		add(pnl, BorderLayout.CENTER);
-		
+		verifyArch();
 		//btnVoltar.setOpaque(false);
 		//btnVoltar.setContentAreaFilled(false);
 		btnVoltar.setBackground(Color.yellow);
@@ -169,6 +181,46 @@ public class Archievments extends JPanel{
 			}
 		});
 		add(btnVoltar, BorderLayout.SOUTH);
+		
+	}
+	
+	protected void verifyArch(){
+		ResultSet rs = DBFunctions.getUsrHigsBattleStadiumSM(main.sp.id);
+		
+		try{
+			rs.beforeFirst();
+			ResultSetMetaData rsmd = (ResultSetMetaData) rs.getMetaData();
+			while (rs.next()){
+				s_vitorias = rs.getInt(1);
+				s_derrotas = rs.getInt(2);
+				s_qtde_trofeus = rs.getInt(3);
+				s_bombersaldo = rs.getInt(4);
+				t_vitorias = rs.getInt(5);
+				t_derrotas = rs.getInt(6);
+				t_qtde_trofeus = rs.getInt(7);
+				t_bombersaldo = rs.getInt(8);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if (s_qtde_trofeus > 0 || t_qtde_trofeus > 0){
+			btnArch1.setIcon(new ImageIcon("resources/images/archievments/first.png"));
+		}
+		
+	}
+	
+	protected void setActionListener(){
+		btnArch1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (s_qtde_trofeus > 0 || t_qtde_trofeus > 0){
+					ArchDetails ad = new ArchDetails(ArchDetails.MY_FIRST_TROPHY, main);
+					ad.setVisible(true);
+				}
+			}
+		});
 	}
 	
 	protected void paintComponent(Graphics g)  {          

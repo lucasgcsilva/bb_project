@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -92,6 +93,13 @@ public class Buttons extends JPanel {
 		btnBS.setHorizontalTextPosition(SwingConstants.RIGHT);
 		
 		setLayout(new GridLayout(6, 1));
+		btnBS.setMargin(new Insets(0, 0, 0, 0));
+		btnArena.setMargin(new Insets(0, 0, 0, 0));
+		btnHighs.setMargin(new Insets(0, 0, 0, 0));
+		btnArch.setMargin(new Insets(0, 0, 0, 0));
+		btnOpt.setMargin(new Insets(0, 0, 0, 0));
+		btnExt.setMargin(new Insets(0, 0, 0, 0));
+		
 		add(btnBS);
 		add(btnArena);
 		add(btnHighs);
