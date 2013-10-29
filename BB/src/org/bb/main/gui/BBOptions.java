@@ -24,7 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import org.bb.game.Game;
+import org.bb.game.NewGame;
 import org.bb.main.Main;
+import org.newdawn.slick.SlickException;
 
 public class BBOptions extends JPanel{
 	
@@ -73,6 +76,22 @@ public class BBOptions extends JPanel{
 			}
 		});
 		tmr.start();
+		
+		btnOffline.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					NewGame newOfflineGame = new NewGame(main);
+					System.out.println("New Game created!");
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					
+				}
+			}
+		});
 		
 	}
 	
