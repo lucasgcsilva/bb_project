@@ -16,6 +16,7 @@ import java.awt.List;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -56,6 +57,8 @@ import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.sound.VolumeControl;
 import org.bb.util.SavedPreferences;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.util.InputAdapter;
 
 public class Options extends JPanel {
 	private static boolean isFullSize = false;
@@ -250,6 +253,7 @@ public class Options extends JPanel {
 				    					  pad = keyPad1[0]+"|"+keyPad1[1]+"|"+keyPad1[2]+"|"+keyPad1[3]+"|"+keyPad1[4];
 				    					  keyChangePad = false;				    					  
 				    				  }
+				    				 
 				    			  }
 							});
 				    	  }
@@ -347,6 +351,7 @@ public class Options extends JPanel {
 		setVisible(true);
 		player = new MusicPlayer("resources/musics/options.wav", true);
 		player.start();
+		
 	}
 	
 	protected void paintComponent(Graphics g)  {          

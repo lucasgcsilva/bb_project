@@ -83,6 +83,8 @@ public class BBOptions extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				try {
+					main.stopMusicMenu();
+					main.setVisible(false);
 					NewGame newOfflineGame = new NewGame(main);
 					System.out.println("New Game created!");
 				} catch (SlickException e) {
