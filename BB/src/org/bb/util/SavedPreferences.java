@@ -15,6 +15,7 @@ import org.bb.main.gui.LoginPanel;
 import org.bb.main.gui.Options;
 import org.bb.sound.MusicPlayer;
 import org.bb.sound.VolumeControl;
+import org.newdawn.slick.Input;
 
 public class SavedPreferences {
 
@@ -22,8 +23,8 @@ public class SavedPreferences {
 	public String screen;
 	public String volume;
 	public String fullScreen;
-	public String pad;
-	public String pad2;
+	public static String pad1;
+	public static String pad2;
 	public String lastNameUsr;
 	
 	public int id;
@@ -31,27 +32,32 @@ public class SavedPreferences {
 	public String email;
 	public boolean isLogged = false;
 	
+	private Input input = new Input(480);;
 	public static String PREF_SCREEN = "screen_size";
 	public static String PREF_VOLUME = "volume";
 	public static String PREF_FULLSCREEN = "full_screen";
-	public static String PREF_PAD = "pad";
-	public static String PREF_PAD2 = "pad2";
 	public static String PREF_LASTNAMEUSR = "last_name_usr";
 	public static String PREF_HIGHSCORE = "highscore";
 	
 	public static String DEF_SCREEN = "1024x728";
 	public static String DEF_VOLUME = "0.5f";
 	public static String DEF_FULLSCREEN = "false";
-	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
-			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
-	public static String DEF_PAD2 = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
-			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
+//	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
+//			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
+//	public static String DEF_PAD2 = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
+//			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
+	public static String DEF_PAD1 = Integer.toString(Input.KEY_UP)+"|"+Integer.toString(Input.KEY_DOWN)+"|"
+			+Integer.toString(Input.KEY_LEFT)+"|"+Integer.toString(Input.KEY_RIGHT)+"|"+Integer.toString(Input.KEY_SPACE);
+	public static String DEF_PAD2 = Integer.toString(Input.KEY_W)+"|"+Integer.toString(Input.KEY_S)+"|"
+			+Integer.toString(Input.KEY_A)+"|"+Integer.toString(Input.KEY_D)+"|"+Integer.toString(Input.KEY_Z);
 	public static String DEF_LASTNAMEUSR = "Username";
+	public static String PREF_PAD = DEF_PAD1;
+	public static String PREF_PAD2 = DEF_PAD2;
 	
 	
 	
 	public SavedPreferences(Main main){
-		System.out.println(DEF_PAD);
+		System.out.println(DEF_PAD1);
 		if (new File("prefs.xml").exists()){
 			try{
 				InputStream stream = new FileInputStream("prefs.xml");
@@ -84,7 +90,7 @@ public class SavedPreferences {
 		//Last Name User
 		LoginPanel.lastNameUser = lastNameUsr;
 		
-		System.out.println(usrname+" "+email+" "+fullScreen+" "+lastNameUsr+" "+id+" "+pad);
+		System.out.println(usrname+" "+email+" "+fullScreen+" "+lastNameUsr+" "+id+" "+pad1);
 		
 		
 	}
@@ -110,13 +116,13 @@ public class SavedPreferences {
 		screen = savedPref.get(PREF_SCREEN, DEF_SCREEN);
 		volume = savedPref.get(PREF_VOLUME, DEF_VOLUME);
 		fullScreen = savedPref.get(PREF_FULLSCREEN, DEF_FULLSCREEN);
-		pad = savedPref.get(PREF_PAD, DEF_PAD);
+		pad1 = savedPref.get(PREF_PAD, DEF_PAD1);
 		pad2 = savedPref.get(PREF_PAD2, DEF_PAD2);
 		lastNameUsr = savedPref.get(PREF_LASTNAMEUSR, DEF_LASTNAMEUSR);
 	}
 	
 	public void printPreferences(){
-		System.out.println(screen+volume+fullScreen+pad+lastNameUsr);
+		System.out.println(screen+volume+fullScreen+pad1+lastNameUsr);
 	}
 	
 	public void setUserLogged(){

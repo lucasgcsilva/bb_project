@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
-  <image source="./tileset.png" width="64" height="64"/>
+  <image source="tileset.png" width="64" height="64"/>
   <tile id="0">
    <properties>
     <property name="isWall" value="true"/>
@@ -15,7 +15,7 @@
  </tileset>
  <layer name="Background" width="20" height="15">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgoD5gphJGNo8QTYyaUfeNum/UffR3HzUBAKVmT3KwBAAA
+   H4sIAAAAAAAAA2NgoD5gphJGNo8QTYyaUfeNum/UffR3HzUBAKVmT3KwBAAA
   </data>
  </layer>
  <layer name="Blocks" width="20" height="15">
@@ -23,7 +23,7 @@
    <property name="destroyable" value="false"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NiYGBgojKmFkA2jxBNjJpR9426b9R99HcfNTEAURb16rAEAAA=
+   H4sIAAAAAAAAA2NiYGBgojKmFkA2jxBNjJpR9426b9R99HcfNTEAURb16rAEAAA=
   </data>
  </layer>
  <objectgroup name="Objects" width="20" height="15">
@@ -53,6 +53,9 @@
   <object type="blob" x="544" y="416" width="32" height="32" visible="0"/>
   <object type="range" x="192" y="96" width="32" height="32"/>
   <object type="speed" x="160" y="128" width="32" height="32"/>
+  <object name="player" type="player" x="576" y="33" width="32" height="32">
+   <polygon points="0,0 32,0 32,32 0,32 0,0"/>
+  </object>
  </objectgroup>
  <objectgroup name="Walls" width="20" height="15">
   <object type="wall" x="32" y="64" width="32" height="32"/>

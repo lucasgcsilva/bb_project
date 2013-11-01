@@ -12,10 +12,17 @@ import org.bb.game.player.Player;
 public class Level {
 	private ArrayList<MapObjects> listOfObjects;
 	private static Level instance = new Level();
-	private Player player;
+	private Player player1;
+	private Player player2;
 	private Map mapa = new Map(this);
 	private GameState gameState;
 	private int levelNumber;
+	
+	public static int PLAYER_1 = 1;
+	public static int PLAYER_2 = 2;
+	public static int PLAYER_3 = 3;
+	public static int PLAYER_4 = 4;
+	public static int PLAYER_5 = 5;
 	
 	private Level(){
 		listOfObjects = new ArrayList<MapObjects>();
@@ -45,13 +52,21 @@ public class Level {
     }
 
    
-    public Player getPlayer() {
-        return player;
+    public Player getPlayer1() {
+        return player1;
     }
-
     
-    public void setPlayer(Player player) {
-        this.player = player;
+    public Player getPlayer2() {
+        return player2;
+    }
+    
+    public void setPlayer(Player player, int numPlayer) {
+    	if (numPlayer == PLAYER_1){
+    		this.player1 = player;
+    	}else if (numPlayer == PLAYER_2){
+    		this.player2 = player;
+    	}
+        
     }
 
    

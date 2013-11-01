@@ -16,7 +16,8 @@ import org.newdawn.slick.gui.TextField;
 
 public class Game extends BasicGame{
 	public static enum GameState { PLAYING, PAUSED, FAILED, FINISHED };
-	private Player hrac;
+	private Player player1;
+	private Player player2;
     private TextField text;
     private TextField text2;
     private Level level;
@@ -40,7 +41,8 @@ public class Game extends BasicGame{
     public void init(GameContainer gc) throws SlickException {
         level = Level.getLevel();
         level.loadLevel(levelName + level.getLevelNumber());
-        hrac = level.getPlayer();
+        player1 = level.getPlayer1();
+        player2 = level.getPlayer2();
         TrueTypeFont font = new TrueTypeFont(new java.awt.Font("Verdana", java.awt.Font.PLAIN, 14), true);
         text = new TextField(gc, font, 60, 200, 500, 25);
         text2 = new TextField(gc, font, 270, 230, 110, 25);
@@ -75,16 +77,16 @@ public class Game extends BasicGame{
         }
 
         if (level.getGameState() == GameState.FINISHED) {
-            if (!hrac.isStopTime() && level.getLevelNumber() < 5) {
+            if (!player1.isStopTime() && level.getLevelNumber() < 5) {
                 playingTime = score.getPlayingTime();
                 int minutes = playingTime / 60;
                 int seconds = playingTime % 60;
                 text.setText("  Playing time: " + minutes + " min " + seconds + "secs" + "   Enemies killed: " + score.getEnemiesKilled() + "   Walls Destroyed: " + score.getWallsDestroyed());
                 text2.setText("  Press Enter");
             }
-            hrac.setStopTime(true);
+            player1.setStopTime(true);
             if (input.isKeyPressed(Input.KEY_ENTER)) {
-                hrac.setStopTime(false);
+                player1.setStopTime(false);
                 level.incLevel();
                 if (level.getLevelNumber() == 5) {
                     System.exit(0);
@@ -108,8 +110,11 @@ public class Game extends BasicGame{
 
     @Override
     public void render(GameContainer gc, org.newdawn.slick.Graphics grphcs) throws SlickException {
+    	if (gc.isFullscreen()){
+    		grphcs.translate((main.fWidth-1024)/2, 20);
+    		grphcs.scale(1.5f, 1.5f);
+    	}
         level.show();
-//        grphcs.scale(2f, 2f);
         for (MapObjects o : level.getListOfObjects()) {
             o.getAnimation().draw(o.getX(), o.getY());
         }

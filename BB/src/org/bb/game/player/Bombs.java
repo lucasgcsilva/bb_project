@@ -22,9 +22,11 @@ public class Bombs extends Actors {
     private final static int STEP = 2;
     private int steps;
     private Direction direction;
+    private int numPlayer;
 
     
-    public Bombs() throws SlickException {
+    public Bombs(int numPlayer) throws SlickException {
+    	this.numPlayer = numPlayer;
         animation = new Animation(Anim.getAnimation("resources/actors/bomb", 2), 200);
         explodingBomb = new Animation(Anim.getAnimation("resources/actors/expbomb", 1), 250);
         explodeTime = 200;
@@ -37,9 +39,11 @@ public class Bombs extends Actors {
   
     @Override
     public void act() {
-        if (!level.getPlayer().intersects(this)) {
-            this.intersectWithPlayer = false;
-        }
+    	if (numPlayer == Level.PLAYER_1 && !level.getPlayer1().intersects(this)){
+    		this.intersectWithPlayer = false;
+    	}else if (numPlayer == Level.PLAYER_2 && !level.getPlayer2().intersects(this)){
+    		this.intersectWithPlayer = false;
+    	}
         if (steps > 0) {
             for (int x = 0; x < level.getListOfObjects().toArray().length; x++) {
                 MapObjects o = (MapObjects) level.getListOfObjects().toArray()[x];
@@ -83,7 +87,11 @@ public class Bombs extends Actors {
             if (explodeTime == 0) {
                 level.getMap().getWallMap()[this.getX() / 32][this.getY() / 32] = 0;
                 level.getListOfObjects().remove(this);
-                level.getPlayer().incBomb();
+                if (numPlayer == Level.PLAYER_1){
+                	level.getPlayer1().incBomb();
+                }else{
+                	level.getPlayer2().incBomb();
+                }
             } else {
                 explodeTime--;
             }
@@ -92,7 +100,13 @@ public class Bombs extends Actors {
 
  
     public void createFlames() throws SlickException {
-        int range = level.getPlayer().getRange();
+        int range;
+        if (numPlayer == Level.PLAYER_1){
+        	range = level.getPlayer1().getRange();
+        }else{
+        	Player player2 = level.getPlayer2();
+        	range = level.getPlayer2().getRange();
+        }
         lookAround(Direction.EAST, range);
         lookAround(Direction.WEST, range);
         lookAround(Direction.NORTH, range);
@@ -208,7 +222,6 @@ public class Bombs extends Actors {
     public boolean canIntersectWithPlayer() {
         return intersectWithPlayer;
     }
-
 
     public void setX(int x) {
         this.x += x;

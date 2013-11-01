@@ -12,7 +12,9 @@ import org.bb.game.items.BombsUp;
 import org.bb.game.items.KickUp;
 import org.bb.game.items.RangeUp;
 import org.bb.game.items.SpeedUp;
+import org.bb.util.SavedPreferences;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.ControllerListener;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
@@ -49,17 +51,27 @@ public class Player extends Actors {
     private Level level = Level.getLevel();
     private GameScore stat = GameScore.getScore();
     private Input input = new Input(480);
-    private SpriteSheet sheet = new SpriteSheet("resources/images/players/shiroBomb.png", 32, 32);
+    private SpriteSheet sheet;
+    private int numPlayer;
+    
+    private int KEY_UP;
+    private int KEY_DOWN;
+    private int KEY_LEFT;
+    private int KEY_RIGHT;
+    private int KEY_BOMB;
+    
 
     /**
      * sets animations, timers and features on default values
      * @throws SlickException
      */
-    public Player() throws SlickException {
-        leftAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 2), 250);
-        rightAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 1), 250);
-        downAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 250);
-        upAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 250);
+    public Player(int numPlayer, String tileBomb) throws SlickException {
+    	sheet = new SpriteSheet(tileBomb, 32, 32);
+    	this.numPlayer = numPlayer;
+        leftAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 2), 200);
+        rightAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 1), 200);
+        downAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+        upAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 200);
         speedLeftAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 2), 100);
         speedRightAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 1), 100);
         speedDownAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 100);
@@ -68,9 +80,9 @@ public class Player extends Actors {
         puttingRight = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingUp = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingDown = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
-        celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 6), 300);
+        celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 6), 200);
         dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
-        idle = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 4), 300);
+        idle = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 4), 200);
         super.animation = this.downAnimation;
         direction = Direction.SOUTH;
         super.animation.stop();
@@ -81,9 +93,24 @@ public class Player extends Actors {
         kickTime = 0;
         stopTime = false;
         ghostMode = false;
+        getKeyboardConfiguration();
         
     }
-
+    
+    public void getKeyboardConfiguration(){
+    	String [] keyConf;
+    	if (numPlayer == Level.PLAYER_1){
+    		 keyConf = SavedPreferences.pad1.split("\\|");
+    	}else{
+    		 keyConf = SavedPreferences.pad2.split("\\|");
+    	}
+    	KEY_UP = Integer.parseInt(keyConf[0]);
+    	KEY_DOWN = Integer.parseInt(keyConf[1]);
+    	KEY_LEFT = Integer.parseInt(keyConf[2]);
+    	KEY_RIGHT = Integer.parseInt(keyConf[3]);
+    	KEY_BOMB = Integer.parseInt(keyConf[4]);
+    }
+    
     @Override
     public void act() {
 //        if(input.isKeyDown(Input.KEY_G)){
@@ -99,7 +126,7 @@ public class Player extends Actors {
             if (puttingTime == 0) {
                 Bombs bomba;
                 try {
-                    bomba = new Bombs();
+                    bomba = new Bombs(numPlayer);
                     level.addToLevel(bomba);
                     bomba.setPosition((this.getX() + 15) / 32 * 32, (this.getY() + 15) / 32 * 32);
                     level.getMap().getWallMap()[bomba.getX() / 32][bomba.getY() / 32] = 1;
@@ -120,13 +147,19 @@ public class Player extends Actors {
         }
         putBomb();
         walk();
+        try {
+			input.initControllers();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
      * method responsible for putting bomb - sets putting animation, timer for animation
      */
     public void putBomb() {
-        if ((input.isButton1Pressed(input.ANY_CONTROLLER) || input.isKeyDown(Input.KEY_SPACE)) && puttingBomb == false) {
+        if ((input.isButton1Pressed(numPlayer-1) || input.isKeyDown(KEY_BOMB)) && puttingBomb == false) {
             if (bombsCount > 0) {
                 bombsCount--;
                 puttingBomb = true;
@@ -168,7 +201,7 @@ public class Player extends Actors {
         int hracY = this.getY();
         isKeyPressed = false;
         if (!puttingBomb) {
-            if (input.isControllerLeft(input.ANY_CONTROLLER) || input.isKeyDown(Input.KEY_LEFT)) {
+            if (input.isControllerLeft(numPlayer-1) || input.isKeyDown(KEY_LEFT)) {
                 isKeyPressed = true;
             	if (speedTime > 0) {
                     this.animation = this.speedLeftAnimation;
@@ -178,7 +211,7 @@ public class Player extends Actors {
                 direction = Direction.WEST;
                 this.animation.start();
                 this.x -= speed;
-            } else if (input.isControllerRight(input.ANY_CONTROLLER) ||input.isKeyDown(Input.KEY_RIGHT)) {
+            } else if (input.isControllerRight(numPlayer-1) || input.isKeyDown(KEY_RIGHT)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedRightAnimation;
@@ -188,7 +221,7 @@ public class Player extends Actors {
                 direction = Direction.EAST;
                 this.animation.start();
                 this.x += speed;
-            } else if (input.isControllerDown(input.ANY_CONTROLLER) ||input.isKeyDown(Input.KEY_DOWN)) {
+            } else if (input.isControllerDown(numPlayer-1) || input.isKeyDown(KEY_DOWN)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedDownAnimation;
@@ -198,7 +231,7 @@ public class Player extends Actors {
                 direction = Direction.SOUTH;
                 this.animation.start();
                 this.y += speed;
-            } else if (input.isControllerUp(input.ANY_CONTROLLER) ||input.isKeyDown(Input.KEY_UP)) {
+            } else if (input.isControllerUp(numPlayer-1) || input.isKeyDown(KEY_UP)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedUpAnimation;
@@ -322,7 +355,7 @@ public class Player extends Actors {
         }
     }
 
-public int getRange() {
+    public int getRange() {
         return range;
     }
 

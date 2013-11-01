@@ -9,6 +9,7 @@ import org.bb.game.items.KickUp;
 import org.bb.game.items.RangeUp;
 import org.bb.game.items.SpeedUp;
 import org.bb.game.player.Player;
+import org.bb.util.Info;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -17,9 +18,11 @@ public class Map {
 	private Level level = Level.getLevel();
 	private List<Walls> Walls;
 	private int[][] wallMap;
+	private int playerCount = 1;
 	
 	public Map(Level level){
-		this.level = level;		
+		this.level = level;
+		playerCount = 1;
 	}
 	
 	public void loadMap(String level) {
@@ -45,10 +48,11 @@ public class Map {
         for (int i = 0; i < mapa.getObjectCount(0); i++) {
             switch (mapa.getObjectType(0, i)) {
                 case "player":
-                    Player hrac = new Player();
+                    Player hrac = new Player(playerCount, Info.ShiroBomb);
                     hrac.setPosition(mapa.getObjectX(0, i), mapa.getObjectY(0, i));
                     level.addToLevel(hrac);
-                    level.setPlayer(hrac);
+                    level.setPlayer(hrac, playerCount);
+                    playerCount++;
                     break;
                 case "bomb":
                     BombsUp bomba = new BombsUp();
@@ -92,6 +96,7 @@ public class Map {
                     break;
             }
         }
+        playerCount = 1;
     }
 
     public TiledMap getTiledMap() {

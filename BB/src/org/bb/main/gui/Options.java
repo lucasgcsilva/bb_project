@@ -83,6 +83,7 @@ public class Options extends JPanel {
 	private String pad2;
 	private String[] keyPad2;
 	private String[] keyPad1;
+	private Input input = new Input(480);
 	
 	
 	public static String SIZE_800x600 = "800x600";
@@ -218,13 +219,13 @@ public class Options extends JPanel {
 		pnlConfig.add(cbxFull, gbc);
 		
 		//Pad
-		pad = main.sp.pad;
+		pad = main.sp.pad1;
 		keyPad1 = pad.split("\\|");
-		String data[][]={{"CIMA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[0]))},
-				{"BAIXO", KeyEvent.getKeyText(Integer.valueOf(keyPad1[1]))},
-				{"DIREITA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[2]))},
-				{"ESQUERDA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[3]))},
-				{"BOMBA", KeyEvent.getKeyText(Integer.valueOf(keyPad1[4]))}};
+		String data[][]={{"CIMA",input.getKeyName(Integer.valueOf(keyPad1[0]))},
+				{"BAIXO", input.getKeyName(Integer.valueOf(keyPad1[1]))},
+				{"DIREITA", input.getKeyName(Integer.valueOf(keyPad1[2]))},
+				{"ESQUERDA", input.getKeyName(Integer.valueOf(keyPad1[3]))},
+				{"BOMBA", input.getKeyName(Integer.valueOf(keyPad1[4]))}};
 		String fields[]={ "Descrição", "Atalho"};
 		JTable tablePad = new JTable(data, fields) {
 			@Override
