@@ -61,10 +61,7 @@ public class Player extends Actors {
     private int KEY_BOMB;
     
 
-    /**
-     * sets animations, timers and features on default values
-     * @throws SlickException
-     */
+ 
     public Player(int numPlayer, String tileBomb) throws SlickException {
     	sheet = new SpriteSheet(tileBomb, 32, 32);
     	this.numPlayer = numPlayer;
@@ -251,6 +248,7 @@ public class Player extends Actors {
             		timeIdle--;
             	}
             }
+            
             
         }
         if (isKeyPressed){

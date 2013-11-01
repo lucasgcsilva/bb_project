@@ -48,7 +48,13 @@ public class Map {
         for (int i = 0; i < mapa.getObjectCount(0); i++) {
             switch (mapa.getObjectType(0, i)) {
                 case "player":
-                    Player hrac = new Player(playerCount, Info.ShiroBomb);
+                	String tileBomb;
+                	if (playerCount == 1){
+                		tileBomb = Info.ShiroBomb;
+                	}else {
+                		tileBomb = Info.KuroBomb;
+                	}
+                    Player hrac = new Player(playerCount, tileBomb);
                     hrac.setPosition(mapa.getObjectX(0, i), mapa.getObjectY(0, i));
                     level.addToLevel(hrac);
                     level.setPlayer(hrac, playerCount);
