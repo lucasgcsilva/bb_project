@@ -11,6 +11,8 @@ import org.bb.game.items.SpeedUp;
 import org.bb.game.player.Player;
 import org.bb.util.Info;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Map {
@@ -19,6 +21,18 @@ public class Map {
 	private List<Walls> Walls;
 	private int[][] wallMap;
 	private int playerCount = 1;
+	
+	private int[] timePos = new int[2] ;
+	private int[] p1tPos = new int[2] ;
+	private int[] p2tPos = new int[2] ;
+	private int[] p3tPos = new int[2] ;
+	private int[] p4tPos = new int[2] ;
+	private int[] p5tPos = new int[2] ;
+	private int[] player1 = new int[2] ;
+	private int[] player2 = new int[2] ;
+	private int[] player3 = new int[2] ;
+	private int[] player4 = new int[2] ;
+	private int[] player5 = new int[2] ;
 	
 	public Map(Level level){
 		this.level = level;
@@ -102,7 +116,88 @@ public class Map {
                     break;
             }
         }
+        for (int i = 0; i < mapa.getObjectCount(2); i++) {
+            switch (mapa.getObjectType(2, i)) {
+                case "time":
+                    timePos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                    break;
+                case "p1trofeu":
+                	p1tPos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "p2trofeu":
+                	p2tPos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "p3trofeu":
+                	p3tPos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "p4trofeu":
+                	p4tPos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "p5trofeu":
+                	p5tPos = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "player1":
+                	player1 = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "player2":
+                	player2 = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "player3":
+                	player3 = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "player4":
+                	player4 = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+                case "player5":
+                	player5 = new int[] {mapa.getObjectX(2, i), mapa.getObjectY(2, i)};
+                	break;
+            }
+        }
         playerCount = 1;
+    }
+    
+    public int[] gePlayer1(){
+    	return this.player1;
+    }
+    
+    public int[] gePlayer2(){
+    	return this.player2;
+    }
+    
+    public int[] gePlayer3(){
+    	return this.player3;
+    }
+    
+    public int[] gePlayer4(){
+    	return this.player4;
+    }
+    
+    public int[] gePlayer5(){
+    	return this.player5;
+    }
+    
+    public int[] getp1tPos(){
+    	return this.p1tPos;
+    }
+    
+    public int[] getp2tPos(){
+    	return this.p2tPos;
+    }
+    
+    public int[] getp3tPos(){
+    	return this.p3tPos;
+    }
+    
+    public int[] getp4tPos(){
+    	return this.p4tPos;
+    }
+    
+    public int[] getp5tPos(){
+    	return this.p5tPos;
+    }
+    
+    public int[] getTimePos(){
+    	return this.timePos;
     }
 
     public TiledMap getTiledMap() {

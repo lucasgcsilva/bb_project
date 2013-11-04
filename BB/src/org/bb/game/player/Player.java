@@ -53,6 +53,8 @@ public class Player extends Actors {
     private Input input = new Input(480);
     private SpriteSheet sheet;
     private int numPlayer;
+    private int numTrofeus = 0;
+    public boolean isAlive = true;
     
     private int KEY_UP;
     private int KEY_DOWN;
@@ -92,6 +94,14 @@ public class Player extends Actors {
         ghostMode = false;
         getKeyboardConfiguration();
         
+    }
+    
+    public void incTrofeus(){
+    	this.numTrofeus++;
+    }
+    
+    public int getNumTrofeus(){
+    	return this.numTrofeus;
     }
     
     public void getKeyboardConfiguration(){
@@ -263,6 +273,7 @@ public class Player extends Actors {
                 }
                 if (o instanceof Flame) {
                     animation = dying;
+                    isAlive = false;
                     level.setGameState(GameState.FAILED);
                 }
                 if (o instanceof Bombs) {

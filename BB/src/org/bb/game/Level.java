@@ -8,6 +8,8 @@ import org.bb.game.map.Map;
 import org.bb.game.map.Wall;
 import org.bb.game.map.Walls;
 import org.bb.game.player.Player;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.gui.TextField;
 
 public class Level {
 	private ArrayList<MapObjects> listOfObjects;
@@ -17,6 +19,8 @@ public class Level {
 	private Map mapa = new Map(this);
 	private GameState gameState;
 	private int levelNumber;
+	private GameContainer gc;
+	
 	
 	public static int PLAYER_1 = 1;
 	public static int PLAYER_2 = 2;
@@ -33,11 +37,20 @@ public class Level {
 		return instance;
 	}
 	
+	public void setGameContainer(GameContainer gc){
+		this.gc = gc;
+	}
+	
+	public GameContainer getGameContainer(){
+		return this.gc;
+	}
+	
     public void loadLevel(String level) {
         mapa.loadMap(level);
         this.gameState=GameState.PLAYING;
     }
 
+    
     public void show() {
         mapa.getTiledMap().render(0, 0);
     }
