@@ -52,8 +52,7 @@ public class Player extends Actors {
     private GameScore stat = GameScore.getScore();
     private Input input = new Input(480);
     private SpriteSheet sheet;
-    private int numPlayer;
-    private int numTrofeus = 0;
+    public int numPlayer;
     public boolean isAlive = true;
     
     private int KEY_UP;
@@ -61,9 +60,11 @@ public class Player extends Actors {
     private int KEY_LEFT;
     private int KEY_RIGHT;
     private int KEY_BOMB;
-    
 
- 
+    public Player(int numPlayer){
+    	this.numPlayer = numPlayer;
+    }
+    
     public Player(int numPlayer, String tileBomb) throws SlickException {
     	sheet = new SpriteSheet(tileBomb, 32, 32);
     	this.numPlayer = numPlayer;
@@ -94,14 +95,6 @@ public class Player extends Actors {
         ghostMode = false;
         getKeyboardConfiguration();
         
-    }
-    
-    public void incTrofeus(){
-    	this.numTrofeus++;
-    }
-    
-    public int getNumTrofeus(){
-    	return this.numTrofeus;
     }
     
     public void getKeyboardConfiguration(){
@@ -166,7 +159,7 @@ public class Player extends Actors {
      * method responsible for putting bomb - sets putting animation, timer for animation
      */
     public void putBomb() {
-        if ((input.isButton1Pressed(numPlayer-1) || input.isKeyDown(KEY_BOMB)) && puttingBomb == false) {
+        if ((input.isButton1Pressed(numPlayer-1) || input.isKeyDown(KEY_BOMB)) && puttingBomb == false && isAlive) {
             if (bombsCount > 0) {
                 bombsCount--;
                 puttingBomb = true;
@@ -207,7 +200,7 @@ public class Player extends Actors {
         int hracX = this.getX();
         int hracY = this.getY();
         isKeyPressed = false;
-        if (!puttingBomb) {
+        if (!puttingBomb && isAlive) {
             if (input.isControllerLeft(numPlayer-1) || input.isKeyDown(KEY_LEFT)) {
                 isKeyPressed = true;
             	if (speedTime > 0) {
@@ -274,7 +267,7 @@ public class Player extends Actors {
                 if (o instanceof Flame) {
                     animation = dying;
                     isAlive = false;
-                    level.setGameState(GameState.FAILED);
+                    System.out.println(level.remainPlayers);
                 }
                 if (o instanceof Bombs) {
                     if (!((Bombs) o).canIntersectWithPlayer()) {
@@ -379,6 +372,11 @@ public class Player extends Actors {
  
     public void setStopTime(boolean stopTime) {
         this.stopTime = stopTime;
+    }
+    
+    public void setCelebrate(){
+    	animation = celebrating;
+    	animation.start();
     }
    
 }

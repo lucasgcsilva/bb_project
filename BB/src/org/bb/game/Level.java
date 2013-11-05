@@ -16,10 +16,15 @@ public class Level {
 	private static Level instance = new Level();
 	private Player player1;
 	private Player player2;
+	private Player player3;
+	private Player player4;
+	private Player player5;
 	private Map mapa = new Map(this);
 	private GameState gameState;
 	private int levelNumber;
 	private GameContainer gc;
+	
+	public int remainPlayers = 0;
 	
 	
 	public static int PLAYER_1 = 1;
@@ -72,12 +77,30 @@ public class Level {
     public Player getPlayer2() {
         return player2;
     }
+
+    public Player getPlayer3() {
+        return player3;
+    }
+    
+    public Player getPlayer4() {
+        return player4;
+    }
+    
+    public Player getPlayer5() {
+        return player5;
+    }
     
     public void setPlayer(Player player, int numPlayer) {
     	if (numPlayer == PLAYER_1){
     		this.player1 = player;
     	}else if (numPlayer == PLAYER_2){
     		this.player2 = player;
+    	}else if (numPlayer == PLAYER_3){
+    		this.player3 = player;
+    	}else if (numPlayer == PLAYER_4){
+    		this.player4 = player;
+    	}else if (numPlayer == PLAYER_5){
+    		this.player5 = player;
     	}
         
     }

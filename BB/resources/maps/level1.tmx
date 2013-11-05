@@ -18,7 +18,7 @@
  </tileset>
  <layer name="Background" width="20" height="16">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGPyAmUoY2TxCNDFqRt036r5R99HffdQEAKmxwoIABQAA
+   H4sIAAAAAAAAC2NgGPyAmUoY2TxCNDFqRt036r5R99HffdQEAKmxwoIABQAA
   </data>
  </layer>
  <layer name="Blocks" width="20" height="16">
@@ -26,12 +26,12 @@
    <property name="destroyable" value="false"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgoC5gogGmttsYiKCJUTPqvlH3jbqP/u6jJgYAXcF4GgAFAAA=
+   H4sIAAAAAAAAC2NgoC5gogGmttsYiKCJUTPqvlH3jbqP/u6jJgYAXcF4GgAFAAA=
   </data>
  </layer>
  <layer name="time" width="20" height="16">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NlYGBgoxJmZxgFo2AUjIKhAwB99dwvAAUAAA==
+   H4sIAAAAAAAAC2NlYGBgoxJmZxgFo2AUjIKhAwB99dwvAAUAAA==
   </data>
  </layer>
  <objectgroup name="Objects" width="20" height="16">
@@ -62,6 +62,15 @@
   <object type="range" x="192" y="128" width="32" height="32"/>
   <object type="speed" x="160" y="160" width="32" height="32"/>
   <object name="player" type="player" x="576" y="65" width="32" height="32">
+   <polygon points="0,0 32,0 32,32 0,32 0,0"/>
+  </object>
+  <object name="player" type="player" x="576" y="448" width="32" height="32">
+   <polygon points="0,0 32,0 32,32 0,32 0,0"/>
+  </object>
+  <object name="player" type="player" x="32" y="448" width="32" height="32">
+   <polygon points="0,0 32,0 32,32 0,32 0,0"/>
+  </object>
+  <object name="player" type="player" x="320" y="256" width="32" height="32">
    <polygon points="0,0 32,0 32,32 0,32 0,0"/>
   </object>
  </objectgroup>

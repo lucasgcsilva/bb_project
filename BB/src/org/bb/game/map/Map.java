@@ -65,8 +65,14 @@ public class Map {
                 	String tileBomb;
                 	if (playerCount == 1){
                 		tileBomb = Info.ShiroBomb;
-                	}else {
+                	}else if (playerCount == 2){
                 		tileBomb = Info.KuroBomb;
+                	}else if (playerCount == 3){
+                		tileBomb = Info.AkaBomb;
+                	}else if (playerCount == 4){
+                		tileBomb = Info.AoBomb;
+                	}else {
+                		tileBomb = Info.MidoriBomb;
                 	}
                     Player hrac = new Player(playerCount, tileBomb);
                     hrac.setPosition(mapa.getObjectX(0, i), mapa.getObjectY(0, i));
