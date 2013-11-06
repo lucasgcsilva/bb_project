@@ -54,18 +54,17 @@ public class Player extends Actors {
     private SpriteSheet sheet;
     public int numPlayer;
     public boolean isAlive = true;
-    
+    private boolean isController = false;
+    private boolean isKeyboard = true;
+    private int numController = 0;
     private int KEY_UP;
     private int KEY_DOWN;
     private int KEY_LEFT;
     private int KEY_RIGHT;
     private int KEY_BOMB;
-
-    public Player(int numPlayer){
-    	this.numPlayer = numPlayer;
-    }
+   
     
-    public Player(int numPlayer, String tileBomb) throws SlickException {
+    public Player(int numPlayer, String tileBomb, boolean isControl, int numControl, boolean isKeyboard) throws SlickException {
     	sheet = new SpriteSheet(tileBomb, 32, 32);
     	this.numPlayer = numPlayer;
         leftAnimation = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 2), 200);
@@ -81,7 +80,7 @@ public class Player extends Actors {
         puttingUp = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingDown = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 6), 200);
-        dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 6, 5), 300);
         idle = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 4), 200);
         super.animation = this.downAnimation;
         direction = Direction.SOUTH;
@@ -93,6 +92,10 @@ public class Player extends Actors {
         kickTime = 0;
         stopTime = false;
         ghostMode = false;
+        this.isKeyboard = isKeyboard;
+    	this.isController = isControl;
+    	this.numController = numControl;
+    	this.numPlayer = numPlayer;
         getKeyboardConfiguration();
         
     }
@@ -159,7 +162,7 @@ public class Player extends Actors {
      * method responsible for putting bomb - sets putting animation, timer for animation
      */
     public void putBomb() {
-        if ((input.isButton1Pressed(numPlayer-1) || input.isKeyDown(KEY_BOMB)) && puttingBomb == false && isAlive) {
+        if (((input.isButton1Pressed(numController) && isController) || (input.isKeyDown(KEY_BOMB) && isKeyboard)) && puttingBomb == false && isAlive) {
             if (bombsCount > 0) {
                 bombsCount--;
                 puttingBomb = true;
@@ -201,7 +204,7 @@ public class Player extends Actors {
         int hracY = this.getY();
         isKeyPressed = false;
         if (!puttingBomb && isAlive) {
-            if (input.isControllerLeft(numPlayer-1) || input.isKeyDown(KEY_LEFT)) {
+            if ((input.isControllerLeft(numController) && isController) || (input.isKeyDown(KEY_LEFT) && isKeyboard)) {
                 isKeyPressed = true;
             	if (speedTime > 0) {
                     this.animation = this.speedLeftAnimation;
@@ -211,7 +214,7 @@ public class Player extends Actors {
                 direction = Direction.WEST;
                 this.animation.start();
                 this.x -= speed;
-            } else if (input.isControllerRight(numPlayer-1) || input.isKeyDown(KEY_RIGHT)) {
+            } else if ((input.isControllerRight(numController) && isController) || (input.isKeyDown(KEY_RIGHT) && isKeyboard)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedRightAnimation;
@@ -221,7 +224,7 @@ public class Player extends Actors {
                 direction = Direction.EAST;
                 this.animation.start();
                 this.x += speed;
-            } else if (input.isControllerDown(numPlayer-1) || input.isKeyDown(KEY_DOWN)) {
+            } else if ((input.isControllerDown(numController) && isController) || (input.isKeyDown(KEY_DOWN) && isKeyboard)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedDownAnimation;
@@ -231,7 +234,7 @@ public class Player extends Actors {
                 direction = Direction.SOUTH;
                 this.animation.start();
                 this.y += speed;
-            } else if (input.isControllerUp(numPlayer-1) || input.isKeyDown(KEY_UP)) {
+            } else if ((input.isControllerUp(numController) && isController) || (input.isKeyDown(KEY_UP) && isKeyboard)) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedUpAnimation;
@@ -260,14 +263,10 @@ public class Player extends Actors {
         for (int x = 0; x < level.getListOfObjects().toArray().length; x++) {
             MapObjects o = (MapObjects) level.getListOfObjects().toArray()[x];
             if (o.intersects(this)) {
-                if (false) {
-                    level.setGameState(GameState.FINISHED);
-                    this.animation = celebrating;
-                }
                 if (o instanceof Flame) {
+                	this.animation.setLooping(false);
                     animation = dying;
                     isAlive = false;
-                    System.out.println(level.remainPlayers);
                 }
                 if (o instanceof Bombs) {
                     if (!((Bombs) o).canIntersectWithPlayer()) {

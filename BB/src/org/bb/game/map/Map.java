@@ -59,6 +59,8 @@ public class Map {
                 wallMap[x][y] = 0;
             }
         }
+        Boolean keyboard = true, control = false;
+        int numController = 0;
         for (int i = 0; i < mapa.getObjectCount(0); i++) {
             switch (mapa.getObjectType(0, i)) {
                 case "player":
@@ -68,13 +70,17 @@ public class Map {
                 	}else if (playerCount == 2){
                 		tileBomb = Info.KuroBomb;
                 	}else if (playerCount == 3){
+                		control = true;
+                		keyboard = true;
                 		tileBomb = Info.AkaBomb;
                 	}else if (playerCount == 4){
                 		tileBomb = Info.AoBomb;
+                		numController++;
                 	}else {
                 		tileBomb = Info.MidoriBomb;
+                		numController++;
                 	}
-                    Player hrac = new Player(playerCount, tileBomb);
+                    Player hrac = new Player(playerCount, tileBomb, control, numController, keyboard);
                     hrac.setPosition(mapa.getObjectX(0, i), mapa.getObjectY(0, i));
                     level.addToLevel(hrac);
                     level.setPlayer(hrac, playerCount);

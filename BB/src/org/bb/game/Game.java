@@ -1,21 +1,35 @@
 package org.bb.game;
 
+import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import jmapps.ui.VideoPanel;
 
 import org.bb.game.player.Actors;
 import org.bb.game.player.Player;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.Info;
+import org.bb.util.VideoPlayer;
+import org.lwjgl.opengl.XRandR.Screen;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 public class Game extends BasicGame{
 	public static enum GameState { PLAYING, PAUSED, FAILED, FINISHED };
@@ -31,6 +45,7 @@ public class Game extends BasicGame{
     private int dyingTime;
     private Main main;
     private MusicPlayer mus;
+    private int numMaxTrofeus = 3;
     
     private int p1trofeu = 0;
     private int p2trofeu = 0;
@@ -54,6 +69,8 @@ public class Game extends BasicGame{
     private Animation p4Death;
     private Animation p5Life;
     private Animation p5Death;
+    private VideoPlayer vp;
+    private Component video;
     
 	
 	public Game (Main main){
@@ -66,9 +83,11 @@ public class Game extends BasicGame{
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
         level = Level.getLevel();
+//        level.loadLevel("levelmadruga");
         level.loadLevel(levelName + level.getLevelNumber());
         level.setGameContainer(gc);
         player1 = level.getPlayer1();
@@ -138,7 +157,6 @@ public class Game extends BasicGame{
         p5Death.setCurrentFrame(0);
         p5Death.stop();          
         gc.setMusicOn(true);
-
     }
 
     @Override
@@ -217,21 +235,26 @@ public class Game extends BasicGame{
         }
 
         if (level.getGameState() == GameState.FINISHED) {
-            if (!player1.isStopTime() && level.getLevelNumber() < 5) {
-                playingTime = score.getPlayingTime();
-                int minutes = playingTime / 60;
-                int seconds = playingTime % 60;
-            }
             player1.setStopTime(true);
+            player2.setStopTime(true);
+            player3.setStopTime(true);
+            player4.setStopTime(true);
+            player5.setStopTime(true);
             if (input.isKeyPressed(Input.KEY_ENTER)) {
                 player1.setStopTime(false);
-                level.incLevel();
-                if (level.getLevelNumber() == 5) {
-                    System.exit(0);
-                }
+                player2.setStopTime(false);
+                player3.setStopTime(false);
+                player4.setStopTime(false);
+                player5.setStopTime(false);
+                p1trofeu = 0;
+                p2trofeu = 0;
+                p3trofeu = 0;
+                p4trofeu = 0;
+                p5trofeu = 0;
                 level.reloadLevel();
                 score.restart();
                 init(gc);
+                dyingTime = 500;
             }
 
         }
@@ -244,14 +267,34 @@ public class Game extends BasicGame{
             }
 
         }
-        playingTime = score.getPlayingTime();
-        int minutes = playingTime / 60;
-        int seconds = playingTime % 60;
-        time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
+        if (!player1.isStopTime()){
+        	playingTime = score.getPlayingTime();
+        	int minutes = playingTime / 60;
+        	int seconds = playingTime % 60;
+        	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
+        }else{
+        	int minutes = 0;
+        	int seconds = 0;
+        	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
+        }
     }
 
     @Override
     public void render(GameContainer gc, org.newdawn.slick.Graphics grphcs) throws SlickException {
+//    	System.out.println(video);
+//    	BufferedImage bi = new BufferedImage(video.getWidth(), video.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//    	Graphics2D g2d = bi.createGraphics();
+//    	video.paint(g2d);
+//    	Texture texture;
+//		try {
+//			texture = BufferedImageUtil.getTexture("", bi);
+//			Image image = new Image(texture.getImageWidth(), texture.getImageHeight());
+//	    	image.setTexture(texture);
+//	    	grphcs.drawImage(image, 0, 0);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	
     	if (gc.isFullscreen()){
     		grphcs.translate((main.fWidth-1024)/2, 20);
@@ -267,15 +310,39 @@ public class Game extends BasicGame{
             grphcs.drawString("Final level", 270, 200);
         }
         
-
-        if (level.getGameState() == GameState.FINISHED && level.getLevelNumber() < 4) {
+        if (p1trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.white);
+        	grphcs.drawString("PLAYER 1 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p2trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.black);
+        	grphcs.drawString("PLAYER 2 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p3trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.red);
+        	grphcs.drawString("PLAYER 3 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p4trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.blue);
+        	grphcs.drawString("PLAYER 4 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p5trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.green);
+        	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        
+        if (level.getGameState() == GameState.FINISHED) {
             grphcs.setColor(Color.green);
-            grphcs.drawString("Level " + level.getLevelNumber() + " completed", 240, 8);
             grphcs.setColor(Color.white);
         }
+        
         if (level.getGameState() == GameState.FAILED) {
             grphcs.setColor(Color.red);
-
         }
         if (level.getGameState() == GameState.PAUSED) {
             int minutes = playingTime / 60;

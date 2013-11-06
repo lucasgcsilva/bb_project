@@ -43,6 +43,12 @@ public class Bombs extends Actors {
     		this.intersectWithPlayer = false;
     	}else if (numPlayer == Level.PLAYER_2 && !level.getPlayer2().intersects(this)){
     		this.intersectWithPlayer = false;
+    	}else if (numPlayer == Level.PLAYER_3 && !level.getPlayer3().intersects(this)){
+    		this.intersectWithPlayer = false;
+    	}else if (numPlayer == Level.PLAYER_4 && !level.getPlayer4().intersects(this)){
+    		this.intersectWithPlayer = false;
+    	}else if (numPlayer == Level.PLAYER_5 && !level.getPlayer5().intersects(this)){
+    		this.intersectWithPlayer = false;
     	}
         if (steps > 0) {
             for (int x = 0; x < level.getListOfObjects().toArray().length; x++) {
@@ -89,8 +95,14 @@ public class Bombs extends Actors {
                 level.getListOfObjects().remove(this);
                 if (numPlayer == Level.PLAYER_1){
                 	level.getPlayer1().incBomb();
-                }else{
+                }else if (numPlayer == Level.PLAYER_2){
                 	level.getPlayer2().incBomb();
+                }else if (numPlayer == Level.PLAYER_3){
+                	level.getPlayer3().incBomb();
+                }else if (numPlayer == Level.PLAYER_4){
+                	level.getPlayer4().incBomb();
+                }else if (numPlayer == Level.PLAYER_5){
+                	level.getPlayer5().incBomb();
                 }
             } else {
                 explodeTime--;
@@ -103,9 +115,18 @@ public class Bombs extends Actors {
         int range;
         if (numPlayer == Level.PLAYER_1){
         	range = level.getPlayer1().getRange();
-        }else{
+        }else if (numPlayer == Level.PLAYER_2){
         	Player player2 = level.getPlayer2();
         	range = level.getPlayer2().getRange();
+        }else if (numPlayer == Level.PLAYER_3){
+        	Player player3 = level.getPlayer3();
+        	range = level.getPlayer3().getRange();
+        }else if (numPlayer == Level.PLAYER_4){
+        	Player player4 = level.getPlayer4();
+        	range = level.getPlayer4().getRange();
+        }else{
+        	Player player5 = level.getPlayer5();
+        	range = level.getPlayer5().getRange();
         }
         lookAround(Direction.EAST, range);
         lookAround(Direction.WEST, range);
