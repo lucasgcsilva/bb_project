@@ -1,5 +1,6 @@
 package org.bb.game.player;
 
+import java.applet.AudioClip;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,6 +13,8 @@ import org.bb.game.items.BombsUp;
 import org.bb.game.items.KickUp;
 import org.bb.game.items.RangeUp;
 import org.bb.game.items.SpeedUp;
+import org.bb.sound.AePlayWave;
+import org.bb.sound.MusicPlayer;
 import org.bb.util.SavedPreferences;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.ControllerListener;
@@ -127,6 +130,8 @@ public class Player extends Actors {
         if (puttingTime > 0) {
             puttingTime--;
             if (puttingTime == 0) {
+            	MusicPlayer mus = new MusicPlayer("resources/musics/put.wav", false);
+        		mus.playSound();
                 Bombs bomba;
                 try {
                     bomba = new Bombs(numPlayer);
@@ -266,6 +271,8 @@ public class Player extends Actors {
                 if (o instanceof Flame) {
                 	this.animation.setLooping(false);
                     animation = dying;
+                    MusicPlayer explode = new MusicPlayer("resources/musics/die.wav", false);
+                	explode.playSound();
                     isAlive = false;
                 }
                 if (o instanceof Bombs) {
@@ -279,22 +286,30 @@ public class Player extends Actors {
                     }
                 }
                 if (o instanceof BombsUp) {
+                	MusicPlayer explode = new MusicPlayer("resources/musics/item.wav", false);
+                	explode.playSound();
                     level.removeFromLevel(o);
                     bombsCount++;
                     stat.incItemsUsed();
                 }
                 if (o instanceof RangeUp) {
+                	MusicPlayer explode = new MusicPlayer("resources/musics/item.wav", false);
+                	explode.playSound();
                     level.removeFromLevel(o);
                     range++;
                     stat.incItemsUsed();
                 }
                 if (o instanceof SpeedUp) {
+                	MusicPlayer explode = new MusicPlayer("resources/musics/item.wav", false);
+                	explode.playSound();
                     level.removeFromLevel(o);
                     speed += 2;
                     speedTime = 1000;
                     stat.incItemsUsed();
                 }
                 if (o instanceof KickUp) {
+                	MusicPlayer explode = new MusicPlayer("resources/musics/item.wav", false);
+                	explode.playSound();
                     level.removeFromLevel(o);
                     kickTime = 2000;
                     stat.incItemsUsed();

@@ -34,6 +34,7 @@ public class MusicPlayer extends Thread{
     	isLoop = repetir;
     }
     
+    
     public void run(){
     	tocar();
     }
@@ -53,6 +54,11 @@ public class MusicPlayer extends Thread{
     
     public void playSound(String arquivo){
     	player =  new AePlayWave(arquivo);
+        player.start();
+    }
+    
+    public void playSound(){
+    	player =  new AePlayWave(music);
         player.start();
     }
     

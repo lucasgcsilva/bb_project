@@ -7,6 +7,7 @@ import org.bb.game.MapObjects;
 import org.bb.game.items.Items;
 import org.bb.game.map.Wall;
 import org.bb.game.map.Walls;
+import org.bb.sound.MusicPlayer;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 import java.awt.geom.Rectangle2D;
@@ -80,6 +81,8 @@ public class Bombs extends Actors {
             if (explodeTime == 0) {
                 animation = explodingBomb;
                 exploded = true;
+                MusicPlayer explode = new MusicPlayer("resources/musics/explosion.wav", false);
+            	explode.playSound();
                 setExplodeTime(50);
                 try {
                     createFlames();

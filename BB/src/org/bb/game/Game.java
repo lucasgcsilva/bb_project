@@ -69,8 +69,11 @@ public class Game extends BasicGame{
     private Animation p4Death;
     private Animation p5Life;
     private Animation p5Death;
+    private Animation hurry;
     private VideoPlayer vp;
     private Component video;
+    
+    private int timeGame = 70;
     
 	
 	public Game (Main main){
@@ -78,14 +81,16 @@ public class Game extends BasicGame{
 		this.main = main;
 		score = GameScore.getScore();
 		dyingTime = 500;
-		mus = new MusicPlayer("resources/musics/archievments.wav", true);
-		mus.start();
 		
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
+		hurry = new Animation(Anim.getSpriteSheetAnimation(new SpriteSheet(new Image("resources/images/hurryup.png"), 107, 18), 6, 0), 100);
+    	hurry.start();
+    	mus = new MusicPlayer("resources/musics/archievments.wav", true);
+		mus.start();
         level = Level.getLevel();
 //        level.loadLevel("levelmadruga");
         level.loadLevel(levelName + level.getLevelNumber());
@@ -268,7 +273,7 @@ public class Game extends BasicGame{
 
         }
         if (!player1.isStopTime()){
-        	playingTime = score.getPlayingTime();
+        	playingTime = timeGame - score.getPlayingTime();
         	int minutes = playingTime / 60;
         	int seconds = playingTime % 60;
         	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
@@ -276,6 +281,12 @@ public class Game extends BasicGame{
         	int minutes = 0;
         	int seconds = 0;
         	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
+        }
+        if (playingTime == 60){
+        	mus.stopMusic();
+        	mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
+        	mus.start();
+        	
         }
     }
 
@@ -310,6 +321,9 @@ public class Game extends BasicGame{
             grphcs.drawString("Final level", 270, 200);
         }
         
+        if (playingTime == 60){
+        	grphcs.drawAnimation(hurry, 512/2, 512/2-9);
+        }
         if (p1trofeu == numMaxTrofeus){
         	grphcs.setColor(Color.white);
         	grphcs.drawString("PLAYER 1 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
