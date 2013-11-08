@@ -72,6 +72,7 @@ public class Game extends BasicGame{
     private Animation hurry;
     private VideoPlayer vp;
     private Component video;
+    private boolean isHurryUp = false;
     
     private int timeGame = 70;
     
@@ -81,18 +82,17 @@ public class Game extends BasicGame{
 		this.main = main;
 		score = GameScore.getScore();
 		dyingTime = 500;
-		
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
+		isHurryUp = false;
 		hurry = new Animation(Anim.getSpriteSheetAnimation(new SpriteSheet(new Image("resources/images/hurryup.png"), 107, 18), 6, 0), 100);
     	hurry.start();
     	mus = new MusicPlayer("resources/musics/archievments.wav", true);
 		mus.start();
         level = Level.getLevel();
-//        level.loadLevel("levelmadruga");
         level.loadLevel(levelName + level.getLevelNumber());
         level.setGameContainer(gc);
         player1 = level.getPlayer1();
@@ -201,45 +201,46 @@ public class Game extends BasicGame{
         System.out.println(level.getGameState());
         if (level.getGameState() == GameState.FAILED) {
             dyingTime--;
-        	if(player1.isAlive && !player2.isAlive && !player3.isAlive && !player4.isAlive && !player5.isAlive){
+        	if(player1.isAlive && level.remainPlayers == 1){
         		player1.setCelebrate();
-        	}else if(!player1.isAlive && player2.isAlive && !player3.isAlive && !player4.isAlive && !player5.isAlive){
+        	}else if(player2.isAlive && level.remainPlayers == 1){
         		player2.setCelebrate();
-        	}else if(!player1.isAlive && !player2.isAlive && player3.isAlive && !player4.isAlive && !player5.isAlive){
+        	}else if(player3.isAlive && level.remainPlayers == 1){
         		player3.setCelebrate();
         	}
-        	else if(!player1.isAlive && !player2.isAlive && !player3.isAlive && player4.isAlive && !player5.isAlive){
+        	else if(player4.isAlive && level.remainPlayers == 1){
         		player4.setCelebrate();
-        	}else if(!player1.isAlive && !player2.isAlive && !player3.isAlive && !player4.isAlive && player5.isAlive){
+        	}else if(player5.isAlive && level.remainPlayers == 1){
         		player5.setCelebrate();
         	}
             if (dyingTime == 0 || input.isKeyPressed(Input.KEY_ENTER) || input.isButton2Pressed(input.ANY_CONTROLLER)) {
-            	if(player1.isAlive && !player2.isAlive && !player3.isAlive && !player4.isAlive && !player5.isAlive){
+            	if(player1.isAlive && level.remainPlayers == 1){
             		p1trofeu++;
             		System.out.println("p1 win"+p1trofeu);
-            	}else if(!player1.isAlive && player2.isAlive && !player3.isAlive && !player4.isAlive && !player5.isAlive){
+            	}else if(player2.isAlive && level.remainPlayers == 1){
             		p2trofeu++;
             		System.out.println("p2 win"+p2trofeu);
-            	}else if(!player1.isAlive && !player2.isAlive && player3.isAlive && !player4.isAlive && !player5.isAlive){
+            	}else if(player3.isAlive && level.remainPlayers == 1){
             		p3trofeu++;
             		System.out.println("p3 win"+p3trofeu);
             	}
-            	else if(!player1.isAlive && !player2.isAlive && !player3.isAlive && player4.isAlive && !player5.isAlive){
+            	else if(player4.isAlive && level.remainPlayers == 1){
             		p4trofeu++;
             		System.out.println("p4 win"+p4trofeu);
-            	}else if(!player1.isAlive && !player2.isAlive && !player3.isAlive && !player4.isAlive && player5.isAlive){
+            	}else if(player5.isAlive && level.remainPlayers == 1){
             		p5trofeu++;
             		System.out.println("p5 win"+p5trofeu);
             	}
 //                gc.exit();
+            	mus.stopMusic();
             	level.reloadLevel();
                 score.restart();
                 init(gc);
                 dyingTime = 500;
             }
         }
-
         if (level.getGameState() == GameState.FINISHED) {
+        	mus.stopMusic();
             player1.setStopTime(true);
             player2.setStopTime(true);
             player3.setStopTime(true);
@@ -282,11 +283,27 @@ public class Game extends BasicGame{
         	int seconds = 0;
         	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
         }
-        if (playingTime == 60){
+        if (playingTime == 0){
+        	mus.stopMusic();
+        	if (player1.isAlive){
+        		player1.setAnimation(p1Death);
+        	}if(player2.isAlive){
+        		player2.setAnimation(p2Death);
+        	}if(player3.isAlive){
+        		player3.setAnimation(p3Death);
+        	}if(player4.isAlive){
+        		player4.setAnimation(p4Death);
+        	}if(player5.isAlive){
+        		player5.setAnimation(p5Death);
+        	}
+        	player1.setStopTime(true);
+        	level.setGameState(GameState.FAILED);
+        }
+        if (playingTime == 60 && !isHurryUp){
+        	isHurryUp = true;
         	mus.stopMusic();
         	mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
         	mus.start();
-        	
         }
     }
 
