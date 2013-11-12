@@ -57,6 +57,14 @@ public class MusicPlayer extends Thread{
         player.start();
     }
     
+    public boolean isPlaying(){
+    	if (player !=  null){
+    		return player.isAlive();
+    	}else{
+    		return false;
+    	}
+    }
+    
     public void playSound(){
     	player =  new AePlayWave(music);
         player.start();

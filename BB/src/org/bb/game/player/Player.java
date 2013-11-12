@@ -40,6 +40,7 @@ public class Player extends Actors {
     private Animation dying;
     private Animation idle;
     private Direction direction;
+    private MusicPlayer die = new MusicPlayer("resources/musics/die_bomb.wav", false);
     private int bombsCount;
     private int range;
     private int speed;
@@ -271,8 +272,9 @@ public class Player extends Actors {
                 if (o instanceof Flame) {
                 	this.animation.setLooping(false);
                     animation = dying;
-                    MusicPlayer explode = new MusicPlayer("resources/musics/die.wav", false);
-                	explode.playSound();
+                    if (!die.isPlaying()){
+                    	die.playSound();             	
+                    }
                     isAlive = false;
                 }
                 if (o instanceof Bombs) {
@@ -388,8 +390,17 @@ public class Player extends Actors {
         this.stopTime = stopTime;
     }
     
+    public boolean getStopTime(){
+    	return this.stopTime;
+    }
+    
     public void setCelebrate(){
     	animation = celebrating;
+    	animation.start();
+    }
+    
+    public void setDying(){
+    	animation = dying;
     	animation.start();
     }
    

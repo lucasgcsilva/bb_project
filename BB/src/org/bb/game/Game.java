@@ -74,7 +74,7 @@ public class Game extends BasicGame{
     private Component video;
     private boolean isHurryUp = false;
     
-    private int timeGame = 70;
+    private int timeGame = 65;
     
 	
 	public Game (Main main){
@@ -284,17 +284,21 @@ public class Game extends BasicGame{
         	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
         }
         if (playingTime == 0){
-        	mus.stopMusic();
         	if (player1.isAlive){
-        		player1.setAnimation(p1Death);
+        		player1.setDying();
         	}if(player2.isAlive){
-        		player2.setAnimation(p2Death);
+        		player2.setDying();
         	}if(player3.isAlive){
-        		player3.setAnimation(p3Death);
+        		player3.setDying();
         	}if(player4.isAlive){
-        		player4.setAnimation(p4Death);
+        		player4.setDying();
         	}if(player5.isAlive){
-        		player5.setAnimation(p5Death);
+        		player5.setDying();
+        	}
+        	if (!player1.getStopTime()){
+        		mus.stopMusic();
+        		mus = new MusicPlayer("resources/musics/lose.wav", false);	
+        		mus.playSound();
         	}
         	player1.setStopTime(true);
         	level.setGameState(GameState.FAILED);
