@@ -12,5 +12,6 @@ public class Info {
 	public static String AoBomb = "resources/images/players/aoBomb.png";
 	public static String MidoriBomb = "resources/images/players/midoriBomb.png";
 	public static String SaintBomb = "resources/images/players/saintbombseiya.png";
+	public static String mapPath = "resources/maps/level1.tmx";
 	
 }

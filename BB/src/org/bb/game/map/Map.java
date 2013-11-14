@@ -3,6 +3,7 @@ package org.bb.game.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bb.game.GameConfiguration;
 import org.bb.game.Level;
 import org.bb.game.items.BombsUp;
 import org.bb.game.items.KickUp;
@@ -34,6 +35,8 @@ public class Map {
 	private int[] player4 = new int[2] ;
 	private int[] player5 = new int[2] ;
 	
+	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
+	
 	public Map(Level level){
 		this.level = level;
 		playerCount = 1;
@@ -41,7 +44,7 @@ public class Map {
 	
 	public void loadMap(String level) {
         try {
-            mapa = new TiledMap("resources/maps/" + level + ".tmx");
+            mapa = new TiledMap(gc.getMapPath());
             Walls = new ArrayList<Walls>();
             wallMap = new int[mapa.getWidth()][];
             for (int i = 0; i < mapa.getWidth(); i++) {
@@ -64,23 +67,9 @@ public class Map {
         for (int i = 0; i < mapa.getObjectCount(0); i++) {
             switch (mapa.getObjectType(0, i)) {
                 case "player":
-                	String tileBomb;
-                	if (playerCount == 1){
-                		tileBomb = Info.ShiroBomb;
-                	}else if (playerCount == 2){
-                		tileBomb = Info.KuroBomb;
-                	}else if (playerCount == 3){
-                		control = true;
-                		keyboard = true;
-                		tileBomb = Info.AkaBomb;
-                	}else if (playerCount == 4){
-                		tileBomb = Info.AoBomb;
+                	if (gc.getIsControls(playerCount))
                 		numController++;
-                	}else {
-                		tileBomb = Info.MidoriBomb;
-                		numController++;
-                	}
-                    Player hrac = new Player(playerCount, tileBomb, control, numController, keyboard);
+                	Player hrac = new Player(playerCount, gc.getImgPlayerPath(playerCount), gc.getIsControls(playerCount), numController, gc.getIsKeyboards(playerCount));
                     hrac.setPosition(mapa.getObjectX(0, i), mapa.getObjectY(0, i));
                     level.addToLevel(hrac);
                     level.setPlayer(hrac, playerCount);
