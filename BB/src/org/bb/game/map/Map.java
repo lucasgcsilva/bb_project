@@ -3,6 +3,8 @@ package org.bb.game.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.standard.SheetCollate;
+
 import org.bb.game.GameConfiguration;
 import org.bb.game.Level;
 import org.bb.game.items.BombsUp;
@@ -12,6 +14,7 @@ import org.bb.game.items.SpeedUp;
 import org.bb.game.player.Player;
 import org.bb.util.Info;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.tiled.TiledMap;
@@ -34,12 +37,18 @@ public class Map {
 	private int[] player3 = new int[2] ;
 	private int[] player4 = new int[2] ;
 	private int[] player5 = new int[2] ;
-	
+	private SpriteSheet wallSheet;
 	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
 	
 	public Map(Level level){
 		this.level = level;
 		playerCount = 1;
+		try {
+			wallSheet = new SpriteSheet(Info.wallPath, 32, 32);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadMap(String level) {

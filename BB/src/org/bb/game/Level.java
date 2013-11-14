@@ -23,7 +23,7 @@ public class Level {
 	private GameState gameState;
 	private int levelNumber;
 	private GameContainer gc;
-	
+	private GameConfiguration gameConfig = GameConfiguration.getGameConfiguration();
 	public int remainPlayers = 0;
 	
 	
@@ -35,7 +35,7 @@ public class Level {
 	
 	private Level(){
 		listOfObjects = new ArrayList<MapObjects>();
-        levelNumber = 1;
+        levelNumber = gameConfig.getMapLevel();
 	}
 	
 	public static Level getLevel(){

@@ -46,7 +46,11 @@ public class GameConfiguration {
 		
 		//Configurando o caminho do mapa
 		mapPath = Info.mapPath;
-		mapLevel = 1;
+		mapLevel = 2;
+	}
+	
+	public int getMapLevel(){
+		return mapLevel;
 	}
 	
 	public String getMapPath(){

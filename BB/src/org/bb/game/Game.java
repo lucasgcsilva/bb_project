@@ -74,6 +74,7 @@ public class Game extends BasicGame{
     private Component video;
     private boolean isHurryUp = false;
     private float[] fsScale = new float[2];
+    private GameConfiguration gc = GameConfiguration.getGameConfiguration();
     
     private int timeGame = 65;
     
@@ -125,7 +126,7 @@ public class Game extends BasicGame{
         p3tPos.setBorderColor(null);
         p4tPos.setBorderColor(null);
         p5tPos.setBorderColor(null);
-        SpriteSheet sheet = new SpriteSheet(Info.ShiroBomb, 32, 32);
+        SpriteSheet sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_1), 32, 32);
         p1Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
         p1Life.setCurrentFrame(0);
         p1Life.stop();
@@ -133,7 +134,7 @@ public class Game extends BasicGame{
         p1Death.setCurrentFrame(0);
         p1Death.stop();
         
-        sheet = new SpriteSheet(Info.KuroBomb, 32, 32);
+        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_2), 32, 32);
         p2Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
         p2Life.setCurrentFrame(0);
         p2Life.stop();
@@ -141,7 +142,7 @@ public class Game extends BasicGame{
         p2Death.setCurrentFrame(0);
         p2Death.stop();
         
-        sheet = new SpriteSheet(Info.AkaBomb, 32, 32);
+        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_3), 32, 32);
         p3Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
         p3Life.setCurrentFrame(0);
         p3Life.stop();
@@ -149,7 +150,7 @@ public class Game extends BasicGame{
         p3Death.setCurrentFrame(0);
         p3Death.stop(); 
         
-        sheet = new SpriteSheet(Info.AoBomb, 32, 32);
+        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_4), 32, 32);
         p4Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
         p4Life.setCurrentFrame(0);
         p4Life.stop();
@@ -157,7 +158,7 @@ public class Game extends BasicGame{
         p4Death.setCurrentFrame(0);
         p4Death.stop(); 
         
-        sheet = new SpriteSheet(Info.MidoriBomb, 32, 32);
+        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_5), 32, 32);
         p5Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
         p5Life.setCurrentFrame(0);
         p5Life.stop();

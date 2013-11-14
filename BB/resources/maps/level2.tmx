@@ -16,9 +16,14 @@
  <tileset firstgid="5" name="time" tilewidth="32" tileheight="32">
   <image source="tilesetScore.png" width="96" height="32"/>
  </tileset>
+ <layer name="background" width="20" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoC5gppN55NrDTARNDGZAU4/LfHLch2wmNdyHbj6l7qPEXeh+o6b7qBFuxLqPHEDIfejmE5tWqQWGivuoiQEOZ0RsAAUAAA==
+  </data>
+ </layer>
  <layer name="Background" width="20" height="16">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGPyAmUoY2TxCNDFqRt036r5R99HffdQEAKmxwoIABQAA
+   H4sIAAAAAAAAA2NgoC5gpjKmtpkMRNKkqhl136j7Rt1HH/dRC4DMAwAPM6S3AAUAAA==
   </data>
  </layer>
  <layer name="Blocks" width="20" height="16">
@@ -26,12 +31,12 @@
    <property name="destroyable" value="false"/>
   </properties>
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgoC5gogGmttsYiKCJUTPqvlH3jbqP/u6jJgYAXcF4GgAFAAA=
+   H4sIAAAAAAAAA2NgoC5gogGmttsYiKCJUTPqvlH3jbqP/u6jJgYAXcF4GgAFAAA=
   </data>
  </layer>
  <layer name="time" width="20" height="16">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NlYGBgoxJmZxgFo2AUjIKhAwB99dwvAAUAAA==
+   H4sIAAAAAAAAA2NlYGBgoxJmZxgFo2AUjIKhAwB99dwvAAUAAA==
   </data>
  </layer>
  <objectgroup name="Objects" width="20" height="16">

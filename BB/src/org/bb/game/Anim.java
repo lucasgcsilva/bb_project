@@ -23,4 +23,5 @@ public abstract class Anim {
 		sheet.endUse();
 		return images;
 	}
+	
 }
