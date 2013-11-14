@@ -73,6 +73,7 @@ public class Game extends BasicGame{
     private VideoPlayer vp;
     private Component video;
     private boolean isHurryUp = false;
+    private float[] fsScale = new float[2];
     
     private int timeGame = 65;
     
@@ -95,6 +96,8 @@ public class Game extends BasicGame{
         level = Level.getLevel();
         level.loadLevel(levelName + level.getLevelNumber());
         level.setGameContainer(gc);
+        fsScale[0] = (float) main.fWidth/640;
+        fsScale[1] = (float) main.fHeight/512;
         player1 = level.getPlayer1();
         player2 = level.getPlayer2();
         player3 = level.getPlayer3();
@@ -329,8 +332,8 @@ public class Game extends BasicGame{
 //		}
     	
     	if (gc.isFullscreen()){
-    		grphcs.translate((main.fWidth-1024)/2, 20);
-    		grphcs.scale(1.4f, 1.4f);
+    		System.out.println(fsScale[0]+" "+fsScale[1]);
+    		grphcs.scale(fsScale[0], fsScale[1]);
     	}
         level.show();
         for (MapObjects o : level.getListOfObjects()) {

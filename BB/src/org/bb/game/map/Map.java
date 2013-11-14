@@ -71,7 +71,7 @@ public class Map {
                 		tileBomb = Info.KuroBomb;
                 	}else if (playerCount == 3){
                 		control = true;
-                		keyboard = false;
+                		keyboard = true;
                 		tileBomb = Info.AkaBomb;
                 	}else if (playerCount == 4){
                 		tileBomb = Info.AoBomb;

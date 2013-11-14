@@ -83,7 +83,7 @@ public class Player extends Actors {
         puttingRight = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingUp = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingDown = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
-        celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 6), 200);
+        celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 6), 200);
         dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 6, 5), 300);
         idle = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 4), 200);
         super.animation = this.downAnimation;
