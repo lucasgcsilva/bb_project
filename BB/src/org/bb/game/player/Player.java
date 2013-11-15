@@ -104,6 +104,18 @@ public class Player extends Actors {
         
     }
     
+    public Animation getCelebrate(){
+    	return celebrating;
+    }
+    
+    public Animation getDying(){
+    	return dying;
+    }
+    
+    public Animation getLife(){
+    	return downAnimation;
+    }
+    
     public void getKeyboardConfiguration(){
     	String [] keyConf;
     	if (numPlayer == Level.PLAYER_1){

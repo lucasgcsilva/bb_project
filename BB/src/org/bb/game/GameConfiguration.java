@@ -40,13 +40,14 @@ public class GameConfiguration {
 		//Configurando se o teclado está ativo
 		this.isKeyboards[0] = true;
 		this.isKeyboards[1] = true;
-		this.isKeyboards[2] = false;
-		this.isKeyboards[3] = false;
-		this.isKeyboards[4] = false;
+		this.isKeyboards[2] = true;
+		this.isKeyboards[3] = true;
+		this.isKeyboards[4] = true;
 		
 		//Configurando o caminho do mapa
-		mapPath = Info.mapPath;
 		mapLevel = 2;
+		mapPath = Info.mapPath[mapLevel-1];
+		
 	}
 	
 	public int getMapLevel(){

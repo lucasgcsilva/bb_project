@@ -75,20 +75,24 @@ public class Game extends BasicGame{
     private boolean isHurryUp = false;
     private float[] fsScale = new float[2];
     private GameConfiguration gc = GameConfiguration.getGameConfiguration();
-    
-    private int timeGame = 65;
-    
+    private Animation finish;
+    private Animation celebrate;
+    private int timeGame = 65;    
 	
-	public Game (Main main){
+	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
 		this.main = main;
 		score = GameScore.getScore();
 		dyingTime = 500;
+		
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
+		celebrate = null;
+		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
+        finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
 		isHurryUp = false;
 		hurry = new Animation(Anim.getSpriteSheetAnimation(new SpriteSheet(new Image("resources/images/hurryup.png"), 107, 18), 6, 0), 100);
     	hurry.start();
@@ -126,45 +130,43 @@ public class Game extends BasicGame{
         p3tPos.setBorderColor(null);
         p4tPos.setBorderColor(null);
         p5tPos.setBorderColor(null);
-        SpriteSheet sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_1), 32, 32);
-        p1Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+       
+        p1Life = player1.getLife();
         p1Life.setCurrentFrame(0);
         p1Life.stop();
-        p1Death = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        p1Death = player1.getDying();
         p1Death.setCurrentFrame(0);
         p1Death.stop();
         
-        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_2), 32, 32);
-        p2Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+        p2Life = player2.getLife();
         p2Life.setCurrentFrame(0);
         p2Life.stop();
-        p2Death = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        p2Death = player2.getDying();
         p2Death.setCurrentFrame(0);
         p2Death.stop();
         
-        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_3), 32, 32);
-        p3Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+        p3Life = player3.getLife();
         p3Life.setCurrentFrame(0);
         p3Life.stop();
-        p3Death = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        p3Death = player3.getDying();
         p3Death.setCurrentFrame(0);
         p3Death.stop(); 
         
-        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_4), 32, 32);
-        p4Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+        p4Life = player4.getLife();
         p4Life.setCurrentFrame(0);
         p4Life.stop();
-        p4Death = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        p4Death = player4.getDying();
         p4Death.setCurrentFrame(0);
         p4Death.stop(); 
         
-        sheet = new SpriteSheet(this.gc.getImgPlayerPath(level.PLAYER_5), 32, 32);
-        p5Life = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 0), 200);
+        p5Life = player5.getLife();
         p5Life.setCurrentFrame(0);
         p5Life.stop();
-        p5Death = new Animation(Anim.getSpriteSheetAnimation(sheet, 5, 5), 300);
+        p5Death = player5.getDying();
         p5Death.setCurrentFrame(0);
-        p5Death.stop();          
+        p5Death.stop(); 
+         
+        
         gc.setMusicOn(true);
     }
 
@@ -349,31 +351,7 @@ public class Game extends BasicGame{
         if (playingTime == 60){
         	grphcs.drawAnimation(hurry, 512/2, 512/2-9);
         }
-        if (p1trofeu == numMaxTrofeus){
-        	grphcs.setColor(Color.white);
-        	grphcs.drawString("PLAYER 1 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
-        	level.setGameState(GameState.FINISHED);
-        }
-        if (p2trofeu == numMaxTrofeus){
-        	grphcs.setColor(Color.black);
-        	grphcs.drawString("PLAYER 2 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
-        	level.setGameState(GameState.FINISHED);
-        }
-        if (p3trofeu == numMaxTrofeus){
-        	grphcs.setColor(Color.red);
-        	grphcs.drawString("PLAYER 3 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
-        	level.setGameState(GameState.FINISHED);
-        }
-        if (p4trofeu == numMaxTrofeus){
-        	grphcs.setColor(Color.blue);
-        	grphcs.drawString("PLAYER 4 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
-        	level.setGameState(GameState.FINISHED);
-        }
-        if (p5trofeu == numMaxTrofeus){
-        	grphcs.setColor(Color.green);
-        	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
-        	level.setGameState(GameState.FINISHED);
-        }
+        
         
         if (level.getGameState() == GameState.FINISHED) {
             grphcs.setColor(Color.green);
@@ -402,27 +380,62 @@ public class Game extends BasicGame{
         }
         
         if (player2.isAlive){
-        	p2Life.draw(level.getMap().gePlayer2()[0], level.getMap().gePlayer2()[1]);
+        	
+        	p2Life.getImage(0).draw(level.getMap().gePlayer2()[0], level.getMap().gePlayer2()[1]);
         }else{
         	p2Death.draw(level.getMap().gePlayer2()[0], level.getMap().gePlayer2()[1]);
         }
         
         if (player3.isAlive){
-        	p3Life.draw(level.getMap().gePlayer3()[0], level.getMap().gePlayer3()[1]);
+        	p3Life.getImage(0).draw(level.getMap().gePlayer3()[0], level.getMap().gePlayer3()[1]);
         }else{
         	p3Death.draw(level.getMap().gePlayer3()[0], level.getMap().gePlayer3()[1]);
         }
         
         if (player4.isAlive){
-        	p4Life.draw(level.getMap().gePlayer4()[0], level.getMap().gePlayer4()[1]);
+        	p4Life.getImage(0).draw(level.getMap().gePlayer4()[0], level.getMap().gePlayer4()[1]);
         }else{
         	p4Death.draw(level.getMap().gePlayer4()[0], level.getMap().gePlayer4()[1]);
         }
         
         if (player5.isAlive){
-        	p5Life.draw(level.getMap().gePlayer5()[0], level.getMap().gePlayer5()[1]);
+        	p5Life.getImage(0).draw(level.getMap().gePlayer5()[0], level.getMap().gePlayer5()[1]);
         }else{
         	p5Death.draw(level.getMap().gePlayer5()[0], level.getMap().gePlayer5()[1]);
+        }
+        
+        if (p1trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.white);	
+        	if (finish.isStopped()){
+        		finish.start();
+        	}
+            finish.draw(0f, 0f, 640, 512);
+            if (celebrate == null){
+            	celebrate = player1.getCelebrate();
+            }
+            celebrate.draw((float)(640-32)/2, (float) 512/4);
+        	grphcs.drawString("PLAYER 1 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p2trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.black);
+        	grphcs.drawString("PLAYER 2 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p3trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.red);
+        	grphcs.drawString("PLAYER 3 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p4trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.blue);
+        	grphcs.drawString("PLAYER 4 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
+        }
+        if (p5trofeu == numMaxTrofeus){
+        	grphcs.setColor(Color.green);
+        	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
+        	level.setGameState(GameState.FINISHED);
         }
     }
 

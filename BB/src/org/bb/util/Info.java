@@ -16,7 +16,7 @@ public class Info {
 	public static String SaintBomb = "resources/images/players/saintbombseiya.png";
 	
 	//Level
-	public static String mapPath = "resources/maps/level2.tmx";
+	public static String[] mapPath = {"resources/maps/level1.tmx", "resources/maps/level2.tmx"};
 	
 	//Wall
 	public static String wallPath = "resources/maps/wallSheet.png";
