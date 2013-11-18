@@ -79,6 +79,9 @@ public class Game extends BasicGame{
     private Animation celebrate;
     private int timeGame = 65;    
 	
+    private Image i = null;
+    private int temp = 40;
+    
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
 		this.main = main;
@@ -200,6 +203,13 @@ public class Game extends BasicGame{
             } else {
                 level.setGameState(GameState.PLAYING);
             }
+        }
+        if (input.isKeyPressed(Input.KEY_I)){
+          this.i = new Image(main.fWidth, main.fHeight);
+          org.newdawn.slick.Graphics g = gc.getGraphics();
+          g.copyArea(this.i, 0, 0);
+          
+          temp = 40;
         }
         if(level.remainPlayers <=1){
         	level.setGameState(GameState.FAILED);
@@ -333,7 +343,6 @@ public class Game extends BasicGame{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-    	
     	if (gc.isFullscreen()){
     		System.out.println(fsScale[0]+" "+fsScale[1]);
     		grphcs.scale(fsScale[0], fsScale[1]);
@@ -374,7 +383,7 @@ public class Game extends BasicGame{
         p4tPos.render(gc, grphcs);
         p5tPos.render(gc, grphcs);
         if (player1.isAlive){
-        	p1Life.draw(level.getMap().gePlayer1()[0], level.getMap().gePlayer1()[1]);
+        	p1Life.getImage(0).draw(level.getMap().gePlayer1()[0], level.getMap().gePlayer1()[1]);
         }else{
         	p1Death.draw(level.getMap().gePlayer1()[0], level.getMap().gePlayer1()[1]);
         }
@@ -436,6 +445,13 @@ public class Game extends BasicGame{
         	grphcs.setColor(Color.green);
         	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
         	level.setGameState(GameState.FINISHED);
+        }
+        if (this.i != null){
+        	if (temp > 0){
+        		grphcs.scale(0.99f, 0.99f);
+        		grphcs.drawImage(i, 0f, 0f); 
+        		temp--;
+        	}
         }
     }
 
