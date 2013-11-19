@@ -18,7 +18,7 @@ public class ClientThread extends Thread{
 	
 	public void run(){
 		try {
-			client = new Socket("localhost", 7800);
+			client = new Socket("172.20.222.150", 7800);
 			ois = new ObjectInputStream(client.getInputStream());
 			imagem = (Image) ois.readObject();
 		} catch (Exception e) {
