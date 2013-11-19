@@ -14,6 +14,7 @@ import jmapps.ui.VideoPanel;
 import org.bb.game.player.Actors;
 import org.bb.game.player.Player;
 import org.bb.main.Main;
+import org.bb.online.test.ServerThread;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.Info;
 import org.bb.util.VideoPlayer;
@@ -78,7 +79,7 @@ public class Game extends BasicGame{
     private Animation finish;
     private Animation celebrate;
     private int timeGame = 65;    
-	
+	private ServerThread server;
     private Image i = null;
     private int temp = 40;
     
@@ -87,12 +88,12 @@ public class Game extends BasicGame{
 		this.main = main;
 		score = GameScore.getScore();
 		dyingTime = 500;
-		
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
+		i = new Image(main.fWidth, main.fHeight);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
         finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
@@ -171,6 +172,8 @@ public class Game extends BasicGame{
          
         
         gc.setMusicOn(true);
+        server = new ServerThread();
+		server.start();
     }
 
     @Override
@@ -203,14 +206,7 @@ public class Game extends BasicGame{
             } else {
                 level.setGameState(GameState.PLAYING);
             }
-        }
-        if (input.isKeyPressed(Input.KEY_I)){
-          this.i = new Image(main.fWidth, main.fHeight);
-          org.newdawn.slick.Graphics g = gc.getGraphics();
-          g.copyArea(this.i, 0, 0);
-          
-          temp = 40;
-        }
+        }          
         if(level.remainPlayers <=1){
         	level.setGameState(GameState.FAILED);
         }
@@ -324,7 +320,8 @@ public class Game extends BasicGame{
         	mus.stopMusic();
         	mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
         	mus.start();
-        }
+        } 
+        server.setImage(this.i);
     }
 
     @Override
@@ -446,13 +443,11 @@ public class Game extends BasicGame{
         	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!!! OH! LONG JOHNSON!", gc.getWidth()/4-300, gc.getHeight()/4);
         	level.setGameState(GameState.FINISHED);
         }
-        if (this.i != null){
-        	if (temp > 0){
-        		grphcs.scale(0.99f, 0.99f);
-        		grphcs.drawImage(i, 0f, 0f); 
-        		temp--;
-        	}
-        }
+        grphcs.copyArea(this.i, 0, 0);
+    }
+    
+    public Image getImage(){
+    	return this.i;
     }
 
 }

@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import org.bb.game.Game;
 import org.bb.game.NewGame;
 import org.bb.main.Main;
+import org.bb.online.test.NewOnlineGame;
 import org.newdawn.slick.SlickException;
 
 public class BBOptions extends JPanel{
@@ -76,6 +77,24 @@ public class BBOptions extends JPanel{
 			}
 		});
 		tmr.start();
+		
+		btnOnline.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					main.stopMusicMenu();
+					main.setVisible(false);
+					NewOnlineGame newOnlineGame = new NewOnlineGame(main);
+					System.out.println("New Game created!");
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					
+				}
+			}
+		});
 		
 		btnOffline.addActionListener(new ActionListener() {
 			
