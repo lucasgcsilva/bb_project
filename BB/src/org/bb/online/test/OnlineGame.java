@@ -12,7 +12,7 @@ public class OnlineGame extends BasicGame {
 	private Main main;
 	private Player[] players = new Player[5];
 	private int numPlayer;
-	private Image graphics;
+	private Image graphics = null;
 	private ClientThread client;
 	
 	
@@ -25,7 +25,11 @@ public class OnlineGame extends BasicGame {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		g.drawImage(graphics, 0f, 0f);
+		if (graphics != null){
+			g.drawImage(graphics, 0f, 0f);
+		}else{
+			g.drawString("Deu Erro Bruninho,  :( ", 300f, 500f);
+		}
 	}
 
 	@Override

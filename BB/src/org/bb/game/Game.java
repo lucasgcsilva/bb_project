@@ -176,7 +176,8 @@ public class Game extends BasicGame{
 		server.start();
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void update(GameContainer gc, int i) throws SlickException {
     	level.remainPlayers = 0;
     	if(player1.isAlive){
@@ -197,6 +198,7 @@ public class Game extends BasicGame{
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)) {
         	mus.stopMusic();
+        	server.stop();
             gc.exit();
         }
         if (input.isKeyPressed(Input.KEY_P)) {
