@@ -146,7 +146,7 @@ public class Bombs extends Actors {
                 for (int r = 0; r < range; r++) {
                     this.x += (16 + 32 * r);
                     if (!this.intersectWithWall()) {
-                        Flame flame = new Flame(Direction.EAST);
+                        Flame flame = new Flame(Direction.EAST, r);
                         flame.setPosition(oldX + 32 + 32 * r, oldY);
                         level.addToLevel(flame);
                     } else {
@@ -161,7 +161,7 @@ public class Bombs extends Actors {
                 for (int r = 0; r < range; r++) {
                     this.x -= (16 + 32 * r);
                     if (!this.intersectWithWall()) {
-                        Flame flame = new Flame(Direction.WEST);
+                        Flame flame = new Flame(Direction.WEST, r);
                         flame.setPosition(oldX - 32 - 32 * r, oldY);
                         level.addToLevel(flame);
                     } else {
@@ -176,7 +176,7 @@ public class Bombs extends Actors {
                 for (int r = 0; r < range; r++) {
                     this.y += (16 + 32 * r);
                     if (!this.intersectWithWall()) {
-                        Flame flame = new Flame(Direction.SOUTH);
+                        Flame flame = new Flame(Direction.SOUTH, r);
                         flame.setPosition(oldX, oldY + 32 + 32 * r);
                         level.addToLevel(flame);
                     } else {
@@ -191,7 +191,7 @@ public class Bombs extends Actors {
                 for (int r = 0; r < range; r++) {
                     this.y -= (16 + 32 * r);
                     if (!this.intersectWithWall()) {
-                        Flame flame = new Flame(Direction.NORTH);
+                        Flame flame = new Flame(Direction.NORTH, r);
                         flame.setPosition(oldX, oldY - 32 - 32 * r);
                         level.addToLevel(flame);
                     } else {

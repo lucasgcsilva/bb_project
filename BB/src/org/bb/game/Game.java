@@ -172,8 +172,8 @@ public class Game extends BasicGame{
          
         
         gc.setMusicOn(true);
-        server = new ServerThread();
-		server.start();
+//        server = new ServerThread();
+//		server.start();
     }
 
     @SuppressWarnings("deprecation")
@@ -198,7 +198,7 @@ public class Game extends BasicGame{
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)) {
         	mus.stopMusic();
-        	server.stop();
+//        	server.stop();
             gc.exit();
         }
         if (input.isKeyPressed(Input.KEY_P)) {
@@ -323,7 +323,7 @@ public class Game extends BasicGame{
         	mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
         	mus.start();
         } 
-        server.setImage(this.i);
+//        server.setImage(this.i);
     }
 
     @Override
