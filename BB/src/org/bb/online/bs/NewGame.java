@@ -1,13 +1,12 @@
-package org.bb.online.test;
+package org.bb.online.bs;
 
-import org.bb.game.Game;
 import org.bb.main.Main;
+import org.bb.online.test.NewOnlineGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-public class NewOnlineGame{
-	private AppGameContainer app;
-	public NewOnlineGame(Main main) throws SlickException{
+public class NewGame{
+	public NewGame(Main main) throws SlickException{
 		boolean fs = Boolean.parseBoolean(main.sp.fullScreen);
 		int width, height;
 		if (fs){
@@ -17,11 +16,10 @@ public class NewOnlineGame{
 			width = main.width;
 			height = main.height;
 		}
-		app = new AppGameContainer(new OnlineGame(main));
+		AppGameContainer app = new AppGameContainer(new Game(main));
 		app.setDisplayMode(width, height, fs);
 		app.setVSync(true);
 		app.setShowFPS(false);
 		app.start();
 	}
-	
 }

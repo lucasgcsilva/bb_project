@@ -1,18 +1,18 @@
-package org.bb.game.player;
+package org.bb.online.bs.player;
 
 import java.applet.AudioClip;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.bb.game.Anim;
-import org.bb.game.Game.GameState;
-import org.bb.game.GameScore;
-import org.bb.game.Level;
-import org.bb.game.MapObjects;
-import org.bb.game.items.BombsUp;
-import org.bb.game.items.KickUp;
-import org.bb.game.items.RangeUp;
-import org.bb.game.items.SpeedUp;
+import org.bb.online.bs.Anim;
+import org.bb.online.bs.Game.GameState;
+import org.bb.online.bs.GameScore;
+import org.bb.online.bs.Level;
+import org.bb.online.bs.MapObjects;
+import org.bb.online.bs.items.BombsUp;
+import org.bb.online.bs.items.KickUp;
+import org.bb.online.bs.items.RangeUp;
+import org.bb.online.bs.items.SpeedUp;
 import org.bb.sound.AePlayWave;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.SavedPreferences;

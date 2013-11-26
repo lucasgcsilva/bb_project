@@ -1,4 +1,4 @@
-package org.bb.game;
+package org.bb.online.bs;
 
 import org.bb.util.Info;
 

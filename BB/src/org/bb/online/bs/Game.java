@@ -1,8 +1,8 @@
-package org.bb.game;
+package org.bb.online.bs;
 
 import java.awt.Component;
-import org.bb.game.player.Actors;
-import org.bb.game.player.Player;
+import org.bb.online.bs.player.Actors;
+import org.bb.online.bs.player.Player;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.VideoPlayer;

@@ -1,5 +1,6 @@
 package org.bb.main.gui;
 
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,9 +14,14 @@ import javax.swing.JPanel;
 
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
+import org.newdawn.easyogg.OggClip;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class Menu extends JPanel{
 	Image background = new ImageIcon("resources/images/bg.jpg").getImage();
+	OggClip clip;
 	Main main;
 	LoginPanel lp;
 	Buttons btns;
@@ -38,7 +44,13 @@ public class Menu extends JPanel{
 		add(panelAux, BorderLayout.WEST);
 		
 		setVisible(true);
-		
+//		try {
+//			clip = new OggClip("resources/musics/menu");
+//			clip.loop();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		mp = new MusicPlayer("resources/musics/menu.wav", true);
 		mp.start();
 	}

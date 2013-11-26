@@ -22,5 +22,9 @@
 	<classpathentry kind="lib" path="lib/lwjgl-2.7.1/jar/lzma.jar"/>
 	<classpathentry kind="lib" path="jmf.jar"/>
 	<classpathentry kind="lib" path="xstream-1.4.5.jar"/>
+	<classpathentry kind="lib" path="easyogg.jar"/>
+	<classpathentry kind="lib" path="jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="startup2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

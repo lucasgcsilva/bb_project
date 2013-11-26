@@ -1,12 +1,12 @@
-package org.bb.game.player;
+package org.bb.online.bs.player;
 
-import org.bb.game.Anim;
-import org.bb.game.GameScore;
-import org.bb.game.Level;
-import org.bb.game.MapObjects;
-import org.bb.game.items.Items;
-import org.bb.game.map.Wall;
-import org.bb.game.map.Walls;
+import org.bb.online.bs.Anim;
+import org.bb.online.bs.GameScore;
+import org.bb.online.bs.Level;
+import org.bb.online.bs.MapObjects;
+import org.bb.online.bs.items.Items;
+import org.bb.online.bs.map.Wall;
+import org.bb.online.bs.map.Walls;
 import org.bb.sound.MusicPlayer;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
