@@ -5,12 +5,13 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.bb.online.bs.player.PlayerInfo;
 import org.newdawn.slick.Image;
 
 public class ClientThread extends Thread{
 	Socket client = null;
 	ObjectInputStream ois = null;
-	private Image imagem;
+	private PlayerInfo playerInfo;
 	
 	public ClientThread(){
 		
@@ -20,15 +21,17 @@ public class ClientThread extends Thread{
 		try {
 			client = new Socket("172.0.0.1", 7800);
 			ois = new ObjectInputStream(client.getInputStream());
-			imagem = (Image) ois.readObject();
+			playerInfo = (PlayerInfo) ois.readObject();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
-	
-	public Image getImage(){
-		return this.imagem;
+
+	public PlayerInfo getPlayerInfo() {
+		return playerInfo;
 	}
+
+	
 
 }

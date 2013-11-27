@@ -29,24 +29,22 @@ public class ServerThread extends Thread{
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("PlayerInfo", PlayerInfo.class);
 		xstream.alias("PlayerData", PlayerData.class);
-		while (true){
-//			oos = new ObjectOutputStream(client.getOutputStream());
-			playerInfo = PlayerInfo.getInstance();
-			String xml = xstream.toXML(playerInfo);
-			System.out.println(xml);
-			result = (PlayerInfo) xstream.fromXML(xml);
-			
-//			oos.writeObject(xml);
-//			oos.flush();
+		try {
+			server = new ServerSocket(7800);
+			client = server.accept();
+			while (true){
+				oos = new ObjectOutputStream(client.getOutputStream());
+				playerInfo = PlayerInfo.getInstance();
+				String xml = xstream.toXML(playerInfo);
+				System.out.println(xml);
+				oos.writeObject(xml);
+				result = (PlayerInfo) xstream.fromXML(xml);
+				oos.flush();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-//		try {
-//			
-//			server = new ServerSocket(7800);
-//			client = server.accept();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 	
 }

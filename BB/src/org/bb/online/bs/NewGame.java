@@ -1,7 +1,6 @@
 package org.bb.online.bs;
 
 import org.bb.main.Main;
-import org.bb.online.test.NewOnlineGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 

@@ -27,7 +27,6 @@ import javax.swing.Timer;
 import org.bb.game.Game;
 import org.bb.game.NewGame;
 import org.bb.main.Main;
-import org.bb.online.test.NewOnlineGame;
 import org.newdawn.slick.SlickException;
 
 public class BBOptions extends JPanel{
