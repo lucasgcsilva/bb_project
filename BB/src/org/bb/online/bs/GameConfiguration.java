@@ -50,7 +50,7 @@ public class GameConfiguration {
 		mapPath = Info.mapPath[mapLevel-1];
 		
 		//Configurando o numero do player
-		numPlayer = 1;
+		numPlayer = 2;
 		
 	}
 	

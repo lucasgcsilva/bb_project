@@ -5,6 +5,7 @@ import org.bb.online.bs.player.Actors;
 import org.bb.online.bs.player.Player;
 import org.bb.online.bs.player.PlayerInfo;
 import org.bb.online.bs.player.PlayerInfo.PlayerData;
+import org.bb.online.test.ClientThread;
 import org.bb.online.test.ServerThread;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
@@ -70,7 +71,7 @@ public class Game extends BasicGame{
     private Animation celebrate;
     private int timeGame = 65;    
     private int temp = 40;
-    private ServerThread server;
+    private ClientThread client;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -158,8 +159,8 @@ public class Game extends BasicGame{
         p5Death.setCurrentFrame(0);
         p5Death.stop(); 
          
-        server = new ServerThread();
-        server.start();
+        client = new ClientThread();
+        client.start();
         
         gc.setMusicOn(true);
     }
@@ -213,7 +214,6 @@ public class Game extends BasicGame{
         if(level.remainPlayers <=1){
         	level.setGameState(GameState.FAILED);
         }
-        System.out.println(level.getGameState());
         if (level.getGameState() == GameState.FAILED) {
             dyingTime--;
             int numPlayerWin = -1;
@@ -360,7 +360,6 @@ public class Game extends BasicGame{
 //			e.printStackTrace();
 //		}
     	if (gc.isFullscreen()){
-    		System.out.println(fsScale[0]+" "+fsScale[1]);
     		grphcs.scale(fsScale[0], fsScale[1]);
     	}
         level.show();
