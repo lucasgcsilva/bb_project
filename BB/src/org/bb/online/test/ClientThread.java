@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.bb.online.bs.GameConfiguration;
 import org.bb.online.bs.player.PlayerInfo;
 import org.bb.online.bs.player.PlayerInfo.PlayerData;
 import org.newdawn.slick.Image;
@@ -81,35 +82,38 @@ public class ClientThread extends Thread{
 	//get the localhost IP address, if server is running on some other IP, you need to use that
 	public void run (){
 		try{
-			InetAddress host = InetAddress.getLocalHost();
+			InetAddress host = InetAddress.getByName("172.20.19.41");
 			Socket socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;
 			XStream xstream = new XStream(new DomDriver());
 			xstream.alias("PlayerInfo", PlayerInfo.class);
 			xstream.alias("PlayerData", PlayerData.class);
-			String xml = xstream.toXML(playerInfo);
-			for (int i = 0; i < 5; i++) {
+			String xml;
+			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration().getNumPlayer());
+			while (true) {
 				// establish socket connection to server
 				socket = new Socket(host.getHostName(), 9876);
+				xml = xstream.toXML(playerInfo);
 				// write to socket using ObjectOutputStream
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				System.out.println("Sending request to Socket Server");
-				if (i == 4)
-					oos.writeObject("exit");
-				else
+//				if (i == 4)
+//					oos.writeObject("exit");
+//				else
 					oos.writeObject(xml);
 				// read the server response message
 				ois = new ObjectInputStream(socket.getInputStream());
 				String message = (String) ois.readObject();
 				System.out.println("Message: " + message);
-				// close resources
-				ois.close();
-				oos.close();
-				Thread.sleep(100);
+//				// close resources
+//				ois.close();
+//				oos.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			
 		}
 	}
 }
