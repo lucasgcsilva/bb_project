@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import org.bb.online.bs.Anim;
 import org.bb.online.bs.Game.GameState;
+import org.bb.online.bs.GameConfiguration;
 import org.bb.online.bs.GameScore;
 import org.bb.online.bs.Level;
 import org.bb.online.bs.MapObjects;
@@ -66,6 +67,8 @@ public class Player extends Actors {
     private int KEY_LEFT;
     private int KEY_RIGHT;
     private int KEY_BOMB;
+    private GameConfiguration gc = GameConfiguration.getGameConfiguration();
+    private PlayerInfo playerInfo = PlayerInfo.getInstance();
    
     
     public Player(int numPlayer, String tileBomb, boolean isControl, int numControl, boolean isKeyboard) throws SlickException {
@@ -180,7 +183,7 @@ public class Player extends Actors {
      * method responsible for putting bomb - sets putting animation, timer for animation
      */
     public void putBomb() {
-        if (((input.isButton1Pressed(numController) && isController) || (input.isKeyDown(KEY_BOMB) && isKeyboard)) && puttingBomb == false && isAlive) {
+        if (playerInfo.getPlayersData()[this.numPlayer-1].isKeyBomb() && puttingBomb == false && isAlive) {
             if (bombsCount > 0) {
                 bombsCount--;
                 puttingBomb = true;
@@ -222,7 +225,7 @@ public class Player extends Actors {
         int hracY = this.getY();
         isKeyPressed = false;
         if (!puttingBomb && isAlive) {
-            if ((input.isControllerLeft(numController) && isController) || (input.isKeyDown(KEY_LEFT) && isKeyboard)) {
+            if (playerInfo.getPlayersData()[this.numPlayer-1].isKeyLeft()) {
                 isKeyPressed = true;
             	if (speedTime > 0) {
                     this.animation = this.speedLeftAnimation;
@@ -232,7 +235,7 @@ public class Player extends Actors {
                 direction = Direction.WEST;
                 this.animation.start();
                 this.x -= speed;
-            } else if ((input.isControllerRight(numController) && isController) || (input.isKeyDown(KEY_RIGHT) && isKeyboard)) {
+            } else if (playerInfo.getPlayersData()[this.numPlayer-1].isKeyRight()) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedRightAnimation;
@@ -242,7 +245,7 @@ public class Player extends Actors {
                 direction = Direction.EAST;
                 this.animation.start();
                 this.x += speed;
-            } else if ((input.isControllerDown(numController) && isController) || (input.isKeyDown(KEY_DOWN) && isKeyboard)) {
+            } else if (playerInfo.getPlayersData()[this.numPlayer-1].isKeyDown()) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedDownAnimation;
@@ -252,7 +255,7 @@ public class Player extends Actors {
                 direction = Direction.SOUTH;
                 this.animation.start();
                 this.y += speed;
-            } else if ((input.isControllerUp(numController) && isController) || (input.isKeyDown(KEY_UP) && isKeyboard)) {
+            } else if (playerInfo.getPlayersData()[this.numPlayer-1].isKeyUp()) {
             	isKeyPressed = true;
                 if (speedTime > 0) {
                     this.animation = this.speedUpAnimation;

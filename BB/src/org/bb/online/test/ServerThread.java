@@ -5,6 +5,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.bb.online.bs.player.PlayerInfo;
+import org.bb.online.bs.player.PlayerInfo.PlayerData;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.renderer.SGL;
@@ -16,8 +18,8 @@ public class ServerThread extends Thread{
 	private ServerSocket server;
 	private Socket client;
 	private ObjectOutputStream oos = null;
-	private Image image;
-	private Image result = null;
+	private PlayerInfo playerInfo;
+	private PlayerInfo result;
 	
 	public ServerThread(){
 		
@@ -25,14 +27,15 @@ public class ServerThread extends Thread{
 	
 	public void run(){
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("Image", Image.class);
-		xstream.alias("SGL", SGL.class);
-		xstream.alias("texture", Texture.class);
+		xstream.alias("PlayerInfo", PlayerInfo.class);
+		xstream.alias("PlayerData", PlayerData.class);
 		while (true){
 //			oos = new ObjectOutputStream(client.getOutputStream());
-			String xml = xstream.toXML(image);
+			playerInfo = PlayerInfo.getInstance();
+			String xml = xstream.toXML(playerInfo);
+			System.out.println(xml);
+			result = (PlayerInfo) xstream.fromXML(xml);
 			
-			result = (Image) xstream.fromXML(xml);
 //			oos.writeObject(xml);
 //			oos.flush();
 		}
@@ -46,11 +49,4 @@ public class ServerThread extends Thread{
 //		}
 	}
 	
-	public void setImage(Image image){
-		this.image = image;
-	}
-	
-	public Image getImage(){
-		return this.result;
-	}
 }

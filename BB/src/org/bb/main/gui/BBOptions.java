@@ -86,7 +86,7 @@ public class BBOptions extends JPanel{
 				try {
 					main.stopMusicMenu();
 					main.setVisible(false);
-					NewOnlineGame newOnlineGame = new NewOnlineGame(main);
+					org.bb.online.bs.NewGame newOnlineGame = new org.bb.online.bs.NewGame(main);
 					System.out.println("New Game created!");
 				} catch (SlickException e) {
 					// TODO Auto-generated catch block

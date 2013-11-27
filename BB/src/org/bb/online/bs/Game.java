@@ -3,6 +3,9 @@ package org.bb.online.bs;
 import java.awt.Component;
 import org.bb.online.bs.player.Actors;
 import org.bb.online.bs.player.Player;
+import org.bb.online.bs.player.PlayerInfo;
+import org.bb.online.bs.player.PlayerInfo.PlayerData;
+import org.bb.online.test.ServerThread;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.VideoPlayer;
@@ -33,7 +36,7 @@ public class Game extends BasicGame{
     private Main main;
     private MusicPlayer mus;
     private int numMaxTrofeus = 3;
-    
+    private PlayerInfo playerInfo = PlayerInfo.getInstance();
     private int ptrofeu[] = {0,0,0,0,0};
 //    private int p2trofeu = 0;
 //    private int p3trofeu = 0;
@@ -66,8 +69,8 @@ public class Game extends BasicGame{
     private Animation finish;
     private Animation celebrate;
     private int timeGame = 65;    
-    private Image i = null;
     private int temp = 40;
+    private ServerThread server;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -79,7 +82,6 @@ public class Game extends BasicGame{
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
-		i = new Image(main.fWidth, main.fHeight);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
         finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
@@ -156,6 +158,8 @@ public class Game extends BasicGame{
         p5Death.setCurrentFrame(0);
         p5Death.stop(); 
          
+        server = new ServerThread();
+        server.start();
         
         gc.setMusicOn(true);
     }
@@ -169,22 +173,31 @@ public class Game extends BasicGame{
     			level.remainPlayers++;
     		}
     	}
-//    	if(player1.isAlive){
-//    		level.remainPlayers++;
-//    	}
-//    	if(player2.isAlive){
-//    		level.remainPlayers++;
-//    	}
-//    	if(player3.isAlive){
-//    		level.remainPlayers++;
-//    	}
-//    	if(player4.isAlive){
-//    		level.remainPlayers++;
-//    	}
-//    	if(player5.isAlive){
-//    		level.remainPlayers++;
-//    	}
-        Input input = gc.getInput();
+    	Input input = gc.getInput();
+    	PlayerData[] pi = playerInfo.getPlayersData();
+    	if (input.isKeyDown(Input.KEY_UP)) {
+    		pi[this.gc.getNumPlayer()-1].setKeyUp(true);
+        	playerInfo.setPlayersData(pi);
+        }else if (input.isKeyDown(Input.KEY_DOWN)) {
+        	pi[this.gc.getNumPlayer()-1].setKeyDown(true);
+        	playerInfo.setPlayersData(pi);
+        }else if (input.isKeyDown(Input.KEY_LEFT)) {
+        	pi[this.gc.getNumPlayer()-1].setKeyLeft(true);
+        	playerInfo.setPlayersData(pi);
+        }else if (input.isKeyDown(Input.KEY_RIGHT)) {
+        	pi[this.gc.getNumPlayer()-1].setKeyRight(true);
+        	playerInfo.setPlayersData(pi);
+        }else if (input.isKeyDown(Input.KEY_SPACE)) {
+        	pi[this.gc.getNumPlayer()-1].setKeyBomb(true);
+        	playerInfo.setPlayersData(pi);
+        }else{
+        	pi[this.gc.getNumPlayer()-1].setKeyUp(false);
+        	pi[this.gc.getNumPlayer()-1].setKeyDown(false);
+        	pi[this.gc.getNumPlayer()-1].setKeyLeft(false);
+        	pi[this.gc.getNumPlayer()-1].setKeyRight(false);
+        	pi[this.gc.getNumPlayer()-1].setKeyBomb(false);
+        	playerInfo.setPlayersData(pi);
+        }
         if (input.isKeyDown(Input.KEY_ESCAPE)) {
         	mus.stopMusic();
             gc.exit();
@@ -449,13 +462,9 @@ public class Game extends BasicGame{
         	grphcs.drawString("PLAYER 5 É O GRANDE VENCEDOR!", gc.getWidth()/4-300, gc.getHeight()/4);
         	level.setGameState(GameState.FINISHED);
         }
-        grphcs.copyArea(this.i, 0, 0);
         
 
     }
     
-    public Image getImage(){
-    	return this.i;
-    }
 
 }

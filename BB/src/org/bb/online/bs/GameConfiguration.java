@@ -10,6 +10,7 @@ public class GameConfiguration {
 	private boolean[] isKeyboards = new boolean[5];
 	private String mapPath;
 	private int mapLevel; 
+	private int numPlayer;
 	
 	
 	public static int TYPE_NORMAL = 1;
@@ -48,8 +49,19 @@ public class GameConfiguration {
 		mapLevel = 1;
 		mapPath = Info.mapPath[mapLevel-1];
 		
+		//Configurando o numero do player
+		numPlayer = 1;
+		
 	}
 	
+	public int getNumPlayer() {
+		return numPlayer;
+	}
+
+	public void setNumPlayer(int numPlayer) {
+		this.numPlayer = numPlayer;
+	}
+
 	public int getMapLevel(){
 		return mapLevel;
 	}
