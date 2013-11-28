@@ -76,13 +76,14 @@ public class ClientThread extends Thread{
 //
 //	
 	private PlayerInfo playerInfo = PlayerInfo.getInstance();
+	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
 	public ClientThread(){
 		
 	}
 	//get the localhost IP address, if server is running on some other IP, you need to use that
 	public void run (){
 		try{
-			InetAddress host = InetAddress.getByName("172.20.19.41");
+			InetAddress host = InetAddress.getByName(gc.getIp());
 			Socket socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;

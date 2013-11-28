@@ -12,13 +12,14 @@ public class GameConfiguration {
 	private int mapLevel; 
 	private int numPlayer;
 	private int typeConn;
-	
+	private String ip;
 	
 	public static int TYPE_NORMAL = 1;
 	public static int TYPE_SEIYA = 2;
 	
 	public static int TYPE_SERVER = 1;
 	public static int TYPE_CLIENT = 2;
+	
 	
 	private GameConfiguration(){
 		//Configurando imagem dos players
@@ -58,6 +59,15 @@ public class GameConfiguration {
 		
 		//Configurando o servidor/client
 		typeConn = TYPE_CLIENT;
+		ip = "172.20.19.41";
+	}
+	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 	
 	public int getTypeConn() {

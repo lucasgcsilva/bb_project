@@ -174,6 +174,11 @@ public class Game extends BasicGame{
     @SuppressWarnings("deprecation")
 	@Override
     public void update(GameContainer gc, int i) throws SlickException {
+    	Input input = gc.getInput();
+    	if (input.isKeyDown(Input.KEY_ESCAPE)) {
+			mus.stopMusic();
+			gc.exit();
+		}
     	if (this.playerInfo.isStartGame()){
 
 			level.remainPlayers = 0;
@@ -182,7 +187,7 @@ public class Game extends BasicGame{
 					level.remainPlayers++;
 				}
 			}
-			Input input = gc.getInput();
+			
 			PlayerData[] pi = playerInfo.getPlayersData();
 			if (input.isKeyDown(Input.KEY_UP)) {
 				pi[this.gc.getNumPlayer() - 1].setKeyUp(true);
@@ -207,10 +212,7 @@ public class Game extends BasicGame{
 				pi[this.gc.getNumPlayer() - 1].setKeyBomb(false);
 				playerInfo.setPlayersData(pi);
 			}
-			if (input.isKeyDown(Input.KEY_ESCAPE)) {
-				mus.stopMusic();
-				gc.exit();
-			}
+			
 			if (input.isKeyPressed(Input.KEY_P)) {
 				if (level.getGameState() != GameState.PAUSED) {
 					level.setGameState(GameState.PAUSED);
