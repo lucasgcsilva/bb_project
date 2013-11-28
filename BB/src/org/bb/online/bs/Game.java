@@ -87,9 +87,11 @@ public class Game extends BasicGame{
 		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
 			client = new ClientThread();
 			client.start();
+			System.out.println("Thread Client iniciada!");
 		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 			server = new ServerThread();
 			server.start();
+			System.out.println("Thread Server iniciada!");
 		}
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
