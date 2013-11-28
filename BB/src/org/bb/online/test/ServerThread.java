@@ -44,6 +44,7 @@ public class ServerThread extends Thread {
 	        	//write object to Socket
 	        	playerInfo = (PlayerInfo) xstream.fromXML(message);
 	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
+	        	instance.setStartGame(playerInfo.isStartGame());
 	        	oos.writeObject(playerInfo);
 	        	//close resources
 	        	ois.close();
