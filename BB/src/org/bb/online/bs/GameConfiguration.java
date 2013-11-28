@@ -50,6 +50,9 @@ public class GameConfiguration {
 		this.isKeyboards[3] = true;
 		this.isKeyboards[4] = true;
 		
+		TYPE_SERVER = 1;
+		TYPE_CLIENT = 2;
+		
 		//Configurando o caminho do mapa
 		mapLevel = 1;
 		mapPath = Info.mapPath[mapLevel-1];
@@ -58,7 +61,7 @@ public class GameConfiguration {
 		numPlayer = 2;
 		
 		//Configurando o servidor/client
-		typeConn = TYPE_CLIENT;
+		setTypeConn(TYPE_SERVER);
 		ip = "172.20.19.41";
 	}
 	
