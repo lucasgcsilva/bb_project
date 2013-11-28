@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.bb.online.bs.GameConfiguration;
 import org.bb.online.bs.player.PlayerInfo;
 
 
@@ -18,6 +19,7 @@ public class ServerThread extends Thread {
 	    private static ServerSocket server;
 	    //socket server port on which it will listen
 	    private static int port = 9876;
+	    private GameConfiguration gc = GameConfiguration.getGameConfiguration();
 	    
 	    
 	    public void run(){
@@ -43,6 +45,7 @@ public class ServerThread extends Thread {
 	        	//create ObjectOutputStream object
 	        	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        	//write object to Socket
+	        	instance.setNumPlayer(gc.getNumPlayer());
 	        	playerInfo = (PlayerInfo) xstream.fromXML(message);
 	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
 	        	instance.setStartGame(playerInfo.isStartGame());
