@@ -13,48 +13,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 
-public class ServerThread {
-//	public ServerSocket server;
-//	public Socket[] clients;
-//	public ServerMain(){
-//		
-//	}
-//	
-//	/**
-//	 * @param args
-//	 */
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//		ServerMain sm = new ServerMain();
-//		try {
-//			sm.server = new ServerSocket(7800);
-//			Socket client = sm.server.accept();
-//			System.out.println("cliente conectado!");
-//			ServerInputThread sit = new ServerInputThread(client);
-//			sit.start();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		
-//	}
-//	
-//	 
-//	import java.io.IOException;
-//	import java.io.ObjectInputStream;
-//	import java.io.ObjectOutputStream;
-//	import java.lang.ClassNotFoundException;
-//	import java.net.ServerSocket;
-//	import java.net.Socket;
-	 
-//	/**
-//	 * This class implements java Socket server
-//	 * @author pankaj
-//	 *
-//	 */
-	     
+public class ServerThread extends Thread {
 	    //static ServerSocket variable
 	    private static ServerSocket server;
 	    //socket server port on which it will listen
@@ -66,6 +25,7 @@ public class ServerThread {
 	        //create the socket server object
 	        server = new ServerSocket(port);
 	        PlayerInfo playerInfo;
+	        PlayerInfo instance = PlayerInfo.getInstance();
 	        XStream xstream = new XStream(new DomDriver());
 			xstream.alias("PlayerInfo", PlayerInfo.class);
 			xstream.alias("PlayerData", PlayerInfo.PlayerData.class);
@@ -83,6 +43,7 @@ public class ServerThread {
 	        	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        	//write object to Socket
 	        	playerInfo = (PlayerInfo) xstream.fromXML(message);
+	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
 	        	oos.writeObject(playerInfo);
 	        	//close resources
 	        	ois.close();

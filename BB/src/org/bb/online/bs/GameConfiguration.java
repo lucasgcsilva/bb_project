@@ -11,10 +11,14 @@ public class GameConfiguration {
 	private String mapPath;
 	private int mapLevel; 
 	private int numPlayer;
+	private int typeConn;
 	
 	
 	public static int TYPE_NORMAL = 1;
 	public static int TYPE_SEIYA = 2;
+	
+	public static int TYPE_SERVER = 1;
+	public static int TYPE_CLIENT = 2;
 	
 	private GameConfiguration(){
 		//Configurando imagem dos players
@@ -52,6 +56,16 @@ public class GameConfiguration {
 		//Configurando o numero do player
 		numPlayer = 2;
 		
+		//Configurando o servidor/client
+		typeConn = TYPE_CLIENT;
+	}
+	
+	public int getTypeConn() {
+		return typeConn;
+	}
+
+	public void setTypeConn(int typeConn) {
+		this.typeConn = typeConn;
 	}
 	
 	public int getNumPlayer() {

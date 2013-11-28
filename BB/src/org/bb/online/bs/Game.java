@@ -72,6 +72,7 @@ public class Game extends BasicGame{
     private int timeGame = 65;    
     private int temp = 40;
     private ClientThread client;
+    private ServerThread server;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -83,6 +84,13 @@ public class Game extends BasicGame{
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
+		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+			client = new ClientThread();
+			client.start();
+		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
+			server = new ServerThread();
+			server.start();
+		}
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
         finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
@@ -158,9 +166,7 @@ public class Game extends BasicGame{
         p5Death = player[4].getDying();
         p5Death.setCurrentFrame(0);
         p5Death.stop(); 
-         
-        client = new ClientThread();
-        client.start();
+        
         
         gc.setMusicOn(true);
     }
@@ -168,179 +174,187 @@ public class Game extends BasicGame{
     @SuppressWarnings("deprecation")
 	@Override
     public void update(GameContainer gc, int i) throws SlickException {
-    	level.remainPlayers = 0;
-    	for (int cont = 0; cont < 4; cont++){
-    		if (player[cont].isAlive){
-    			level.remainPlayers++;
-    		}
+    	if (this.playerInfo.isStartGame()){
+
+			level.remainPlayers = 0;
+			for (int cont = 0; cont < 4; cont++) {
+				if (player[cont].isAlive) {
+					level.remainPlayers++;
+				}
+			}
+			Input input = gc.getInput();
+			PlayerData[] pi = playerInfo.getPlayersData();
+			if (input.isKeyDown(Input.KEY_UP)) {
+				pi[this.gc.getNumPlayer() - 1].setKeyUp(true);
+				playerInfo.setPlayersData(pi);
+			} else if (input.isKeyDown(Input.KEY_DOWN)) {
+				pi[this.gc.getNumPlayer() - 1].setKeyDown(true);
+				playerInfo.setPlayersData(pi);
+			} else if (input.isKeyDown(Input.KEY_LEFT)) {
+				pi[this.gc.getNumPlayer() - 1].setKeyLeft(true);
+				playerInfo.setPlayersData(pi);
+			} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+				pi[this.gc.getNumPlayer() - 1].setKeyRight(true);
+				playerInfo.setPlayersData(pi);
+			} else if (input.isKeyDown(Input.KEY_SPACE)) {
+				pi[this.gc.getNumPlayer() - 1].setKeyBomb(true);
+				playerInfo.setPlayersData(pi);
+			} else {
+				pi[this.gc.getNumPlayer() - 1].setKeyUp(false);
+				pi[this.gc.getNumPlayer() - 1].setKeyDown(false);
+				pi[this.gc.getNumPlayer() - 1].setKeyLeft(false);
+				pi[this.gc.getNumPlayer() - 1].setKeyRight(false);
+				pi[this.gc.getNumPlayer() - 1].setKeyBomb(false);
+				playerInfo.setPlayersData(pi);
+			}
+			if (input.isKeyDown(Input.KEY_ESCAPE)) {
+				mus.stopMusic();
+				gc.exit();
+			}
+			if (input.isKeyPressed(Input.KEY_P)) {
+				if (level.getGameState() != GameState.PAUSED) {
+					level.setGameState(GameState.PAUSED);
+					playingTime = score.getPlayingTime();
+				} else {
+					level.setGameState(GameState.PLAYING);
+				}
+			}
+			if (level.remainPlayers <= 1) {
+				level.setGameState(GameState.FAILED);
+			}
+			if (level.getGameState() == GameState.FAILED) {
+				dyingTime--;
+				int numPlayerWin = -1;
+				for (int cont = 0; cont < 4; cont++) {
+					if (player[cont].isAlive && level.remainPlayers == 1) {
+						player[cont].setCelebrate();
+						numPlayerWin = cont;
+					}
+				}
+				// if(player1.isAlive && level.remainPlayers == 1){
+				// player1.setCelebrate();
+				// }else if(player2.isAlive && level.remainPlayers == 1){
+				// player2.setCelebrate();
+				// }else if(player3.isAlive && level.remainPlayers == 1){
+				// player3.setCelebrate();
+				// }
+				// else if(player4.isAlive && level.remainPlayers == 1){
+				// player4.setCelebrate();
+				// }else if(player5.isAlive && level.remainPlayers == 1){
+				// player5.setCelebrate();
+				// }
+				if (dyingTime == 0 || input.isKeyPressed(Input.KEY_ENTER)
+						|| input.isButton2Pressed(input.ANY_CONTROLLER)) {
+					if (numPlayerWin >= 0) {
+						ptrofeu[numPlayerWin]++;
+						System.out
+								.println("p" + ptrofeu[numPlayerWin] + " win");
+					}
+
+					// if(player1.isAlive && level.remainPlayers == 1){
+					// p1trofeu++;
+					// System.out.println("p1 win"+p1trofeu);
+					// }else if(player2.isAlive && level.remainPlayers == 1){
+					// p2trofeu++;
+					// System.out.println("p2 win"+p2trofeu);
+					// }else if(player3.isAlive && level.remainPlayers == 1){
+					// p3trofeu++;
+					// System.out.println("p3 win"+p3trofeu);
+					// }
+					// else if(player4.isAlive && level.remainPlayers == 1){
+					// p4trofeu++;
+					// System.out.println("p4 win"+p4trofeu);
+					// }else if(player5.isAlive && level.remainPlayers == 1){
+					// p5trofeu++;
+					// System.out.println("p5 win"+p5trofeu);
+					// }
+					// gc.exit();
+					mus.stopMusic();
+					level.reloadLevel();
+					score.restart();
+					init(gc);
+					dyingTime = 500;
+				}
+			}
+			if (level.getGameState() == GameState.FINISHED) {
+				mus.stopMusic();
+				player[0].setStopTime(true);
+				player[1].setStopTime(true);
+				player[2].setStopTime(true);
+				player[3].setStopTime(true);
+				player[4].setStopTime(true);
+				if (input.isKeyPressed(Input.KEY_ENTER)) {
+					player[0].setStopTime(false);
+					player[1].setStopTime(false);
+					player[2].setStopTime(false);
+					player[3].setStopTime(false);
+					player[4].setStopTime(false);
+					ptrofeu[0] = 0;
+					ptrofeu[1] = 0;
+					ptrofeu[2] = 0;
+					ptrofeu[3] = 0;
+					ptrofeu[4] = 0;
+					level.reloadLevel();
+					score.restart();
+					init(gc);
+					dyingTime = 500;
+				}
+
+			}
+			if (level.getGameState() == GameState.PLAYING) {
+				for (int x = 0; x < level.getListOfObjects().toArray().length; x++) {
+					MapObjects o = (MapObjects) level.getListOfObjects()
+							.toArray()[x];
+					if (o instanceof Actors) {
+						((Actors) o).act();
+					}
+				}
+
+			}
+			if (!player[0].isStopTime()) {
+				playingTime = timeGame - score.getPlayingTime();
+				int minutes = playingTime / 60;
+				int seconds = playingTime % 60;
+				time.setText(String.valueOf(minutes) + ":"
+						+ String.format("%02d", seconds));
+			} else {
+				int minutes = 0;
+				int seconds = 0;
+				time.setText(String.valueOf(minutes) + ":"
+						+ String.format("%02d", seconds));
+			}
+			if (playingTime == 0) {
+				for (int cont = 0; cont < 4; cont++) {
+					if (player[cont].isAlive) {
+						player[cont].setDying();
+					}
+				}
+				// if (player1.isAlive){
+				// player1.setDying();
+				// }if(player2.isAlive){
+				// player2.setDying();
+				// }if(player3.isAlive){
+				// player3.setDying();
+				// }if(player4.isAlive){
+				// player4.setDying();
+				// }if(player5.isAlive){
+				// player5.setDying();
+				// }
+				if (!player[0].getStopTime()) {
+					mus.stopMusic();
+					mus = new MusicPlayer("resources/musics/lose.wav", false);
+					mus.playSound();
+				}
+				player[0].setStopTime(true);
+				level.setGameState(GameState.FAILED);
+			}
+			if (playingTime == 60 && !isHurryUp) {
+				isHurryUp = true;
+				mus.stopMusic();
+				mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
+				mus.start();
+			}
     	}
-    	Input input = gc.getInput();
-    	PlayerData[] pi = playerInfo.getPlayersData();
-    	if (input.isKeyDown(Input.KEY_UP)) {
-    		pi[this.gc.getNumPlayer()-1].setKeyUp(true);
-        	playerInfo.setPlayersData(pi);
-        }else if (input.isKeyDown(Input.KEY_DOWN)) {
-        	pi[this.gc.getNumPlayer()-1].setKeyDown(true);
-        	playerInfo.setPlayersData(pi);
-        }else if (input.isKeyDown(Input.KEY_LEFT)) {
-        	pi[this.gc.getNumPlayer()-1].setKeyLeft(true);
-        	playerInfo.setPlayersData(pi);
-        }else if (input.isKeyDown(Input.KEY_RIGHT)) {
-        	pi[this.gc.getNumPlayer()-1].setKeyRight(true);
-        	playerInfo.setPlayersData(pi);
-        }else if (input.isKeyDown(Input.KEY_SPACE)) {
-        	pi[this.gc.getNumPlayer()-1].setKeyBomb(true);
-        	playerInfo.setPlayersData(pi);
-        }else{
-        	pi[this.gc.getNumPlayer()-1].setKeyUp(false);
-        	pi[this.gc.getNumPlayer()-1].setKeyDown(false);
-        	pi[this.gc.getNumPlayer()-1].setKeyLeft(false);
-        	pi[this.gc.getNumPlayer()-1].setKeyRight(false);
-        	pi[this.gc.getNumPlayer()-1].setKeyBomb(false);
-        	playerInfo.setPlayersData(pi);
-        }
-        if (input.isKeyDown(Input.KEY_ESCAPE)) {
-        	mus.stopMusic();
-            gc.exit();
-        }
-        if (input.isKeyPressed(Input.KEY_P)) {
-            if (level.getGameState() != GameState.PAUSED) {
-                level.setGameState(GameState.PAUSED);
-                playingTime = score.getPlayingTime();
-            } else {
-                level.setGameState(GameState.PLAYING);
-            }
-        }          
-        if(level.remainPlayers <=1){
-        	level.setGameState(GameState.FAILED);
-        }
-        if (level.getGameState() == GameState.FAILED) {
-            dyingTime--;
-            int numPlayerWin = -1;
-            for (int cont = 0; cont < 4; cont ++){
-            	if(player[cont].isAlive && level.remainPlayers == 1){
-            		player[cont].setCelebrate();
-            		numPlayerWin = cont;
-            	}
-            }
-//        	if(player1.isAlive && level.remainPlayers == 1){
-//        		player1.setCelebrate();
-//        	}else if(player2.isAlive && level.remainPlayers == 1){
-//        		player2.setCelebrate();
-//        	}else if(player3.isAlive && level.remainPlayers == 1){
-//        		player3.setCelebrate();
-//        	}
-//        	else if(player4.isAlive && level.remainPlayers == 1){
-//        		player4.setCelebrate();
-//        	}else if(player5.isAlive && level.remainPlayers == 1){
-//        		player5.setCelebrate();
-//        	}
-            if (dyingTime == 0 || input.isKeyPressed(Input.KEY_ENTER) || input.isButton2Pressed(input.ANY_CONTROLLER)) {
-            	if(numPlayerWin >= 0){
-            		ptrofeu[numPlayerWin]++;
-            		System.out.println("p"+ptrofeu[numPlayerWin]+" win");
-            	}
-            	
-//            	if(player1.isAlive && level.remainPlayers == 1){
-//            		p1trofeu++;
-//            		System.out.println("p1 win"+p1trofeu);
-//            	}else if(player2.isAlive && level.remainPlayers == 1){
-//            		p2trofeu++;
-//            		System.out.println("p2 win"+p2trofeu);
-//            	}else if(player3.isAlive && level.remainPlayers == 1){
-//            		p3trofeu++;
-//            		System.out.println("p3 win"+p3trofeu);
-//            	}
-//            	else if(player4.isAlive && level.remainPlayers == 1){
-//            		p4trofeu++;
-//            		System.out.println("p4 win"+p4trofeu);
-//            	}else if(player5.isAlive && level.remainPlayers == 1){
-//            		p5trofeu++;
-//            		System.out.println("p5 win"+p5trofeu);
-//            	}
-//                gc.exit();
-            	mus.stopMusic();
-            	level.reloadLevel();
-                score.restart();
-                init(gc);
-                dyingTime = 500;
-            }
-        }
-        if (level.getGameState() == GameState.FINISHED) {
-        	mus.stopMusic();
-            player[0].setStopTime(true);
-            player[1].setStopTime(true);
-            player[2].setStopTime(true);
-            player[3].setStopTime(true);
-            player[4].setStopTime(true);
-            if (input.isKeyPressed(Input.KEY_ENTER)) {
-                player[0].setStopTime(false);
-                player[1].setStopTime(false);
-                player[2].setStopTime(false);
-                player[3].setStopTime(false);
-                player[4].setStopTime(false);
-                ptrofeu[0] = 0;
-                ptrofeu[1] = 0;
-                ptrofeu[2] = 0;
-                ptrofeu[3] = 0;
-                ptrofeu[4] = 0;
-                level.reloadLevel();
-                score.restart();
-                init(gc);
-                dyingTime = 500;
-            }
-
-        }
-        if (level.getGameState() == GameState.PLAYING) {
-            for (int x = 0; x < level.getListOfObjects().toArray().length; x++) {
-                MapObjects o = (MapObjects) level.getListOfObjects().toArray()[x];
-                if (o instanceof Actors) {
-                    ((Actors) o).act();
-                }
-            }
-
-        }
-        if (!player[0].isStopTime()){
-        	playingTime = timeGame - score.getPlayingTime();
-        	int minutes = playingTime / 60;
-        	int seconds = playingTime % 60;
-        	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
-        }else{
-        	int minutes = 0;
-        	int seconds = 0;
-        	time.setText(String.valueOf(minutes)+":"+String.format("%02d", seconds));
-        }
-        if (playingTime == 0){
-        	for(int cont = 0; cont < 4; cont++){
-        		if(player[cont].isAlive){
-        			player[cont].setDying();
-        		}
-        	}
-//        	if (player1.isAlive){
-//        		player1.setDying();
-//        	}if(player2.isAlive){
-//        		player2.setDying();
-//        	}if(player3.isAlive){
-//        		player3.setDying();
-//        	}if(player4.isAlive){
-//        		player4.setDying();
-//        	}if(player5.isAlive){
-//        		player5.setDying();
-//        	}
-        	if (!player[0].getStopTime()){
-        		mus.stopMusic();
-        		mus = new MusicPlayer("resources/musics/lose.wav", false);	
-        		mus.playSound();
-        	}
-        	player[0].setStopTime(true);
-        	level.setGameState(GameState.FAILED);
-        }
-        if (playingTime == 60 && !isHurryUp){
-        	isHurryUp = true;
-        	mus.stopMusic();
-        	mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
-        	mus.start();
-        } 
     }
 
     @Override

@@ -63,6 +63,15 @@ public class PlayerInfo implements Serializable{
 	private static final long serialVersionUID = -2775712605115141465L;
 	private int time;
 	private int numPlayer;
+	private boolean startGame;
+	public boolean isStartGame() {
+		return startGame;
+	}
+
+	public void setStartGame(boolean startGame) {
+		this.startGame = startGame;
+	}
+
 	private static PlayerInfo instance = new PlayerInfo();
 	
 	
@@ -107,6 +116,7 @@ public class PlayerInfo implements Serializable{
 		for (int i = 0; i < playersData.length; i++){
 			playersData[i] = new PlayerData();
 		}
+		startGame = false;
 	}
 	
 

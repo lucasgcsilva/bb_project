@@ -94,6 +94,7 @@ public class ClientThread extends Thread{
 			while (true) {
 				// establish socket connection to server
 				socket = new Socket(host.getHostName(), 9876);
+				playerInfo.setStartGame(true);
 				xml = xstream.toXML(playerInfo);
 				// write to socket using ObjectOutputStream
 				oos = new ObjectOutputStream(socket.getOutputStream());
@@ -101,14 +102,17 @@ public class ClientThread extends Thread{
 //				if (i == 4)
 //					oos.writeObject("exit");
 //				else
-					oos.writeObject(xml);
+				oos.writeObject(xml);
+				
 				// read the server response message
 				ois = new ObjectInputStream(socket.getInputStream());
 				String message = (String) ois.readObject();
 				System.out.println("Message: " + message);
-//				// close resources
-//				ois.close();
-//				oos.close();
+				
+				
+				// close resources
+				ois.close();
+				oos.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
