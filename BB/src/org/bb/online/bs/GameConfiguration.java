@@ -61,8 +61,8 @@ public class GameConfiguration {
 		numPlayer = 2;
 		
 		//Configurando o servidor/client
-		setTypeConn(TYPE_SERVER);
-		ip = "172.20.19.41";
+		setTypeConn(TYPE_CLIENT);
+		ip = "172.20.222.150";
 	}
 	
 	public String getIp() {

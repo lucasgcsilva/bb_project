@@ -25,6 +25,7 @@ public class ServerThread extends Thread {
 	        //create the socket server object
 	        server = new ServerSocket(port);
 	        PlayerInfo playerInfo;
+	        String xml;
 	        PlayerInfo instance = PlayerInfo.getInstance();
 	        XStream xstream = new XStream(new DomDriver());
 			xstream.alias("PlayerInfo", PlayerInfo.class);
@@ -45,7 +46,8 @@ public class ServerThread extends Thread {
 	        	playerInfo = (PlayerInfo) xstream.fromXML(message);
 	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
 	        	instance.setStartGame(playerInfo.isStartGame());
-	        	oos.writeObject(playerInfo);
+	        	xml = xstream.toXML(instance);
+	        	oos.writeObject(xml);
 	        	//close resources
 	        	ois.close();
 	        	oos.close();
