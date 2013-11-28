@@ -91,6 +91,7 @@ public class ClientThread extends Thread{
 			xstream.alias("PlayerInfo", PlayerInfo.class);
 			xstream.alias("PlayerData", PlayerData.class);
 			String xml;
+			PlayerInfo aux;
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration().getNumPlayer());
 			while (true) {
 				// establish socket connection to server
@@ -109,7 +110,8 @@ public class ClientThread extends Thread{
 				ois = new ObjectInputStream(socket.getInputStream());
 				String message = (String) ois.readObject();
 				System.out.println("Message: " + message);
-				
+				aux = (PlayerInfo) xstream.fromXML(message);
+				playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
 				
 				// close resources
 				ois.close();

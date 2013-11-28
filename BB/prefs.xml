@@ -9,15 +9,15 @@
         <map/>
         <node name="util">
           <map>
+            <entry key="17|31|30|32|44" value="17|31|30|32|44"/>
+            <entry key="200|208|203|205|57" value="38|40|37|39|57"/>
+            <entry key="Chuck Norris" value="Username"/>
             <entry key="full_screen" value="true"/>
             <entry key="last_name_usr" value="lucas"/>
-            <entry key="screen_size" value="1024x728"/>
-            <entry key="volume" value="0.56"/>
-            <entry key="Chuck Norris" value="Username"/>
             <entry key="pad" value="38|40|37|39|32"/>
             <entry key="pad2" value="87|83|65|68|17"/>
-            <entry key="200|208|203|205|57" value="38|40|37|39|57"/>
-            <entry key="17|31|30|32|44" value="17|31|30|32|44"/>
+            <entry key="screen_size" value="1024x728"/>
+            <entry key="volume" value="0.56"/>
           </map>
         </node>
       </node>
