@@ -111,7 +111,9 @@ public class ClientThread extends Thread{
 				String message = (String) ois.readObject();
 				System.out.println("Message: " + message);
 				aux = (PlayerInfo) xstream.fromXML(message);
-				playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
+				if (aux.getNumPlayer() != 0){
+					playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
+				}
 				
 				// close resources
 				ois.close();
