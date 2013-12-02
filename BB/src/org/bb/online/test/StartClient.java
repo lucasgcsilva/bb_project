@@ -38,14 +38,23 @@ public class StartClient extends Thread{
 			String xml;
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration()
 					.getNumPlayer());
+			String catLinha = "";
+			String linha = "";
 			while (true) {
-				playerInfo.setStartGame(true);
-				xml = xstream.toXML(playerInfo);
-				saida.println(xml);
-				String linha = entrada.readLine();
-				PlayerInfo aux = (PlayerInfo) xstream.fromXML(linha);
-				if (aux.getNumPlayer() != 0){
-					playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
+				linha = entrada.readLine();
+				if (linha.trim().equals("</PlayerInfo>")){
+					catLinha = catLinha + linha;
+					System.out.println(catLinha);
+					playerInfo.setStartGame(true);
+					xml = xstream.toXML(playerInfo);
+					saida.println(xml);
+					PlayerInfo aux = (PlayerInfo) xstream.fromXML(catLinha);
+					if (aux.getNumPlayer() != 0){
+						playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
+					}
+					catLinha = "";
+				}else {
+					catLinha = catLinha + linha;
 				}
 			}
 		}catch (Exception e){

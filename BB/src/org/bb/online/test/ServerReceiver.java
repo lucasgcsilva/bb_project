@@ -28,15 +28,19 @@ public class ServerReceiver extends Thread {
 			xstream.alias("PlayerData", PlayerInfo.PlayerData.class);
 			instance.setNumPlayer(gc.getNumPlayer());
 			System.out.println("reading a line...");
-			String linha = entrada.readLine();
-			while (linha != null){
-				System.out.println(linha);
-	        	playerInfo = (PlayerInfo) xstream.fromXML(linha);
-	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
-	        	instance.setStartGame(playerInfo.isStartGame());
-	        	linha = entrada.readLine();
+			String linha = "";
+			String catLinha = "";
+			while (true){
+				linha = entrada.readLine();
+				if (linha.trim().equals("</PlayerInfo>")){
+					catLinha = catLinha + linha;
+					playerInfo = (PlayerInfo) xstream.fromXML(linha);
+					instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
+					instance.setStartGame(playerInfo.isStartGame());
+				}else {
+					catLinha = catLinha + linha;
+				}
 			}
-			conexao.close();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
