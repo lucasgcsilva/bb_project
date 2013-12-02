@@ -3,8 +3,6 @@ package org.bb.online.test;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Vector;
-
 import org.bb.online.bs.GameConfiguration;
 import org.bb.online.bs.player.PlayerInfo;
 
@@ -24,7 +22,6 @@ public class ServerReceiver extends Thread {
 		try{
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
 			PlayerInfo playerInfo;
-	        String xml;
 	        PlayerInfo instance = PlayerInfo.getInstance();
 	        XStream xstream = new XStream(new DomDriver());
 			xstream.alias("PlayerInfo", PlayerInfo.class);

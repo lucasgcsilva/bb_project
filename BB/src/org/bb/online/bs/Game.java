@@ -12,6 +12,8 @@ import org.bb.online.bs.player.PlayerInfo;
 import org.bb.online.bs.player.PlayerInfo.PlayerData;
 import org.bb.online.test.ClientThread;
 import org.bb.online.test.ServerThread;
+import org.bb.online.test.StartClient;
+import org.bb.online.test.StartServer;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.VideoPlayer;
@@ -77,8 +79,8 @@ public class Game extends BasicGame{
     private Animation celebrate;
     private int timeGame = 65;    
     private int temp = 40;
-    private ClientThread client;
-    private ServerThread server;
+    private StartClient client;
+    private StartServer server;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -90,27 +92,12 @@ public class Game extends BasicGame{
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
-		InetAddress host;
-		Socket socket = null;
-		try {
-			host = InetAddress.getByName(goc.getIp());
-			socket = new Socket(host.getHostName(), 9876);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-			if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
-				client = new ClientThread(socket);
-				client.start();
-				System.out.println("Thread Client iniciada!");
-			}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
-				server = new ServerThread(socket);
-				server.start();
-				System.out.println("Thread Server iniciada!");
-			}
+		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+			client = new StartClient();
+			client.start();
+		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
+			server = new StartServer();
+			server.start();
 		}
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
