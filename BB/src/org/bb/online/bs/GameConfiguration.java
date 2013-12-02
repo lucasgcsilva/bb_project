@@ -58,11 +58,11 @@ public class GameConfiguration {
 		mapPath = Info.mapPath[mapLevel-1];
 		
 		//Configurando o numero do player
-		numPlayer = 1;
+		numPlayer = 2;
 		
 		//Configurando o servidor/client
-		setTypeConn(TYPE_SERVER);
-		ip = "172.20.21.65";
+		setTypeConn(TYPE_CLIENT);
+		ip = "172.20.19.41";
 	}
 	
 	public String getIp() {

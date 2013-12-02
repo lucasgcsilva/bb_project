@@ -13,7 +13,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class ServerWriter extends Thread{
 
 	protected Socket conexao;
-	private static Vector<PrintStream> clientWriters;
+//	private static Vector<PrintStream> clientWriters;
 	
 	public ServerWriter (Socket s){
 		conexao = s;
@@ -22,26 +22,27 @@ public class ServerWriter extends Thread{
 	public void run(){
 		try{
 			PrintStream saida = new PrintStream(conexao.getOutputStream());
-			clientWriters.add(saida);
+//			clientWriters.add(saida);
 			while (true){
-				sendToAll();
+				sendToAll(saida);
 			}
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public void sendToAll (){
-		Enumeration<PrintStream> e = clientWriters.elements();
+	public void sendToAll (PrintStream send){
+		System.out.println("Send data...");
+//		Enumeration<PrintStream> e = clientWriters.elements();
 		String xml;
 	    PlayerInfo instance = PlayerInfo.getInstance();
 	    XStream xstream = new XStream(new DomDriver());
 		xstream.alias("PlayerInfo", PlayerInfo.class);
 		xstream.alias("PlayerData", PlayerInfo.PlayerData.class);
-		while (e.hasMoreElements()){
-			PrintStream send = (PrintStream) e.nextElement();
+//		while (e.hasMoreElements()){
+//			PrintStream send = (PrintStream) e.nextElement();
 			xml = xstream.toXML(instance);
 			send.println(xml);
-		}
+//		}
 	}
 }

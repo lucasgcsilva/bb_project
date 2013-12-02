@@ -30,6 +30,7 @@ public class ServerReceiver extends Thread {
 			System.out.println("reading a line...");
 			String linha = entrada.readLine();
 			while (linha != null){
+				System.out.println(linha);
 	        	playerInfo = (PlayerInfo) xstream.fromXML(linha);
 	        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
 	        	instance.setStartGame(playerInfo.isStartGame());
