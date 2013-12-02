@@ -1,6 +1,11 @@
 package org.bb.online.bs;
 
 import java.awt.Component;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import org.bb.online.bs.player.Actors;
 import org.bb.online.bs.player.Player;
 import org.bb.online.bs.player.PlayerInfo;
@@ -23,6 +28,7 @@ import org.newdawn.slick.gui.TextField;
 
 public class Game extends BasicGame{
 	public static enum GameState { PLAYING, PAUSED, FAILED, FINISHED };
+	private GameConfiguration goc = GameConfiguration.getGameConfiguration();
 //	private Player player1;
 //	private Player player2;
 //	private Player player3;
@@ -84,14 +90,27 @@ public class Game extends BasicGame{
 	@SuppressWarnings("deprecation")
 	@Override
     public void init(GameContainer gc) throws SlickException {
-		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
-			client = new ClientThread();
-			client.start();
-			System.out.println("Thread Client iniciada!");
-		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
-			server = new ServerThread();
-			server.start();
-			System.out.println("Thread Server iniciada!");
+		InetAddress host;
+		Socket socket = null;
+		try {
+			host = InetAddress.getByName(goc.getIp());
+			socket = new Socket(host.getHostName(), 9876);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+				client = new ClientThread(socket);
+				client.start();
+				System.out.println("Thread Client iniciada!");
+			}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
+				server = new ServerThread(socket);
+				server.start();
+				System.out.println("Thread Server iniciada!");
+			}
 		}
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);

@@ -20,7 +20,11 @@ public class ServerThread extends Thread {
 	    //socket server port on which it will listen
 	    private static int port = 9876;
 	    private GameConfiguration gc = GameConfiguration.getGameConfiguration();
+	    private Socket socket;
 	    
+	    public ServerThread(Socket socket){
+			this.socket = socket;
+		}
 	    
 	    public void run(){
 	    	try{
@@ -33,15 +37,15 @@ public class ServerThread extends Thread {
 			xstream.alias("PlayerInfo", PlayerInfo.class);
 			xstream.alias("PlayerData", PlayerInfo.PlayerData.class);
 	        //keep listens indefinitely until receives 'exit' call or program terminates
+			System.out.println("Waiting for client request");
+			//creating socket and waiting for client connection
+			socket = server.accept();
 	        while(true){
-	        	System.out.println("Waiting for client request");
-	        	//creating socket and waiting for client connection
-	        	Socket socket = server.accept();
 	        	//read from socket to ObjectInputStream object
 	        	ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 	        	//convert ObjectInputStream object to String
 	        	String message = (String) ois.readObject();
-	        	System.out.println("Message Received: " + message);
+//	        	System.out.println("Message Received: " + message);
 	        	//create ObjectOutputStream object
 	        	ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        	//write object to Socket
@@ -54,7 +58,7 @@ public class ServerThread extends Thread {
 	        	//close resources
 	        	ois.close();
 	        	oos.close();
-	        	socket.close();
+//	        	socket.close();
 	        	//terminate the server if client sends exit request
 	        	if(message.equalsIgnoreCase("exit")) break;
 	        }

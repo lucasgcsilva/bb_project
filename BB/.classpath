@@ -26,5 +26,8 @@
 	<classpathentry kind="lib" path="jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="jorbis-0.0.15.jar"/>
 	<classpathentry kind="lib" path="startup2.jar"/>
+	<classpathentry kind="lib" path="httpclient-4.3.1.jar"/>
+	<classpathentry kind="lib" path="httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

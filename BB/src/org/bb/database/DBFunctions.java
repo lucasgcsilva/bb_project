@@ -1,13 +1,25 @@
 package org.bb.database;
 
 import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.bb.main.Main;
 import org.bb.util.Info;
 
@@ -120,50 +132,37 @@ public class DBFunctions {
 	
 	
 	public static boolean insertUser(String username, String senha, String email){
-		String sql1 = "INSERT INTO "+Info.tableUsr+" (username, password, email) VALUES (?, ?, ?)";
-		String sql2 = "INSERT INTO highscoreBattlestadium(s_vitorias, s_derrotas, s_qtde_trofeus, s_bombersaldo, t_vitorias, t_derrotas, "+
-				"t_qtde_trofeus, t_bombersaldo) VALUES (0, 0, 0, 0, 0, 0, 0, 0)";
-		String sql3 = "INSERT INTO highscoreArena(qtde_kills, qtde_death, bombersaldo) VALUES (0, 0, 0)";
-		String sql4 = "INSERT INTO highscore VALUES ((SELECT usr_id FROM users WHERE email=?), LAST_INSERT_ID(), LAST_INSERT_ID())";
-		PreparedStatement insertUsr = null;
-		Connection conn = connectDB();;
-		try{
-			conn.setAutoCommit(false);
-			insertUsr = conn.prepareStatement(sql1);
-			insertUsr.setString(1, username);
-			insertUsr.setString(2, senha);
-			insertUsr.setString(3, email);
-			if (insertUsr.execute()){
-				System.out.println(sql1+" OK!");
+		String url = "http://200.236.3.203:8080/bbServer/cadastroUsr";
+		 
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(url);
+	 
+	 
+		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+		urlParameters.add(new BasicNameValuePair("username", username));
+		urlParameters.add(new BasicNameValuePair("password", senha));
+		urlParameters.add(new BasicNameValuePair("email", email));
+	 
+		try {
+		post.setEntity(new UrlEncodedFormEntity(urlParameters));
+	 
+		HttpResponse response = client.execute(post);
+		System.out.println("Response Code : " 
+	                + response.getStatusLine().getStatusCode());
+	 
+		BufferedReader rd = new BufferedReader(
+		        new InputStreamReader(response.getEntity().getContent()));
+	 
+		StringBuffer result = new StringBuffer();
+		String line = "";
+			while ((line = rd.readLine()) != null) {
+				result.append(line);
 			}
-			insertUsr = conn.prepareStatement(sql2);
-			if (insertUsr.execute()){
-				System.out.println(sql2+" OK!");
-			}
-			insertUsr = conn.prepareStatement(sql3);
-			if (insertUsr.execute()){
-				System.out.println(sql3+" OK!");
-			}
-			insertUsr = conn.prepareStatement(sql4);
-			insertUsr.setString(1, email);
-			if (insertUsr.execute()){
-				System.out.println(sql4+" OK!");
-			}
-			
-			conn.commit();
-			return true;
-			
-		}catch (Exception e){
+		return true;	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Servidor Temporariamente Indisponível. Tente novamente mais tarde", "Erro ao inserir usuário",JOptionPane.ERROR_MESSAGE);
 			return false;
-		}finally{
-			try{
-				if(conn != null){conn.close();}
-				if(insertUsr != null){insertUsr.close();}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
 		}
 	}
 	

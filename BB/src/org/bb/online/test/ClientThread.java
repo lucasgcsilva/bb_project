@@ -21,7 +21,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ClientThread extends Thread{
-//	Socket client = null;
 //	ObjectInputStream ois = null;
 //	private PlayerInfo playerInfo;
 //	private PlayerInfo instance = PlayerInfo.getInstance();
@@ -77,14 +76,15 @@ public class ClientThread extends Thread{
 //	
 	private PlayerInfo playerInfo = PlayerInfo.getInstance();
 	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
-	public ClientThread(){
-		
+	private Socket socket;
+	public ClientThread(Socket socket){
+		this.socket = socket;
 	}
 	//get the localhost IP address, if server is running on some other IP, you need to use that
 	public void run (){
 		try{
-			InetAddress host = InetAddress.getByName(gc.getIp());
-			Socket socket = null;
+//			InetAddress host = InetAddress.getByName(gc.getIp());
+//			socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;
 			XStream xstream = new XStream(new DomDriver());
@@ -95,7 +95,7 @@ public class ClientThread extends Thread{
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration().getNumPlayer());
 			while (true) {
 				// establish socket connection to server
-				socket = new Socket(host.getHostName(), 9876);
+//				socket = new Socket(host.getHostName(), 9876);
 				playerInfo.setStartGame(true);
 				xml = xstream.toXML(playerInfo);
 				// write to socket using ObjectOutputStream
