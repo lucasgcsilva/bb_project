@@ -41,8 +41,9 @@ public class ClientThread extends Thread {
 					.getNumPlayer());
 			socket = new Socket(host.getHostName(), 9876);
 			playerInfo.setStartGame(true);
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
 			while (true) {
-				oos = new ObjectOutputStream(socket.getOutputStream());
 				System.out.println("Sending request to Socket Server");
 				message = null;
 
@@ -51,7 +52,6 @@ public class ClientThread extends Thread {
 				}
 				oos.writeObject(message);
 
-				ois = new ObjectInputStream(socket.getInputStream());
 				message = (String) ois.readObject();
 				System.out.println("Message: " + message);
 				if (message != null) {
@@ -98,6 +98,8 @@ public class ClientThread extends Thread {
 					}
 
 				}
+				oos.reset();
+				ois.reset();
 //				ois.close();
 //				oos.close();
 			}
