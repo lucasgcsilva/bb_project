@@ -25,6 +25,7 @@ public class ServerThread extends Thread {
 		private GameConfiguration gc = GameConfiguration.getGameConfiguration();
 	    private boolean isSendMessage = false;
 	    private String sendMessage = null;
+	    private PlayerInfo playerInfo = PlayerInfo.getInstance();
 	    public ServerThread (){
 	    }
 	    
@@ -33,11 +34,6 @@ public class ServerThread extends Thread {
 	        //create the socket server object
 	        server = new ServerSocket(port);
 	        Socket socket = null;
-	        PlayerInfo playerInfo;
-	        String xml;
-	        XStream xstream = new XStream(new DomDriver());
-			xstream.alias("PlayerInfo", PlayerInfo.class);
-			xstream.alias("PlayerData", PlayerInfo.PlayerData.class);
 	        //keep listens indefinitely until receives 'exit' call or program terminates
         	ObjectInputStream ois = null;
         	ObjectOutputStream oos = null;
@@ -68,6 +64,30 @@ public class ServerThread extends Thread {
 //		        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
 //		        	instance.setStartGame(playerInfo.isStartGame());
 		        	System.out.println("Message Received: " + message);
+		        	if (message != null){
+						String[] linhaSplit = message.split("\\|");
+						int opt = Integer.parseInt(linhaSplit[1]);
+						int numplayer = Integer.parseInt(linhaSplit[0]);
+						switch (opt){
+							case 1 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(true);
+								break;
+							case 2 : playerInfo.getPlayersData()[numplayer-1].setKeyDown(true);
+								break;
+							case 3 : playerInfo.getPlayersData()[numplayer-1].setKeyLeft(true);
+								break;
+							case 4 : playerInfo.getPlayersData()[numplayer-1].setKeyRight(true);
+								break;
+							case 5 : playerInfo.getPlayersData()[numplayer-1].setKeyBomb(true);
+								break;
+							case 6 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(false);
+									 playerInfo.getPlayersData()[numplayer-1].setKeyDown(false);
+									 playerInfo.getPlayersData()[numplayer-1].setKeyLeft(false);
+									 playerInfo.getPlayersData()[numplayer-1].setKeyRight(false);
+									 playerInfo.getPlayersData()[numplayer-1].setKeyBomb(false);
+									 break;
+						}
+					
+					}
 //		        	ois.reset();
 //	        	}
 	        	//create ObjectOutputStream object
@@ -84,12 +104,11 @@ public class ServerThread extends Thread {
 		        	
 //		        	xml = xstream.toXML(instance);
 		        	oos.writeObject(message);
-		        	xml = null;
 		        	oos.flush();
 		        	isSendMessage = false;
 //		        	oos.reset();
 //	        	}
-	        	sleep(1000);
+//	        	sleep(1000);
 	        	ois.close();
 	        	oos.close();
 	        	socket.close();

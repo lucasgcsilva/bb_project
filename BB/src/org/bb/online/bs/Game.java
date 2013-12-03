@@ -207,6 +207,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|1|true");
 					server.setIsSendMessage(true);	
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|1|true");
+					client.setIsSendMessage(true);
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyUp(true);
 				playerInfo.setPlayersData(pi);
@@ -214,6 +217,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|2|true");
 					server.setIsSendMessage(true);
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|2|true");
+					client.setIsSendMessage(true);
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyDown(true);
 				playerInfo.setPlayersData(pi);
@@ -221,6 +227,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|3|true");
 					server.setIsSendMessage(true);					
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|3|true");
+					client.setIsSendMessage(true);
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyLeft(true);
 				playerInfo.setPlayersData(pi);
@@ -228,6 +237,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|4|true");
 					server.setIsSendMessage(true);					
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|4|true");
+					client.setIsSendMessage(true);
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyRight(true);
 				playerInfo.setPlayersData(pi);
@@ -235,6 +247,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|5|true");
 					server.setIsSendMessage(true);					
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|5|true");
+					client.setIsSendMessage(true);		
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyBomb(true);
 				playerInfo.setPlayersData(pi);
@@ -242,6 +257,9 @@ public class Game extends BasicGame{
 				if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 					server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|6|release");
 					server.setIsSendMessage(true);					
+				}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+					client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|6|release");
+					client.setIsSendMessage(true);
 				}
 				pi[this.gc.getNumPlayer() - 1].setKeyUp(false);
 				pi[this.gc.getNumPlayer() - 1].setKeyDown(false);

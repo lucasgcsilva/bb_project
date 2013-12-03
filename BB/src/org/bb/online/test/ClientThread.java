@@ -77,6 +77,9 @@ public class ClientThread extends Thread{
 //	
 	private PlayerInfo playerInfo = PlayerInfo.getInstance();
 	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
+	private boolean isSendMessage = false;
+    private String sendMessage = null;
+	
 	public ClientThread(){
 		
 	}
@@ -87,28 +90,28 @@ public class ClientThread extends Thread{
 			Socket socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;
-			XStream xstream = new XStream(new DomDriver());
-			xstream.alias("PlayerInfo", PlayerInfo.class);
-			xstream.alias("PlayerData", PlayerData.class);
-			String xml;
-			PlayerInfo aux;
+			String message;
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration().getNumPlayer());
 			while (true) {
 				// establish socket connection to server
 				socket = new Socket(host.getHostName(), 9876);
 				playerInfo.setStartGame(true);
-				xml = xstream.toXML(playerInfo);
 				// write to socket using ObjectOutputStream
 				oos = new ObjectOutputStream(socket.getOutputStream());
 				System.out.println("Sending request to Socket Server");
 //				if (i == 4)
 //					oos.writeObject("exit");
 //				else
-				oos.writeObject(xml);
+				message = null;
+	        	
+	        	if (isSendMessage){
+	        		message = sendMessage;
+	        	}
+				oos.writeObject(message);
 				
 				// read the server response message
 				ois = new ObjectInputStream(socket.getInputStream());
-				String message = (String) ois.readObject();
+				message = (String) ois.readObject();
 				System.out.println("Message: " + message);
 //				aux = (PlayerInfo) xstream.fromXML(message);
 //				if (aux.getNumPlayer() != 0){
@@ -148,4 +151,11 @@ public class ClientThread extends Thread{
 			
 		}
 	}
+	public void setIsSendMessage(boolean send){
+    	this.isSendMessage = send;
+    }
+    
+    public void setSendMessage(String msg){
+    	this.sendMessage = msg;
+    }
 }
