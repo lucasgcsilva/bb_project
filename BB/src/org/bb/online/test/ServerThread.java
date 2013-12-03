@@ -85,6 +85,10 @@ public class ServerThread extends Thread {
 									 playerInfo.getPlayersData()[numplayer-1].setKeyRight(false);
 									 playerInfo.getPlayersData()[numplayer-1].setKeyBomb(false);
 									 break;
+							case 7 : playerInfo.setTime(Integer.parseInt(linhaSplit[2]));
+									 playerInfo.setStartGame(true);
+									 break;
+							
 						}
 					
 					}

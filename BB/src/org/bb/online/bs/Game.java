@@ -104,7 +104,7 @@ public class Game extends BasicGame{
 			server = new ServerThread();
 			server.start();
 		}
-		playerInfo.setStartGame(true);
+//		playerInfo.setStartGame(true);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
         finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
@@ -183,6 +183,11 @@ public class Game extends BasicGame{
         
         
         gc.setMusicOn(true);
+        if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
+        	server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|7|"+playingTime);
+		}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+        	client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|7|"+playingTime);
+		}
     }
 
     @SuppressWarnings("deprecation")
