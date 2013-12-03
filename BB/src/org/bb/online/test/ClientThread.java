@@ -99,7 +99,7 @@ public class ClientThread extends Thread {
 
 				}
 				oos.reset();
-				ois.reset();
+//				ois.reset();
 //				ois.close();
 //				oos.close();
 			}

@@ -194,6 +194,9 @@ public class Game extends BasicGame{
         	client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|7|"+playingTime);
         	playerInfo.setStartGame(true);
 		}
+        player[2].isAlive = false;
+        player[3].isAlive = false;
+        player[4].isAlive = false;
     }
 
     @SuppressWarnings("deprecation")

@@ -109,7 +109,6 @@ public class ServerThread extends Thread {
 					oos.flush();
 					isSendMessage = false;
 					oos.reset();
-					ois.reset();
 //					ois.close();
 //					oos.close();
 //					socket.close();
