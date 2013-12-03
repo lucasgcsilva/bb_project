@@ -38,7 +38,6 @@ public class ServerWriter extends Thread{
 	}
 	
 	public void sendToAll (PrintStream send){
-		System.out.println("Send data...");
 //		Enumeration<PrintStream> e = clientWriters.elements();
 //		String xml;
 //	    
@@ -52,19 +51,19 @@ public class ServerWriter extends Thread{
 //		}
 		
 		if (pData.isKeyUp() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp()){
-			send.println(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp());
+			send.println(Integer.toString(instance.getNumPlayer())+"|1|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp()));
 			pData.setKeyUp(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp());
 		}else if (pData.isKeyDown() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown()){
-			send.println(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown());
+			send.println(Integer.toString(instance.getNumPlayer())+"|2|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown()));
 			pData.setKeyDown(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown());
 		}else if (pData.isKeyLeft() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft()){
-			send.println(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft());
+			send.println(Integer.toString(instance.getNumPlayer())+"|3|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft()));
 			pData.setKeyLeft(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft());
 		}else if (pData.isKeyRight() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight()){
-			send.println(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight());
+			send.println(Integer.toString(instance.getNumPlayer())+"|4|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight()));
 			pData.setKeyRight(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight());
 		}else if (pData.isKeyBomb() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb()){
-			send.println(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb());
+			send.println(Integer.toString(instance.getNumPlayer())+"|5|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb()));
 			pData.setKeyBomb(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb());
 		}
 	}

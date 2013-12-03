@@ -112,7 +112,7 @@ public class PlayerInfo implements Serializable {
 	
 	private PlayerInfo(){
 		time = 0;
-		numPlayer = 0;
+		numPlayer = 1;
 		for (int i = 0; i < playersData.length; i++){
 			playersData[i] = new PlayerData();
 		}

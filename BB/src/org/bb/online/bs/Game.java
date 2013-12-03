@@ -99,6 +99,7 @@ public class Game extends BasicGame{
 			server = new StartServer();
 			server.start();
 		}
+		playerInfo.setStartGame(true);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);
         finish = new Animation(Anim.getSpriteSheetAnimation(victory, 2, 0), 100);
@@ -365,7 +366,6 @@ public class Game extends BasicGame{
 				mus.start();
 			}
 			PlayerInfo instance = PlayerInfo.getInstance();
-			System.out.println(instance.getPlayersData()[instance.getNumPlayer()-1].isKeyRight());
     	}
     }
 
