@@ -108,6 +108,8 @@ public class Game extends BasicGame{
 				server.start();				
 			}
 		}
+		timeGame = this.gc.getTime();
+		numMaxTrofeus = this.gc.getQtdeTrofeus();
 //		playerInfo.setStartGame(true);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);

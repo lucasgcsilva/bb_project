@@ -80,6 +80,7 @@ public class Game extends BasicGame{
 	@Override
     public void init(GameContainer gc) throws SlickException {
 		timeGame = this.gc.getTime();
+		numMaxTrofeus = this.gc.getQtdeTrofeus();
 		i = new Image(main.fWidth, main.fHeight);
 		celebrate = null;
 		SpriteSheet victory = new SpriteSheet("resources/images/backVictory01.png", 256, 224);

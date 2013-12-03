@@ -13,7 +13,27 @@ public class GameConfiguration {
 	private int numPlayer;
 	private int typeConn;
 	private String ip;
+	private int time;
+	private int qtdeTrofeus;
 	
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
+	public int getQtdeTrofeus() {
+		return qtdeTrofeus;
+	}
+
+	public void setQtdeTrofeus(int qtdeTrofeus) {
+		this.qtdeTrofeus = qtdeTrofeus;
+	}
+
+
+
 	public static int TYPE_NORMAL = 1;
 	public static int TYPE_SEIYA = 2;
 	
@@ -63,6 +83,9 @@ public class GameConfiguration {
 		//Configurando o servidor/client
 		setTypeConn(TYPE_SERVER);
 		ip = "172.20.19.41";
+		
+		time = 120;
+		qtdeTrofeus = 3;
 	}
 	
 	public String getIp() {

@@ -82,16 +82,7 @@ public class BBOptions extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				try {
-					main.stopMusicMenu();
-					main.setVisible(false);
-					org.bb.online.bs.NewGame newOnlineGame = new org.bb.online.bs.NewGame(main);
-					System.out.println("New Game created!");
-				} catch (SlickException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					
-				}
+				main.addOnlineConfiguration();
 			}
 		});
 		
@@ -100,16 +91,6 @@ public class BBOptions extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-//				try {
-//					main.stopMusicMenu();
-//					main.setVisible(false);
-//					NewGame newOfflineGame = new NewGame(main);
-//					System.out.println("New Game created!");
-//				} catch (SlickException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//					
-//				}
 				main.addOfflineConfiguration();
 			}
 		});

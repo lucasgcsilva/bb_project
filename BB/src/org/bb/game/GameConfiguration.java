@@ -11,6 +11,7 @@ public class GameConfiguration {
 	private String mapPath;
 	private int mapLevel; 
 	private int time;
+	private int qtdeTrofeus;
 	
 	
 	public static int TYPE_NORMAL = 1;
@@ -51,9 +52,17 @@ public class GameConfiguration {
 		
 		//Tempo de jogo
 		time = 120;
-		
+		qtdeTrofeus = 3;
 	}
 	
+	public int getQtdeTrofeus() {
+		return qtdeTrofeus;
+	}
+
+	public void setQtdeTrofeus(int qtdeTrofeus) {
+		this.qtdeTrofeus = qtdeTrofeus;
+	}
+
 	public int getTime() {
 		return time;
 	}

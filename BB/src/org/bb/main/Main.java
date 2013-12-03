@@ -26,6 +26,7 @@ public class Main extends JFrame {
 	private Cadastro cad;
 	private Score score;
 	private OfflineConfiguration offlineConfig;
+	private OnlineConfiguration onlineConfig;
 	public SavedPreferences sp;
 	
 	public Main(){
@@ -118,6 +119,14 @@ public class Main extends JFrame {
 		offlineConfig = new OfflineConfiguration(this);
 		container.removeAll();
 		container.add(offlineConfig);
+		container.repaint();
+		container.validate();
+	}
+	public void addOnlineConfiguration(){
+		menu.stopMusic();
+		onlineConfig = new OnlineConfiguration(this);
+		container.removeAll();
+		container.add(onlineConfig);
 		container.repaint();
 		container.validate();
 	}
