@@ -3,26 +3,12 @@ package org.bb.main;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
-
-import org.bb.main.gui.Archievments;
-import org.bb.main.gui.BBOptions;
-import org.bb.main.gui.Cadastro;
-import org.bb.main.gui.Init;
-import org.bb.main.gui.Menu;
-import org.bb.main.gui.Options;
-import org.bb.main.gui.Score;
+import org.bb.main.gui.*;
 import org.bb.util.SavedPreferences;
-
-import java.util.*;
 
 public class Main extends JFrame {
 	
@@ -39,6 +25,7 @@ public class Main extends JFrame {
 	private Options opt;
 	private Cadastro cad;
 	private Score score;
+	private OfflineConfiguration offlineConfig;
 	public SavedPreferences sp;
 	
 	public Main(){
@@ -122,6 +109,15 @@ public class Main extends JFrame {
 		cad = new Cadastro(this);
 		menu.removeAll();
 		container.add(cad);
+		container.repaint();
+		container.validate();
+	}
+	
+	public void addOfflineConfiguration(){
+		menu.stopMusic();
+		offlineConfig = new OfflineConfiguration(this);
+		container.removeAll();
+		container.add(offlineConfig);
 		container.repaint();
 		container.validate();
 	}

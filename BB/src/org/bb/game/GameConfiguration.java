@@ -10,6 +10,7 @@ public class GameConfiguration {
 	private boolean[] isKeyboards = new boolean[5];
 	private String mapPath;
 	private int mapLevel; 
+	private int time;
 	
 	
 	public static int TYPE_NORMAL = 1;
@@ -48,8 +49,19 @@ public class GameConfiguration {
 		mapLevel = 1;
 		mapPath = Info.mapPath[mapLevel-1];
 		
+		//Tempo de jogo
+		time = 120;
+		
 	}
 	
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 	public int getMapLevel(){
 		return mapLevel;
 	}

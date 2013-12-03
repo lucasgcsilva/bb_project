@@ -50,7 +50,6 @@ public class Init extends JPanel implements ActionListener {
 		super.paintComponent(g);
 		BufferedImage buffImg = new BufferedImage(main.width, main.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gg = buffImg.createGraphics();
-		System.out.println(contTimer);
 		contTimer++;
 		ac = AlphaComposite.getInstance(AlphaComposite.CLEAR, alphaValue);
 		gg.setComposite(ac);
@@ -85,7 +84,6 @@ public class Init extends JPanel implements ActionListener {
 				mp.playSound("resources/musics/l2games_intro.wav");
 			}
 		}else if (contTimer > 45 && key == false){
-			System.out.println("Enter here!");
 			main.addMenu();
 			key = true;
 		}
