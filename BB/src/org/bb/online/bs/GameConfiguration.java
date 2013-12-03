@@ -58,7 +58,7 @@ public class GameConfiguration {
 		mapPath = Info.mapPath[mapLevel-1];
 		
 		//Configurando o numero do player
-		numPlayer = 2;
+		numPlayer = 1;
 		
 		//Configurando o servidor/client
 		setTypeConn(TYPE_CLIENT);

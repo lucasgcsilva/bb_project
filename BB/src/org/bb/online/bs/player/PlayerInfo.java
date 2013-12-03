@@ -2,7 +2,7 @@ package org.bb.online.bs.player;
 
 import java.io.Serializable;
 
-public class PlayerInfo implements Serializable{
+public class PlayerInfo implements Serializable {
 	
 	public class PlayerData{
     	private boolean keyUp;
