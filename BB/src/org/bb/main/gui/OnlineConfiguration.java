@@ -167,6 +167,7 @@ public class OnlineConfiguration extends JPanel{
 				main.sp.setSavedPreference(main.sp.PREF_IP_ONLINE, tf.getText());
 				gc.setIp(tf.getText());
 				gc.setTypeConn(gc.TYPE_CLIENT);
+				gc.setNumPlayer(2);
 				try {
 					main.stopMusicMenu();
 					main.setVisible(false);
@@ -200,6 +201,7 @@ public class OnlineConfiguration extends JPanel{
 					gc.setQtdeTrofeus(5);
 				}
 				gc.setTypeConn(gc.TYPE_SERVER);
+				gc.setNumPlayer(1);
 				try {
 					main.stopMusicMenu();
 					main.setVisible(false);
