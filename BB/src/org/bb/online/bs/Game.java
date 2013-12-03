@@ -364,6 +364,8 @@ public class Game extends BasicGame{
 				mus = new MusicPlayer("resources/musics/level_hurry.wav", true);
 				mus.start();
 			}
+			PlayerInfo instance = PlayerInfo.getInstance();
+			System.out.println(instance.getPlayersData()[instance.getNumPlayer()-1].isKeyRight());
     	}
     }
 

@@ -31,6 +31,8 @@ public class SavedPreferences {
 	public String usrname;
 	public String email;
 	public boolean isLogged = false;
+	public String ipTomcat;
+	public String ipOnline;
 	
 	private Input input = new Input(480);;
 	public static String PREF_SCREEN = "screen_size";
@@ -38,10 +40,12 @@ public class SavedPreferences {
 	public static String PREF_FULLSCREEN = "full_screen";
 	public static String PREF_LASTNAMEUSR = "last_name_usr";
 	public static String PREF_HIGHSCORE = "highscore";
+	public static String PREF_IP_TOMCAT = "ip_tomcat";
+	public static String PREF_IP_ONLINE = "ip_online";
 	
 	public static String DEF_SCREEN = "1024x728";
 	public static String DEF_VOLUME = "0.5f";
-	public static String DEF_FULLSCREEN = "false";
+	public static String DEF_FULLSCREEN = "true";
 //	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
 //			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
 //	public static String DEF_PAD2 = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
@@ -53,6 +57,8 @@ public class SavedPreferences {
 	public static String DEF_LASTNAMEUSR = "Username";
 	public static String PREF_PAD = DEF_PAD1;
 	public static String PREF_PAD2 = DEF_PAD2;
+	public static String DEF_IP_TOMCAT = "200.236.3.203";
+	public static String DEF_IP_ONLINE = "0.0.0.0";
 	
 	
 	
@@ -119,8 +125,20 @@ public class SavedPreferences {
 		pad1 = savedPref.get(PREF_PAD, DEF_PAD1);
 		pad2 = savedPref.get(PREF_PAD2, DEF_PAD2);
 		lastNameUsr = savedPref.get(PREF_LASTNAMEUSR, DEF_LASTNAMEUSR);
+		ipTomcat = savedPref.get(PREF_IP_TOMCAT, DEF_IP_TOMCAT);
+		ipOnline = savedPref.get(PREF_IP_ONLINE, DEF_IP_ONLINE);
 	}
 	
+	public void resetDefault(){
+		savedPref.put(PREF_SCREEN, DEF_SCREEN);
+		savedPref.put(PREF_VOLUME, DEF_VOLUME);
+		savedPref.put(PREF_FULLSCREEN, DEF_FULLSCREEN);
+		savedPref.put(PREF_PAD, DEF_PAD1);
+		savedPref.put(PREF_PAD2, DEF_PAD2);
+		savedPref.put(PREF_LASTNAMEUSR, DEF_LASTNAMEUSR);
+		savedPref.put(PREF_IP_TOMCAT, DEF_IP_TOMCAT);
+		savedPref.put(PREF_IP_ONLINE, DEF_IP_ONLINE);
+	}
 	public void printPreferences(){
 		System.out.println(screen+volume+fullScreen+pad1+lastNameUsr);
 	}

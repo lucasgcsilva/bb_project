@@ -31,14 +31,22 @@ public class ServerReceiver extends Thread {
 			String linha = "";
 			String catLinha = "";
 			while (true){
-				linha = entrada.readLine();
-				if (linha.trim().equals("</PlayerInfo>")){
-					catLinha = catLinha + linha;
-					playerInfo = (PlayerInfo) xstream.fromXML(linha);
-					instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
-					instance.setStartGame(playerInfo.isStartGame());
+				if (entrada != null){
+					entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
 				}else {
-					catLinha = catLinha + linha;
+					linha = entrada.readLine();
+					if (linha.trim().equals("</PlayerInfo>")){
+						catLinha = catLinha + linha;
+						playerInfo = (PlayerInfo) xstream.fromXML(catLinha);
+						instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
+						instance.setStartGame(playerInfo.isStartGame());
+						catLinha = "";
+						Thread.sleep(100);
+						entrada.close();
+						entrada = null;
+					}else {
+						catLinha = catLinha + linha;
+					}					
 				}
 			}
 		}catch (Exception e){

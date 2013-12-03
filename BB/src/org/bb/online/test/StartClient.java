@@ -40,11 +40,13 @@ public class StartClient extends Thread{
 					.getNumPlayer());
 			String catLinha = "";
 			String linha = "";
+			int numClassesEnviadas = 0;
 			while (true) {
 				linha = entrada.readLine();
 				if (linha.trim().equals("</PlayerInfo>")){
 					catLinha = catLinha + linha;
-					System.out.println(catLinha);
+					numClassesEnviadas++;
+					System.out.println(catLinha + numClassesEnviadas);
 					playerInfo.setStartGame(true);
 					xml = xstream.toXML(playerInfo);
 					saida.println(xml);
@@ -53,8 +55,9 @@ public class StartClient extends Thread{
 						playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
 					}
 					catLinha = "";
+					Thread.sleep(100);
 				}else {
-					catLinha = catLinha + linha;
+					catLinha = catLinha + linha+"\n";
 				}
 			}
 		}catch (Exception e){

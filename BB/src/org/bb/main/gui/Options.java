@@ -329,6 +329,22 @@ public class Options extends JPanel {
 		pnlConfig.add(tblPad, gbc);
 		
 		
+		JButton btnResetPref = new JButton("Resetar Preferências");
+		btnResetPref.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				main.sp.resetDefault();
+			}
+		});
+		gbc.gridx = 1;
+		gbc.gridy = 13;
+		gbc.gridwidth = 2;
+		pnlConfig.add(btnResetPref, gbc);
+		
+		
+		
 		
 		add(pnlConfig, BorderLayout.CENTER);
 		
