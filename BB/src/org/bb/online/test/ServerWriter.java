@@ -25,7 +25,7 @@ public class ServerWriter extends Thread{
 		pData = instance.getPlayersData()[gc.getNumPlayer()-1];
 	}
 	
-	public void run(){
+	public synchronized void run(){
 		try{
 			PrintStream saida = new PrintStream(conexao.getOutputStream());
 //			clientWriters.add(saida);
@@ -53,18 +53,23 @@ public class ServerWriter extends Thread{
 		if (pData.isKeyUp() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp()){
 			send.println(Integer.toString(instance.getNumPlayer())+"|1|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp()));
 			pData.setKeyUp(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyUp());
+			System.out.println("change UP");
 		}else if (pData.isKeyDown() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown()){
 			send.println(Integer.toString(instance.getNumPlayer())+"|2|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown()));
 			pData.setKeyDown(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyDown());
+			System.out.println("change DOWN");
 		}else if (pData.isKeyLeft() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft()){
 			send.println(Integer.toString(instance.getNumPlayer())+"|3|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft()));
 			pData.setKeyLeft(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyLeft());
+			System.out.println("change LEFT");
 		}else if (pData.isKeyRight() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight()){
 			send.println(Integer.toString(instance.getNumPlayer())+"|4|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight()));
 			pData.setKeyRight(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyRight());
+			System.out.println("change RIGHT");
 		}else if (pData.isKeyBomb() != instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb()){
 			send.println(Integer.toString(instance.getNumPlayer())+"|5|"+Boolean.toString(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb()));
 			pData.setKeyBomb(instance.getPlayersData()[gc.getNumPlayer()-1].isKeyBomb());
+			System.out.println("change BOMB");
 		}
 	}
 }

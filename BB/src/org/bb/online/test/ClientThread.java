@@ -21,6 +21,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 public class ClientThread extends Thread{
+//	Socket client = null;
 //	ObjectInputStream ois = null;
 //	private PlayerInfo playerInfo;
 //	private PlayerInfo instance = PlayerInfo.getInstance();
@@ -76,15 +77,14 @@ public class ClientThread extends Thread{
 //	
 	private PlayerInfo playerInfo = PlayerInfo.getInstance();
 	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
-	private Socket socket;
-	public ClientThread(Socket socket){
-		this.socket = socket;
+	public ClientThread(){
+		
 	}
 	//get the localhost IP address, if server is running on some other IP, you need to use that
 	public void run (){
 		try{
-//			InetAddress host = InetAddress.getByName(gc.getIp());
-//			socket = null;
+			InetAddress host = InetAddress.getByName(gc.getIp());
+			Socket socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;
 			XStream xstream = new XStream(new DomDriver());
@@ -95,7 +95,7 @@ public class ClientThread extends Thread{
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration().getNumPlayer());
 			while (true) {
 				// establish socket connection to server
-//				socket = new Socket(host.getHostName(), 9876);
+				socket = new Socket(host.getHostName(), 9876);
 				playerInfo.setStartGame(true);
 				xml = xstream.toXML(playerInfo);
 				// write to socket using ObjectOutputStream
@@ -110,11 +110,34 @@ public class ClientThread extends Thread{
 				ois = new ObjectInputStream(socket.getInputStream());
 				String message = (String) ois.readObject();
 				System.out.println("Message: " + message);
-				aux = (PlayerInfo) xstream.fromXML(message);
-				if (aux.getNumPlayer() != 0){
-					playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
-				}
+//				aux = (PlayerInfo) xstream.fromXML(message);
+//				if (aux.getNumPlayer() != 0){
+//					playerInfo.getPlayersData()[aux.getNumPlayer()-1] = aux.getPlayersData()[aux.getNumPlayer()-1];
+//				}
+				if (message != null){
+					String[] linhaSplit = message.split("\\|");
+					int opt = Integer.parseInt(linhaSplit[1]);
+					int numplayer = Integer.parseInt(linhaSplit[0]);
+					switch (opt){
+						case 1 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(true);
+							break;
+						case 2 : playerInfo.getPlayersData()[numplayer-1].setKeyDown(true);
+							break;
+						case 3 : playerInfo.getPlayersData()[numplayer-1].setKeyLeft(true);
+							break;
+						case 4 : playerInfo.getPlayersData()[numplayer-1].setKeyRight(true);
+							break;
+						case 5 : playerInfo.getPlayersData()[numplayer-1].setKeyBomb(true);
+							break;
+						case 6 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(false);
+								 playerInfo.getPlayersData()[numplayer-1].setKeyDown(false);
+								 playerInfo.getPlayersData()[numplayer-1].setKeyLeft(false);
+								 playerInfo.getPlayersData()[numplayer-1].setKeyRight(false);
+								 playerInfo.getPlayersData()[numplayer-1].setKeyBomb(false);
+								 break;
+					}
 				
+				}
 				// close resources
 				ois.close();
 				oos.close();

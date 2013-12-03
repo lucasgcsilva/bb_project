@@ -100,7 +100,7 @@ public class PlayerInfo implements Serializable {
 		this.numPlayer = numPlayer;
 	}
 
-	public PlayerData[] getPlayersData() {
+	public synchronized PlayerData[] getPlayersData() {
 		return playersData;
 	}
 

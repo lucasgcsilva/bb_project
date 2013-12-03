@@ -18,7 +18,7 @@ public class ServerReceiver extends Thread {
 		conexao = s;
 	}
 	
-	public void run(){
+	public synchronized void run(){
 		try{
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
 			PlayerInfo playerInfo;

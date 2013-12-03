@@ -79,8 +79,11 @@ public class Game extends BasicGame{
     private Animation celebrate;
     private int timeGame = 65;    
     private int temp = 40;
-    private StartClient client;
-    private StartServer server;
+//    private StartClient client;
+//    private StartServer server;
+    
+    private ClientThread client;
+    private ServerThread server;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -93,10 +96,12 @@ public class Game extends BasicGame{
 	@Override
     public void init(GameContainer gc) throws SlickException {
 		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
-			client = new StartClient();
+//			client = new StartClient();
+			client = new ClientThread();
 			client.start();
 		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
-			server = new StartServer();
+//			server = new StartServer();
+			server = new ServerThread();
 			server.start();
 		}
 		playerInfo.setStartGame(true);
@@ -199,21 +204,33 @@ public class Game extends BasicGame{
 			
 			PlayerData[] pi = playerInfo.getPlayersData();
 			if (input.isKeyDown(Input.KEY_UP)) {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|1|true");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyUp(true);
 				playerInfo.setPlayersData(pi);
 			} else if (input.isKeyDown(Input.KEY_DOWN)) {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|2|true");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyDown(true);
 				playerInfo.setPlayersData(pi);
 			} else if (input.isKeyDown(Input.KEY_LEFT)) {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|3|true");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyLeft(true);
 				playerInfo.setPlayersData(pi);
 			} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|4|true");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyRight(true);
 				playerInfo.setPlayersData(pi);
 			} else if (input.isKeyDown(Input.KEY_SPACE)) {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|5|true");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyBomb(true);
 				playerInfo.setPlayersData(pi);
 			} else {
+				server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|6|release");
+				server.setIsSendMessage(true);
 				pi[this.gc.getNumPlayer() - 1].setKeyUp(false);
 				pi[this.gc.getNumPlayer() - 1].setKeyDown(false);
 				pi[this.gc.getNumPlayer() - 1].setKeyLeft(false);

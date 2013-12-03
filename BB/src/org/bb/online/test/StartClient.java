@@ -31,7 +31,7 @@ public class StartClient extends Thread{
 		} 
 	}
 	
-	public void run(){
+	public synchronized void run(){
 		try{
 //			XStream xstream = new XStream(new DomDriver());
 //			xstream.alias("PlayerInfo", PlayerInfo.class);
