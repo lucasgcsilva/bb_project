@@ -82,8 +82,8 @@ public class Game extends BasicGame{
 //    private StartClient client;
 //    private StartServer server;
     
-    private ClientThread client;
-    private ServerThread server;
+    private ClientThread client = null;
+    private ServerThread server = null;
     
 	public Game (Main main) throws SlickException{
 		super ("BattleStadium");
@@ -97,12 +97,16 @@ public class Game extends BasicGame{
     public void init(GameContainer gc) throws SlickException {
 		if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
 //			client = new StartClient();
-			client = new ClientThread();
-			client.start();
+			if (client == null){
+				client = new ClientThread();
+				client.start();
+			}
 		}else if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
 //			server = new StartServer();
-			server = new ServerThread();
-			server.start();
+			if (server == null){
+				server = new ServerThread();
+				server.start();				
+			}
 		}
 //		playerInfo.setStartGame(true);
 		celebrate = null;
@@ -185,8 +189,10 @@ public class Game extends BasicGame{
         gc.setMusicOn(true);
         if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
         	server.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|7|"+playingTime);
+        	playerInfo.setStartGame(true);
 		}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
         	client.setSendMessage(Integer.valueOf(this.gc.getNumPlayer())+"|7|"+playingTime);
+        	playerInfo.setStartGame(true);
 		}
     }
 

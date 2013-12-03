@@ -17,123 +17,110 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 
 public class ServerThread extends Thread {
-	    //static ServerSocket variable
-	    private static ServerSocket server;
-	    //socket server port on which it will listen
-	    private static int port = 9876;
-		private PlayerInfo instance = PlayerInfo.getInstance();
-		private GameConfiguration gc = GameConfiguration.getGameConfiguration();
-	    private boolean isSendMessage = false;
-	    private String sendMessage = null;
-	    private PlayerInfo playerInfo = PlayerInfo.getInstance();
-	    public ServerThread (){
-	    }
-	    
-	    public void run(){
-	    	try{
-	        //create the socket server object
-	        server = new ServerSocket(port);
-	        Socket socket = null;
-	        //keep listens indefinitely until receives 'exit' call or program terminates
-        	ObjectInputStream ois = null;
-        	ObjectOutputStream oos = null;
-        	BufferedInputStream bis = null;
-        	BufferedOutputStream bos = null;
-			while(true){
-				
-	        	try{
-	        	System.out.println("Waiting for client request");
-	        	//creating socket and waiting for client connection
-	        	
-	        	if(socket == null) {
-	        		socket = server.accept();
-//		        	ois = new ObjectInputStream(socket.getInputStream());
-		        	oos = new ObjectOutputStream(socket.getOutputStream());
-		        	BufferedInputStream bi = new BufferedInputStream(socket.getInputStream());
-		        	ois = new ObjectInputStream(bi);
-	        	}
-	        	//read from socket to ObjectInputStream object
-	        	String message = null;
+	private static ServerSocket server;
+	private static int port = 9876;
+	private PlayerInfo instance = PlayerInfo.getInstance();
+	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
+	private boolean isSendMessage = false;
+	private String sendMessage = null;
+	private PlayerInfo playerInfo = PlayerInfo.getInstance();
 
-//	        	if(socket.getInputStream() !=null){
-	 	        	System.out.println("Sending request to Socket Server");
-		        	//convert ObjectInputStream object to String
-		        	message = (String) ois.readObject();
-//		        	playerInfo = (PlayerInfo) xstream.fromXML(message);
-//		        	instance = playerInfo;
-//		        	instance.getPlayersData()[playerInfo.getNumPlayer()-1] = playerInfo.getPlayersData()[playerInfo.getNumPlayer()-1];
-//		        	instance.setStartGame(playerInfo.isStartGame());
-		        	System.out.println("Message Received: " + message);
-		        	if (message != null){
+	public ServerThread() {
+
+	}
+
+	public void run() {
+		try {
+			server = new ServerSocket(port);
+			Socket socket = null;
+			ObjectInputStream ois = null;
+			ObjectOutputStream oos = null;
+			BufferedInputStream bis = null;
+			BufferedOutputStream bos = null;
+			while (true) {
+				try {
+					System.out.println("Waiting for client request");
+					if (socket == null) {
+						socket = server.accept();
+						oos = new ObjectOutputStream(socket.getOutputStream());
+						BufferedInputStream bi = new BufferedInputStream(
+								socket.getInputStream());
+						ois = new ObjectInputStream(bi);
+					}
+
+					String message = null;
+					System.out.println("Sending request to Socket Server");
+					message = (String) ois.readObject();
+					System.out.println("Message Received: " + message);
+					if (message != null) {
 						String[] linhaSplit = message.split("\\|");
 						int opt = Integer.parseInt(linhaSplit[1]);
 						int numplayer = Integer.parseInt(linhaSplit[0]);
-						switch (opt){
-							case 1 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(true);
-								break;
-							case 2 : playerInfo.getPlayersData()[numplayer-1].setKeyDown(true);
-								break;
-							case 3 : playerInfo.getPlayersData()[numplayer-1].setKeyLeft(true);
-								break;
-							case 4 : playerInfo.getPlayersData()[numplayer-1].setKeyRight(true);
-								break;
-							case 5 : playerInfo.getPlayersData()[numplayer-1].setKeyBomb(true);
-								break;
-							case 6 : playerInfo.getPlayersData()[numplayer-1].setKeyUp(false);
-									 playerInfo.getPlayersData()[numplayer-1].setKeyDown(false);
-									 playerInfo.getPlayersData()[numplayer-1].setKeyLeft(false);
-									 playerInfo.getPlayersData()[numplayer-1].setKeyRight(false);
-									 playerInfo.getPlayersData()[numplayer-1].setKeyBomb(false);
-									 break;
-							case 7 : playerInfo.setTime(Integer.parseInt(linhaSplit[2]));
-									 playerInfo.setStartGame(true);
-									 break;
-							
-						}
-					
-					}
-//		        	ois.reset();
-//	        	}
-	        	//create ObjectOutputStream object
-//	        	if(socket.getOutputStream() != null){
+						switch (opt) {
+						case 1:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyUp(true);
+							break;
+						case 2:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyDown(true);
+							break;
+						case 3:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyLeft(true);
+							break;
+						case 4:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyRight(true);
+							break;
+						case 5:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyBomb(true);
+							break;
+						case 6:
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyUp(false);
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyDown(false);
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyLeft(false);
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyRight(false);
+							playerInfo.getPlayersData()[numplayer - 1]
+									.setKeyBomb(false);
+							break;
+						case 7:
+							playerInfo.setTime(Integer.parseInt(linhaSplit[2]));
+							playerInfo.setStartGame(true);
+							break;
 
-		        	System.out.println("Reading request from Socket Server");
-		        	//write object to Socket
-		        	instance.setNumPlayer(gc.getNumPlayer());
-		        	message = null;
-		        	
-		        	if (isSendMessage){
-		        		message = sendMessage;
-		        	}
-		        	
-//		        	xml = xstream.toXML(instance);
-		        	oos.writeObject(message);
-		        	oos.flush();
-		        	isSendMessage = false;
-//		        	oos.reset();
-//	        	}
-//	        	sleep(1000);
-	        	ois.close();
-	        	oos.close();
-	        	socket.close();
-	        	socket = null;
-	        	ois = null;
-	        	oos = null;
-	        	//close resources
-	        	//terminate the server if client sends exit request
-	        	if(message.equalsIgnoreCase("exit")){
-	        		socket.close();
-	        		break;
-	        	}
-	        	}catch(Exception e){}
-	        }
-	        System.out.println("Shutting down Socket server!!");
-	        //close the ServerSocket object
-	        server.close();
-	    	}catch(Exception e){
-	    		e.printStackTrace();
-	    	}
-	    }
+						}
+
+					}
+
+					System.out.println("Reading request from Socket Server");
+					instance.setNumPlayer(gc.getNumPlayer());
+					message = null;
+
+					if (isSendMessage) {
+						message = sendMessage;
+					}
+					oos.writeObject(message);
+					oos.flush();
+					isSendMessage = false;
+//					ois.close();
+//					oos.close();
+//					socket.close();
+//					socket = null;
+//					ois = null;
+//					oos = null;
+				} catch (Exception e) {
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	    
 	    public void setIsSendMessage(boolean send){
 	    	this.isSendMessage = send;
