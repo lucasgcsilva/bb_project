@@ -229,8 +229,8 @@ public class Score extends JPanel {
 		UIManager.put("TabbedPane.contentOpaque", false);
 		JTabbedPane jtb = new JTabbedPane();
 		jtb.addTab("BattleStadium Single-Match", sp);
-		jtb.addTab("Battlestadium Tag-Match", sp2);
-		jtb.addTab("Arena", sp3);
+//		jtb.addTab("Battlestadium Tag-Match", sp2);
+//		jtb.addTab("Arena", sp3);
 		
 		jtb.setOpaque(false);
 		add(jtb, BorderLayout.CENTER);

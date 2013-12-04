@@ -20,7 +20,7 @@ public class Buttons extends JPanel {
 	Main main;
 	
 	JButton btnBS = new JButton(new ImageIcon("resources/images/buttons/btn_bb_o.png"));
-	JButton btnArena = new JButton(new ImageIcon("resources/images/buttons/btn_ar_o.png"));
+//	JButton btnArena = new JButton(new ImageIcon("resources/images/buttons/btn_ar_o.png"));
 	JButton btnHighs = new JButton(new ImageIcon("resources/images/buttons/btn_hi_o.png"));
 	JButton btnArch = new JButton(new ImageIcon("resources/images/buttons/btn_co_o.png"));
 	JButton btnOpt = new JButton(new ImageIcon("resources/images/buttons/btn_op_o.png"));
@@ -49,12 +49,12 @@ public class Buttons extends JPanel {
 			}
 		});
 		
-		btnArena.setEnabled(false);
+//		btnArena.setEnabled(false);
 		btnHighs.setEnabled(false);
 		btnArch.setEnabled(false);
 		//Alterar Fonte
 		btnBS.setFont(new Font("Arial", Font.BOLD, 25));
-		btnArena.setFont(new Font("Arial", Font.BOLD, 25));
+//		btnArena.setFont(new Font("Arial", Font.BOLD, 25));
 		btnHighs.setFont(new Font("Arial", Font.BOLD, 25));
 		btnArch.setFont(new Font("Arial", Font.BOLD, 25));
 		btnOpt.setFont(new Font("Arial", Font.BOLD, 25));
@@ -66,9 +66,9 @@ public class Buttons extends JPanel {
 		btnBS.setRolloverIcon(new ImageIcon("resources/images/buttons/btn_bb_e.png"));
 		btnBS.setPressedIcon(new ImageIcon("resources/images/buttons/btn_bb_s.png"));
 		
-		btnArena.setOpaque(false);
-		btnArena.setContentAreaFilled(false);
-		btnArena.setBorderPainted(false);
+//		btnArena.setOpaque(false);
+//		btnArena.setContentAreaFilled(false);
+//		btnArena.setBorderPainted(false);
 		
 		btnHighs.setOpaque(false);
 		btnHighs.setContentAreaFilled(false);
@@ -94,14 +94,14 @@ public class Buttons extends JPanel {
 		
 		setLayout(new GridLayout(6, 1));
 		btnBS.setMargin(new Insets(0, 0, 0, 0));
-		btnArena.setMargin(new Insets(0, 0, 0, 0));
+//		btnArena.setMargin(new Insets(0, 0, 0, 0));
 		btnHighs.setMargin(new Insets(0, 0, 0, 0));
 		btnArch.setMargin(new Insets(0, 0, 0, 0));
 		btnOpt.setMargin(new Insets(0, 0, 0, 0));
 		btnExt.setMargin(new Insets(0, 0, 0, 0));
 		
 		add(btnBS);
-		add(btnArena);
+//		add(btnArena);
 		add(btnHighs);
 		add(btnArch);
 		add(btnOpt);
@@ -145,9 +145,9 @@ public class Buttons extends JPanel {
 	}
 	
 	public void activeButtons(){
-		btnArena.setEnabled(true);
-		btnArena.setRolloverIcon(new ImageIcon("resources/images/buttons/btn_ar_e.png"));
-		btnArena.setPressedIcon(new ImageIcon("resources/images/buttons/btn_ar_s.png"));
+//		btnArena.setEnabled(true);
+//		btnArena.setRolloverIcon(new ImageIcon("resources/images/buttons/btn_ar_e.png"));
+//		btnArena.setPressedIcon(new ImageIcon("resources/images/buttons/btn_ar_s.png"));
 		btnHighs.setEnabled(true);
 		btnHighs.setRolloverIcon(new ImageIcon("resources/images/buttons/btn_hi_e.png"));
 		btnHighs.setPressedIcon(new ImageIcon("resources/images/buttons/btn_hi_s.png"));
@@ -157,14 +157,14 @@ public class Buttons extends JPanel {
 	}
 	
 	public void desactiveButtons(){
-		btnArena.setEnabled(false);
+//		btnArena.setEnabled(false);
 		btnHighs.setEnabled(false);
 		btnArch.setEnabled(false);
 	}
 	
 	public void setEnabledButtons(Boolean b){
 		btnBS.setEnabled(b);
-		btnArena.setEnabled(b);
+//		btnArena.setEnabled(b);
 		btnHighs.setEnabled(b);
 		btnArch.setEnabled(b);
 		btnOpt.setEnabled(b);
