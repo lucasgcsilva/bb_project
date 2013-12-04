@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 
 import javax.swing.JFrame;
 import org.bb.main.gui.*;
+import org.bb.online.bs.Game;
 import org.bb.util.SavedPreferences;
 
 public class Main extends JFrame {
@@ -138,7 +139,6 @@ public class Main extends JFrame {
 	public void stopMusicMenu(){
 		menu.stopMusic();
 	}
-	
 	
 	public void setUserConnected (int ID, String usrname, String email){
 		sp.id = ID;

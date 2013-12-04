@@ -19,6 +19,7 @@ public class NewGame{
 		app.setDisplayMode(width, height, fs);
 		app.setVSync(true);
 		app.setShowFPS(false);
+		app.setForceExit(true);
 		app.start();
 	}
 }

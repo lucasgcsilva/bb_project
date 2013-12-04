@@ -189,7 +189,9 @@ public class Game extends BasicGame{
         Input input = gc.getInput();
         if (input.isKeyDown(Input.KEY_ESCAPE)) {
         	mus.stopMusic();
-            gc.exit();
+        	main.setVisible(true);
+			main.addMenu();
+			gc.exit();
         }
         if (input.isKeyPressed(Input.KEY_P)) {
             if (level.getGameState() != GameState.PAUSED) {

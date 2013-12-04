@@ -22,12 +22,14 @@ public class NewGame extends Thread{
 				width = main.width;
 				height = main.height;
 			}
+			
+			
 			app = new AppGameContainer(new Game(main));
 			app.setDisplayMode(width, height, fs);
 			app.setVSync(true);
 			app.setShowFPS(false);
 			app.setTargetFrameRate(40);
-			app.setForceExit(false);
+			app.setForceExit(true);
 			app.start();		
 		}catch(SlickException e){
 			e.printStackTrace();
