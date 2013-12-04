@@ -165,6 +165,7 @@ public class OnlineConfiguration extends JPanel{
 					gc.setQtdeTrofeus(5);
 				}
 				main.sp.setSavedPreference(main.sp.PREF_IP_ONLINE, tf.getText());
+				main.sp.exportPref();
 				gc.setIp(tf.getText());
 				gc.setTypeConn(gc.TYPE_CLIENT);
 				gc.setNumPlayer(2);

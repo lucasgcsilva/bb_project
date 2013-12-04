@@ -46,10 +46,6 @@ public class SavedPreferences {
 	public static String DEF_SCREEN = "1024x728";
 	public static String DEF_VOLUME = "0.5f";
 	public static String DEF_FULLSCREEN = "true";
-//	public static String DEF_PAD = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
-//			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
-//	public static String DEF_PAD2 = Integer.toString(KeyEvent.VK_UP)+"|"+Integer.toString(KeyEvent.VK_DOWN)+"|"
-//			+Integer.toString(KeyEvent.VK_LEFT)+"|"+Integer.toString(KeyEvent.VK_RIGHT)+"|"+Integer.toString(KeyEvent.VK_SPACE);
 	public static String DEF_PAD1 = Integer.toString(Input.KEY_UP)+"|"+Integer.toString(Input.KEY_DOWN)+"|"
 			+Integer.toString(Input.KEY_LEFT)+"|"+Integer.toString(Input.KEY_RIGHT)+"|"+Integer.toString(Input.KEY_SPACE);
 	public static String DEF_PAD2 = Integer.toString(Input.KEY_W)+"|"+Integer.toString(Input.KEY_S)+"|"

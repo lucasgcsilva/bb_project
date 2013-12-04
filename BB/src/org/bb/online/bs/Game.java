@@ -14,6 +14,7 @@ import org.bb.online.test.ClientThread;
 import org.bb.online.test.ServerThread;
 import org.bb.online.test.StartClient;
 import org.bb.online.test.StartServer;
+import org.bb.database.DBFunctions;
 import org.bb.main.Main;
 import org.bb.sound.MusicPlayer;
 import org.bb.util.VideoPlayer;
@@ -305,44 +306,28 @@ public class Game extends BasicGame{
 						numPlayerWin = cont;
 					}
 				}
-				// if(player1.isAlive && level.remainPlayers == 1){
-				// player1.setCelebrate();
-				// }else if(player2.isAlive && level.remainPlayers == 1){
-				// player2.setCelebrate();
-				// }else if(player3.isAlive && level.remainPlayers == 1){
-				// player3.setCelebrate();
-				// }
-				// else if(player4.isAlive && level.remainPlayers == 1){
-				// player4.setCelebrate();
-				// }else if(player5.isAlive && level.remainPlayers == 1){
-				// player5.setCelebrate();
-				// }
 				if (dyingTime == 0 || input.isKeyPressed(Input.KEY_ENTER)
 						|| input.isButton2Pressed(input.ANY_CONTROLLER)) {
 					if (numPlayerWin >= 0) {
 						ptrofeu[numPlayerWin]++;
+						if ((numPlayerWin+1) == this.gc.getNumPlayer()){
+							if (ptrofeu[numPlayerWin] == numMaxTrofeus){
+								DBFunctions.setHighscoreBattlestadiumSM(1, 0, 1, main.sp.id);
+							}else{
+								DBFunctions.setHighscoreBattlestadiumSM(0, 0, 1, main.sp.id);								
+							}
+						}else{
+							if (ptrofeu[numPlayerWin] == numMaxTrofeus){
+								DBFunctions.setHighscoreBattlestadiumSM(1, 1, 0, main.sp.id);
+							}else{
+								DBFunctions.setHighscoreBattlestadiumSM(0, 1, 0, main.sp.id);								
+							}
+						}
+						
 						System.out
 								.println("p" + ptrofeu[numPlayerWin] + " win");
 					}
 
-					// if(player1.isAlive && level.remainPlayers == 1){
-					// p1trofeu++;
-					// System.out.println("p1 win"+p1trofeu);
-					// }else if(player2.isAlive && level.remainPlayers == 1){
-					// p2trofeu++;
-					// System.out.println("p2 win"+p2trofeu);
-					// }else if(player3.isAlive && level.remainPlayers == 1){
-					// p3trofeu++;
-					// System.out.println("p3 win"+p3trofeu);
-					// }
-					// else if(player4.isAlive && level.remainPlayers == 1){
-					// p4trofeu++;
-					// System.out.println("p4 win"+p4trofeu);
-					// }else if(player5.isAlive && level.remainPlayers == 1){
-					// p5trofeu++;
-					// System.out.println("p5 win"+p5trofeu);
-					// }
-					// gc.exit();
 					mus.stopMusic();
 					level.reloadLevel();
 					score.restart();

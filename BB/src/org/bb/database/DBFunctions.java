@@ -27,6 +27,40 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class DBFunctions {
 	
+	public static boolean setHighscoreBattlestadiumSM(int vitorias, int derrotas, int trofeus, int id){
+		String sql1 = "UPDATE highscoreBattlestadium SET s_vitorias = s_vitorias + ?, " +
+				"s_derrotas = s_derrotas + ?, s_qtde_trofeus = s_qtde_trofeus + ?, "+
+				"s_bombersaldo = s_vitorias * 3 - s_derrotas * 2 + s_qtde_trofeus WHERE "+
+				"id = (SELECT hBattlestadium_id FROM highscore WHERE usr_id = ?);";
+		PreparedStatement updateScore = null;
+		Connection conn = connectDB();
+		ResultSet rs = null;
+		try{
+			updateScore = conn.prepareStatement(sql1);
+			updateScore.setInt(1, vitorias);
+			updateScore.setInt(2, derrotas);
+			updateScore.setInt(3, trofeus);
+			updateScore.setInt(4, id);
+			rs = updateScore.executeQuery();
+			if(rs.next()){
+				return false;
+			} else {
+				return true;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Tag-macth", "Erro ao inserir usuário",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}finally{
+			try{
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
 	public static ResultSet getArena(){
 		
 		String sql = "set @num=0";
