@@ -200,6 +200,9 @@ public class Game extends BasicGame{
         player[2].isAlive = false;
         player[3].isAlive = false;
         player[4].isAlive = false;
+        player[2].setAnimation(null);
+        player[3].setAnimation(null);
+        player[4].setAnimation(null);
     }
 
     @SuppressWarnings("deprecation")
@@ -516,7 +519,15 @@ public class Game extends BasicGame{
         	level.setGameState(GameState.FINISHED);
         }
         if (ptrofeu[1] == numMaxTrofeus){
-        	grphcs.setColor(Color.black);
+        	grphcs.setColor(Color.white);	
+        	if (finish.isStopped()){
+        		finish.start();
+        	}
+            finish.draw(0f, 0f, 640, 512);
+            if (celebrate == null){
+            	celebrate = player[1].getCelebrate();
+            }
+            celebrate.draw((float)(640-32)/2, (float) 512/4);
         	grphcs.drawString("PLAYER 2 É O GRANDE VENCEDOR!", gc.getWidth()/4-300, gc.getHeight()/4);
         	level.setGameState(GameState.FINISHED);
         }

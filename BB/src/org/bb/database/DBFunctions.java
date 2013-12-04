@@ -30,7 +30,7 @@ public class DBFunctions {
 	public static void setHighscoreBattlestadiumSM(int vitorias, int derrotas, int trofeus, int id){
 		String sql1 = "UPDATE highscoreBattlestadium SET s_vitorias = s_vitorias + ?, " +
 				"s_derrotas = s_derrotas + ?, s_qtde_trofeus = s_qtde_trofeus + ?, "+
-				"s_bombersaldo = s_vitorias * 3 - s_derrotas * 2 + s_qtde_trofeus WHERE "+
+				"s_bombersaldo = s_vitorias * 3 - s_derrotas + s_qtde_trofeus * 2 WHERE "+
 				"id = (SELECT hBattlestadium_id FROM highscore WHERE usr_id = ?);";
 		PreparedStatement updateScore = null;
 		Connection conn = connectDB();
