@@ -40,6 +40,7 @@ public class ClientThread extends Thread {
 			playerInfo.setNumPlayer(GameConfiguration.getGameConfiguration()
 					.getNumPlayer());
 			socket = new Socket(host.getHostName(), 9876);
+			System.out.println("Connected to server!");
 			playerInfo.setStartGame(true);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());

@@ -41,6 +41,7 @@ public class ServerThread extends Thread {
 				try {
 					if (socket == null) {
 						socket = server.accept();
+						System.out.println("Client connected!");
 						oos = new ObjectOutputStream(socket.getOutputStream());
 						BufferedInputStream bi = new BufferedInputStream(
 								socket.getInputStream());
