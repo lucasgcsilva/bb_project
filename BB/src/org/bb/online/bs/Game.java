@@ -200,9 +200,15 @@ public class Game extends BasicGame{
         player[2].isAlive = false;
         player[3].isAlive = false;
         player[4].isAlive = false;
-        player[2].setAnimation(null);
-        player[3].setAnimation(null);
-        player[4].setAnimation(null);
+        player[2].setDying();
+        player[2].animation.setLooping(false);
+        player[2].animation.setCurrentFrame(8);
+        player[3].setDying();
+        player[3].animation.setLooping(false);
+        player[3].animation.setCurrentFrame(8);
+        player[4].setDying();
+        player[4].animation.setLooping(false);
+        player[4].animation.setCurrentFrame(8);
     }
 
     @SuppressWarnings("deprecation")

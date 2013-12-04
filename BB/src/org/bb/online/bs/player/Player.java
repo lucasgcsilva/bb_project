@@ -87,7 +87,7 @@ public class Player extends Actors {
         puttingUp = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         puttingDown = new Animation(Anim.getSpriteSheetAnimation(sheet, 8, 3), 100);
         celebrating = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 6), 200);
-        dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 6, 5), 300);
+        dying = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 5), 300);
         idle = new Animation(Anim.getSpriteSheetAnimation(sheet, 9, 4), 200);
         super.animation = this.downAnimation;
         direction = Direction.SOUTH;
@@ -294,12 +294,14 @@ public class Player extends Actors {
                 }
                 if (o instanceof Bombs) {
                 	if (((Bombs) o).getExplodeTime() == 0){
-                		this.animation.setLooping(false);
-                        animation = dying;
-                        if (!die.isPlaying()){
-                        	die.playSound();             	
-                        }
-                        isAlive = false;
+                		if (this.isAlive){
+                			this.animation.setLooping(false);
+                			animation = dying;
+                			if (!die.isPlaying()){
+                				die.playSound();             	
+                			}
+                			isAlive = false;                			
+                		}
                 	}
                     if (!((Bombs) o).canIntersectWithPlayer()) {
                         if (kickTime > 0) {
