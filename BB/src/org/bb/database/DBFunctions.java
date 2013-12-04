@@ -27,12 +27,11 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class DBFunctions {
 	
-	public static boolean setHighscoreBattlestadiumSM(int vitorias, int derrotas, int trofeus, int id){
+	public static void setHighscoreBattlestadiumSM(int vitorias, int derrotas, int trofeus, int id){
 		String sql1 = "UPDATE highscoreBattlestadium SET s_vitorias = s_vitorias + ?, " +
 				"s_derrotas = s_derrotas + ?, s_qtde_trofeus = s_qtde_trofeus + ?, "+
 				"s_bombersaldo = s_vitorias * 3 - s_derrotas * 2 + s_qtde_trofeus WHERE "+
 				"id = (SELECT hBattlestadium_id FROM highscore WHERE usr_id = ?);";
-		System.out.println(sql1);
 		PreparedStatement updateScore = null;
 		Connection conn = connectDB();
 		ResultSet rs = null;
@@ -42,16 +41,11 @@ public class DBFunctions {
 			updateScore.setInt(2, derrotas);
 			updateScore.setInt(3, trofeus);
 			updateScore.setInt(4, id);
-			rs = updateScore.executeQuery();
-			if(rs.next()){
-				return false;
-			} else {
-				return true;
-			}
+			System.out.println(sql1);
+			updateScore.executeUpdate();
 		}catch (Exception e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Single Match-macth", "Erro ao gravar score",JOptionPane.ERROR_MESSAGE);
-			return false;
+			JOptionPane.showMessageDialog(null, "Erro ao gravar score no Single Match", "Erro ao gravar score",JOptionPane.ERROR_MESSAGE);
 		}finally{
 			try{
 			}catch(Exception e){
