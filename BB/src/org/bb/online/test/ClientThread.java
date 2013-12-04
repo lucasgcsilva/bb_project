@@ -44,14 +44,12 @@ public class ClientThread extends Thread {
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			while (true) {
-				System.out.println("Sending request to Socket Server");
 				message = null;
 
 				if (isSendMessage) {
 					message = sendMessage;
 				}
 				oos.writeObject(message);
-
 				message = (String) ois.readObject();
 				System.out.println("Message: " + message);
 				if (message != null) {

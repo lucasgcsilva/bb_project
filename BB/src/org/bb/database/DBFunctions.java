@@ -32,6 +32,7 @@ public class DBFunctions {
 				"s_derrotas = s_derrotas + ?, s_qtde_trofeus = s_qtde_trofeus + ?, "+
 				"s_bombersaldo = s_vitorias * 3 - s_derrotas * 2 + s_qtde_trofeus WHERE "+
 				"id = (SELECT hBattlestadium_id FROM highscore WHERE usr_id = ?);";
+		System.out.println(sql1);
 		PreparedStatement updateScore = null;
 		Connection conn = connectDB();
 		ResultSet rs = null;
@@ -49,7 +50,7 @@ public class DBFunctions {
 			}
 		}catch (Exception e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Tag-macth", "Erro ao inserir usuário",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Single Match-macth", "Erro ao gravar score",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}finally{
 			try{

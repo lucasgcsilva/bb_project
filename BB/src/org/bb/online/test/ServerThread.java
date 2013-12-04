@@ -39,7 +39,6 @@ public class ServerThread extends Thread {
 			BufferedOutputStream bos = null;
 			while (true) {
 				try {
-					System.out.println("Waiting for client request");
 					if (socket == null) {
 						socket = server.accept();
 						oos = new ObjectOutputStream(socket.getOutputStream());
@@ -49,7 +48,6 @@ public class ServerThread extends Thread {
 					}
 
 					String message = null;
-					System.out.println("Sending request to Socket Server");
 					message = (String) ois.readObject();
 					System.out.println("Message Received: " + message);
 					if (message != null) {
@@ -98,7 +96,6 @@ public class ServerThread extends Thread {
 
 					}
 
-					System.out.println("Reading request from Socket Server");
 					instance.setNumPlayer(gc.getNumPlayer());
 					message = null;
 
