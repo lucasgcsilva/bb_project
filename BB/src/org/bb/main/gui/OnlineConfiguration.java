@@ -43,6 +43,7 @@ public class OnlineConfiguration extends JPanel{
 	private JButton btnClient = new JButton("Conectar ao IP");
 	private JButton btnServer = new JButton("Iniciar como servidor");
 	
+	
 	public OnlineConfiguration (Main m){
 		this.main = m;
 		setSize(main.width, main.height);
@@ -169,17 +170,11 @@ public class OnlineConfiguration extends JPanel{
 				gc.setIp(tf.getText());
 				gc.setTypeConn(gc.TYPE_CLIENT);
 				gc.setNumPlayer(2);
-				try {
-					main.stopMusicMenu();
-					main.setVisible(false);
-					
-					NewGame newOnineGame = new NewGame(main);
-					System.out.println("New Game created!");
-				} catch (SlickException ex) {
-					// TODO Auto-generated catch block
-					ex.printStackTrace();
-
-				}
+				main.stopMusicMenu();
+				main.setVisible(false);
+				NewGame newOnineGame = new NewGame(main);
+				newOnineGame.start();
+				System.out.println("New Game created!");
 			}
 		});
 		
@@ -203,17 +198,12 @@ public class OnlineConfiguration extends JPanel{
 				}
 				gc.setTypeConn(gc.TYPE_SERVER);
 				gc.setNumPlayer(1);
-				try {
-					main.stopMusicMenu();
-					main.setVisible(false);
-					
-					NewGame newOnineGame = new NewGame(main);
-					System.out.println("New Game created!");
-				} catch (SlickException ex) {
-					// TODO Auto-generated catch block
-					ex.printStackTrace();
-
-				}
+				
+				main.stopMusicMenu();
+				main.setVisible(false);
+				NewGame newOnineGame = new NewGame(main);
+				System.out.println("New Game created!");
+				newOnineGame.start();
 			}
 		});
 		

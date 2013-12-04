@@ -129,4 +129,12 @@ public class ServerThread extends Thread {
 	    	this.sendMessage = msg;
 	    }
 
+	    public void closeServer(){
+	    	try {
+				server.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
 }

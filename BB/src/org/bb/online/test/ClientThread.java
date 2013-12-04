@@ -25,6 +25,7 @@ public class ClientThread extends Thread {
 	private GameConfiguration gc = GameConfiguration.getGameConfiguration();
 	private boolean isSendMessage = false;
 	private String sendMessage = null;
+	private Socket socket;
 
 	public ClientThread() {
 
@@ -33,7 +34,6 @@ public class ClientThread extends Thread {
 	public void run() {
 		try {
 			InetAddress host = InetAddress.getByName(gc.getIp());
-			Socket socket = null;
 			ObjectOutputStream oos = null;
 			ObjectInputStream ois = null;
 			String message;
@@ -115,5 +115,14 @@ public class ClientThread extends Thread {
 
 	public void setSendMessage(String msg) {
 		this.sendMessage = msg;
+	}
+	
+	public void closeClient(){
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

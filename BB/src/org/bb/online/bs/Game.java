@@ -217,6 +217,13 @@ public class Game extends BasicGame{
     	Input input = gc.getInput();
     	if (input.isKeyDown(Input.KEY_ESCAPE)) {
 			mus.stopMusic();
+			if (this.gc.getTypeConn() == this.gc.TYPE_SERVER){
+				server.closeServer();
+			}else if (this.gc.getTypeConn() == this.gc.TYPE_CLIENT){
+				client.closeClient();
+			}
+			main.setVisible(true);
+			main.addMenu();
 			gc.exit();
 		}
     	if (this.playerInfo.isStartGame()){
@@ -556,5 +563,4 @@ public class Game extends BasicGame{
 
     }
     
-
 }
